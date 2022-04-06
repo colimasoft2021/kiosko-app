@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/kioskoheader_homebackground"
+
+    tools:context=".fragments.Login">
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/usuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/usuario"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginBottom="30dp"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Title"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/contrasena"
+            app:boxCornerRadiusBottomEnd="20dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/usuariotxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@color/black"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/contrasena"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/contrase_a"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginVertical="30dp"
+            android:textColorHint="@color/black"
+            app:hintTextAppearance="@style/TextAppearance.AppCompat.Title"
+            app:boxStrokeColor="@color/black"
+            app:hintTextColor="@color/black"
+            app:endIconMode="password_toggle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:boxCornerRadiusBottomEnd="20dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/contrasenatxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textCursorDrawable="@color/black"
+                android:inputType="textPassword"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/iniciar_sesi_n"
+            android:background="@drawable/round_corners"
+            android:drawableEnd="@drawable/chevron"
+            android:layout_marginTop="100dp"
+            android:textColorHint="@color/black"
+            app:boxStrokeColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/contrasena"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="TextContrastCheck" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/kioskoheader_homebackground"
+    tools:context=".fragments.accesoDirectoFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/title_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="160dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/liston"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/liston"
+            android:src="@drawable/liston"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/title"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/material_de_apoyo"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/liston"/>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/con_la_finalidad_de_facilitar_tu_aprendizaje"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle=""
+            app:layout_constraintTop_toBottomOf="@id/title"
+          />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <Button
+        android:id="@+id/guias"
+        style="@style/AppTheme.ShorCutsGuiaButtons"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:text="@string/gu_as"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/guias_borde"
+        app:layout_constraintEnd_toEndOf="@+id/guias_borde"
+        app:layout_constraintStart_toStartOf="@+id/guias_borde"
+        app:layout_constraintTop_toTopOf="@+id/guias_borde" />
+
+    <Button
+        android:id="@+id/videos"
+        style="@style/AppTheme.ShorCutsVideoButton"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:text="@string/videos"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/videos_borde"
+        app:layout_constraintEnd_toEndOf="@+id/videos_borde"
+        app:layout_constraintStart_toStartOf="@+id/videos_borde"
+        app:layout_constraintTop_toTopOf="@+id/videos_borde" />
+
+    <Button
+        android:id="@+id/videos_borde"
+        style="@style/AppTheme.strokeVideoButtons"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="132dp"
+        android:text="\n VIDEOSSSSS \n"
+        android:textColor="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/guias_borde"
+        style="@style/AppTheme.strokeGuiaButtons"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginBottom="124dp"
+        android:text="\n GUIASSSSS \n"
+        android:textColor="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/videos_borde"
+        app:layout_constraintHorizontal_bias="0.612"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

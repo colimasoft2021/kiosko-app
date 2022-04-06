@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="16dp"
+    android:background="@color/backgroundGray"
+    tools:context=".Home">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:background="@color/backgroundGray">
+
+    <ImageButton
+        android:id="@+id/perfilFoto"
+        android:layout_marginTop="40dp"
+        android:layout_width="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_height="100dp"
+        android:background="@null"
+        android:adjustViewBounds="true"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/img_5477_photoroom"
+        android:contentDescription="Imagen y boton para perfil"/>
+
+    <ImageButton
+        android:layout_width="102dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="15dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:layout_gravity="end"
+        android:scaleType="fitCenter"
+        android:contentDescription="@string/profile_image"
+        android:src="@drawable/banner" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:text="Robin Single"/>
+    <TextView
+        android:id="@+id/user_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Correo o numero de usuario"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/underLine"/>
+
+</LinearLayout>

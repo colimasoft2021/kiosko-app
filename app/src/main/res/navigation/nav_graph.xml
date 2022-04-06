@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/welcome">
+
+    <fragment
+        android:id="@+id/welcome"
+        android:name="com.example.kiosko_model.fragments.Welcome"
+        tools:layout="@layout/welcome">
+
+        <action
+            android:id="@+id/action_Welcome_to_Login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.kiosko_model.fragments.Login"
+        tools:layout="@layout/login">
+        <action
+            android:id="@+id/action_login_to_remember"
+            app:destination="@id/remember" />
+    </fragment>
+    <activity
+        android:id="@+id/remember"
+        android:name="com.example.kiosko_model.Remember"
+        android:label="activity_remember"
+        tools:layout="@layout/activity_remember" />
+</navigation>

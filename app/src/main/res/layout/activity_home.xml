@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Home">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/transparent"
+        android:fitsSystemWindows="false"
+        app:navigationIcon="@drawable/ic_menu" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigationBotommm"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_gravity="bottom"
+        android:background="?android:windowBackground"
+        app:itemTextColor="#07577F"
+        app:menu="@menu/nav_menu"/>
+
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
+
+
+        <include layout="@layout/content_home" />
+
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/backgroundGray"
+            android:layout_marginLeft="15dp"
+            android:fitsSystemWindows="true"
+            android:layout_marginBottom="65dp"
+            app:headerLayout="@layout/nav_header"
+            app:menu="@menu/drawable_slide_menu">
+        </com.google.android.material.navigation.NavigationView>
+
+
+
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
