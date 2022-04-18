@@ -1,6 +1,8 @@
 package com.example.kiosko_model.network
 
-import com.example.kiosko_model.utilTimeoutException.Constants.Companion.LOGIN_BASE_URL
+import android.provider.SyncStateContract
+import com.example.kiosko_model.utilTimeoutExceptionpushPost.Constants
+import com.example.kiosko_model.utilTimeoutExceptionpushPost.Constants.Companion.REGISTRO_USER_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
@@ -10,19 +12,17 @@ import okhttp3.OkHttpClient
 object RetrofitLoginRegistroInstance {
 
     private val client = OkHttpClient.Builder().apply {
-        addInterceptor(LoginInterceptor())
+        addInterceptor(LoginRegistroInterceptor())
     }.build()
 
-    private val retrofit by lazy{
+    private val registro by lazy {
         Retrofit.Builder()
-            .baseUrl(LOGIN_BASE_URL)
+            .baseUrl(REGISTRO_USER_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
-    val api: ApiService by lazy {
-        retrofit.create(ApiService::class.java)
+    val apiRegistro: ApiService by lazy {
+        registro.create(ApiService::class.java)
     }
-
 }

@@ -12,17 +12,17 @@ import okhttp3.OkHttpClient
 object RetrofitProgresoInstance {
 
     private val client = OkHttpClient.Builder().apply {
-        addInterceptor(LoginRegistroInterceptor())
+        addInterceptor(ProgresoInterceptor())
     }.build()
 
-    private val registro by lazy {
+    private val progreso by lazy {
         Retrofit.Builder()
             .baseUrl(REGISTRO_USER_URL)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    val apiRegistro: ApiService by lazy {
-        registro.create(ApiService::class.java)
+    val api: ApiService by lazy {
+        progreso.create(ApiService::class.java)
     }
 }

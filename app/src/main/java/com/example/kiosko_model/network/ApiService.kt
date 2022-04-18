@@ -1,8 +1,6 @@
 package com.example.kiosko_model.network
 
-import com.example.kiosko_model.models.Componentes
-import com.example.kiosko_model.models.LoginR
-import com.example.kiosko_model.models.Post
+import com.example.kiosko_model.models.*
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,4 +24,21 @@ interface ApiService {
     suspend fun pushPost(
         @Body post: Post
     ): Response<List<LoginR>>
+
+
+    @POST("saveNewUser")
+    suspend fun pushPostRegistro(
+        @Body postRegistro: PostRegistro
+    ): Response<LoginResponseR>
+
+    @POST("GetModulosAndComponentsForApp")
+    suspend fun getComponentes(
+        @Body id: Id
+    ):  Response<customModulos>
+
+    @POST("UpdateProgress")
+    suspend fun updateProgress(
+        @Body progreso: PostProgreso
+    ): Response<ProgresoR>
+
 }

@@ -1,4 +1,4 @@
-package com.example.kiosko_model.utilTimeoutException
+package com.example.kiosko_model.utilTimeoutExceptionpushPost
 
 class Constants {
 
@@ -10,5 +10,7 @@ class Constants {
 
         const val COMPONENTES_BASE_URL = "https://kiosko-test.col-dev.net/Modulos/"
 //            "https://jsonplaceholder.typicode.com/"
+
+        const val  REGISTRO_USER_URL = "https://kiosko-test.col-dev.net/Usuarios/"
     }
 }

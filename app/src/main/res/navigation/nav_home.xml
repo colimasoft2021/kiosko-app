@@ -17,7 +17,11 @@
         android:id="@+id/contenido"
         android:name="com.example.kiosko_model.fragments.Contenido"
         android:label="fragment_contenido"
-        tools:layout="@layout/fragment_contenido" />
+        tools:layout="@layout/fragment_contenido" >
+        <action
+            android:id="@+id/action_contenido_to_contenido2"
+            app:destination="@id/contenido2" />
+    </fragment>
     <fragment
         android:id="@+id/notificacionesFragment"
         android:name="com.example.kiosko_model.fragments.notificacionesFragment"
@@ -45,5 +49,14 @@
         android:name="com.example.kiosko_model.fragments.VideosFragment"
         android:label="fragment_videos"
         tools:layout="@layout/fragment_videos" />
+    <fragment
+        android:id="@+id/contenido2"
+        android:name="com.example.kiosko_model.fragments.Contenido2"
+        android:label="fragment_contenido2"
+        tools:layout="@layout/fragment_contenido2" >
+        <action
+            android:id="@+id/action_contenido2_to_contenido"
+            app:destination="@id/contenido" />
+    </fragment>
 
 </navigation>

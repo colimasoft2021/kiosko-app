@@ -7,8 +7,8 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
  class CompuestosViewModel2: ViewModel() {
-     private val mutableComponentes = MutableLiveData<List<Compuestos>>()
-     val componentes: LiveData<List<Compuestos>> get() = mutableComponentes
+     private val mutableComponentes = MutableLiveData<List<Compuestos?>>()
+     val componentes: LiveData<List<Compuestos?>> get() = mutableComponentes
 
      private val _id = MutableLiveData<Int>()
      val id: LiveData<Int> get() = _id
@@ -16,7 +16,7 @@ import retrofit2.Response
      private val _padre = MutableLiveData<String?>()
      val padre: LiveData<String?> get() = _padre
 
-     fun componentes(compuestos:List<Compuestos>){
+     fun componentes(compuestos:List<Compuestos?>){
          mutableComponentes.value = compuestos
      }
 

@@ -17,5 +17,4 @@ data class Compuestos (
     val urlDos: String?,
     val urlTres: String?,
     val idModulo: Int,
-    val idModuloNavigation: Int?,
     val desplazantes: List<Desplazantes>)

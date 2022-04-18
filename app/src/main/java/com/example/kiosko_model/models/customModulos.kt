@@ -1,4 +1,5 @@
 package com.example.kiosko_model.models
 
-class customModulos {
-}
+data class customModulos (
+    val customModulos : List<Componentes>
+        )

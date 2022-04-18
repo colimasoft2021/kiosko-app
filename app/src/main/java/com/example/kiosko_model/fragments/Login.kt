@@ -1,32 +1,25 @@
 package com.example.kiosko_model.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.kiosko_model.PopUps.Load
+import com.example.kiosko_model.PopUps.LoadingScreen
+import com.example.kiosko_model.PopUps.Popup2
 import com.example.kiosko_model.R
-import com.example.kiosko_model.repository.Repository
 import com.example.kiosko_model.databinding.LoginBinding
-import com.example.kiosko_model.models.LoginViewModel
-import com.example.kiosko_model.models.LoginViewModelFactory
-import com.example.kiosko_model.models.Post
-import okhttp3.internal.http2.ErrorCode
-import retrofit2.HttpException
-import java.net.SocketTimeoutException
-import java.util.concurrent.TimeoutException
-import kotlin.Exception
-import android.content.SharedPreferences
-
-
-
+import com.example.kiosko_model.models.*
+import com.example.kiosko_model.repository.Repository
 
 
 class Login : Fragment() {
@@ -34,6 +27,9 @@ class Login : Fragment() {
 //    private val viewModel: LoginModel by viewModels()
 
     private lateinit var viewLogModel: LoginViewModel
+    private lateinit var viewLogRegModel: LoginRegistroViewModel
+
+
 
     /**
      * Inflates the layout with Data Binding, sets its lifecycle owner to the OverviewFragment
@@ -51,6 +47,7 @@ class Login : Fragment() {
         savedInstanceState: Bundle?,
     ): View? {
 
+
         _binding = LoginBinding.inflate(inflater, container, false)
 //        binding.lifecycleOwner = this
 //        binding.viewModel = viewModel
@@ -62,73 +59,96 @@ class Login : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val repository = Repository()
         val viewModelFactory = LoginViewModelFactory(repository)
+        val viewModelRegistroFactory = LoginRegistroViewModelFactory(repository)
 
         val  usertexto: TextView = binding.usuariotxt
         val  passtexto: TextView = binding.contrasenatxt
+        viewLogModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
+        viewLogRegModel = ViewModelProvider(this, viewModelRegistroFactory)[LoginRegistroViewModel::class.java]
+
+
 
         binding.buttonSecond.setOnClickListener {
+            val loadinDialog = LoadingScreen()
+            loadinDialog.LoadingDialog(requireActivity())
 
-            findNavController().navigate(R.id.action_login_to_remember)
+           if (usertexto.text!!.isNotEmpty()&&passtexto.text!!.isNotEmpty()) {
+//            findNavController().navigate(R.id.action_login_to_remember)
 
-            try {
-                try{
+//               val intent = Intent(activity, Load::class.java)
+//               startActivity(intent)
 
-                    val myPost = Post(usertexto.text.toString(), passtexto.text.toString())
+               loadinDialog.loadingAnimation()
+               val myPost = Post(usertexto.text.toString(), passtexto.text.toString())
 
-                    viewLogModel =
-                        ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
-                    viewLogModel.pushPost(myPost)
+               viewLogModel.pushPost(myPost)
+                            viewLogModel.myResponse.observe(viewLifecycleOwner,
+                                Observer { response ->
 
-                    viewLogModel.myResponse.observe(this, Observer { response ->
+                                    if (response.isSuccessful) {
 
-                        if (response.isSuccessful) {
-                            try {
+                                            Toast.makeText(context,
+                                                "Bienvenido ${
+                                                    response.body()?.get(0)?.nombre_Completo
+                                                }",
+                                                Toast.LENGTH_SHORT).show()
 
-                                Toast.makeText(context,
-                                    "Bienvenido ${response.body()?.get(0)?.nombre_Completo}",
-                                    Toast.LENGTH_SHORT).show()
-
-                                val name = response.body()?.get(0)?.nombre_Completo.toString()
-                                val id = response.body()?.get(0)?.iD_Usuario.toString()
-
-                                val sharedPref = this.activity!!.getSharedPreferences("UsD",Context.MODE_PRIVATE)
-                                val editor = sharedPref.edit()
-                                    editor.putString("userName", name )
-                                    editor.putString("userID", id )
-                                    editor.apply()
-
-                                findNavController().navigate(R.id.action_login_to_remember)
-
-                                usertexto.text = ""
-                                passtexto.text = ""
-
-                            } catch (e: HttpException) {
+                                            val name =
+                                                response.body()?.get(0)?.nombre_Completo.toString()
+                                            val UserId = response.body()?.get(0)?.iD_Usuario
 
 
-                                Toast.makeText(context,
-                                    response.code().toString(),
-                                    Toast.LENGTH_SHORT)
-                                    .show()
-                                Log.d("Response Code Exception", response.code().toString())
 
 
-                            }
-                        } else {
-                            Toast.makeText(context, response.code().toString(), Toast.LENGTH_SHORT)
-                                .show()
-                            Log.d("RNSuccesfullCode", response.code().toString())
+                                            val PostRegistro =
+                                                PostRegistro(UserId!!, name, "Empleado")
 
-                        }
+                                        viewLogRegModel.pushPostRegistro(PostRegistro)
+                                        viewLogRegModel.myResponse.observe(viewLifecycleOwner, Observer { r ->
 
 
-                    })
-                } catch (e: TimeoutException){
-                    Log.d("TimeOutEx", e.toString())
+                                            Log.d("RNSuccesfullCode", id.toString()+""+name )
+                                            val sharedPref = this.requireActivity()
+                                                .getSharedPreferences("UsD", Context.MODE_PRIVATE)
+                                            val editor = sharedPref.edit()
+                                            editor.putString("userName", name)
+                                            editor.putString("userID",UserId.toString())
+                                            editor.putString("id", r.body()?.id.toString())
+                                            editor.apply()
+                                            Log.d("ErrorASDASDASDAASDASD#",  r.body()?.id.toString())
 
-                }
-            }catch (e:SocketTimeoutException){
-                Log.d("SocketTimeOutEx", e.toString())
 
+                                            findNavController().navigate(R.id.action_login_to_remember)
+                                            loadinDialog.dismisDialog()
+
+                                        })
+
+
+                                        usertexto.text = ""
+                                        passtexto.text = ""
+                                    } else {
+
+                                        usertexto.text = ""
+                                        passtexto.text = ""
+
+                                        loadinDialog.dismisDialog()
+                                        Toast.makeText(context,"Datos incorrectos",
+                                            Toast.LENGTH_SHORT).show()
+                                        viewLogModel.error.observe(viewLifecycleOwner, Observer { response ->
+
+
+                                        })
+
+                                    }
+
+
+                                })
+
+            }else{
+
+               Toast.makeText(context,
+                   "Falta algun Dato",
+                   Toast.LENGTH_SHORT).show()
             }
 
         }

@@ -10,15 +10,19 @@ import retrofit2.Response
 class LoginViewModel(private val repository: Repository): ViewModel() {
 
     val myResponse: MutableLiveData<Response<List<LoginR>>> = MutableLiveData()
-    val myResponse2: MutableLiveData<Response<Post>> = MutableLiveData()
-    val stats: MutableLiveData<String> = MutableLiveData()
+    val error: MutableLiveData<Throwable> = MutableLiveData()
 
     fun pushPost(post: Post){
         viewModelScope.launch {
-            val response = repository.pushPost(post)
-            myResponse.value = response
+            try{
+                val response = repository.pushPost(post)
+                myResponse.value = response
+            }catch(e:Throwable) {
+                error.value = e
+            }
         }
     }
+
 
 //
 

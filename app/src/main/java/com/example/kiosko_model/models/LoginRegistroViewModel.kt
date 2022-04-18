@@ -9,21 +9,13 @@ import retrofit2.Response
 
 class LoginRegistroViewModel(private val repository: Repository): ViewModel() {
 
-    val myResponse: MutableLiveData<Response<List<LoginR>>> = MutableLiveData()
-    val myResponse2: MutableLiveData<Response<List<LoginResponseR>>> = MutableLiveData()
+    val myResponse: MutableLiveData<Response<LoginResponseR>> = MutableLiveData()
     val stats: MutableLiveData<String> = MutableLiveData()
-
-    fun pushPost(post: Post){
-        viewModelScope.launch {
-            val response = repository.pushPost(post)
-            myResponse.value = response
-        }
-    }
 
     fun pushPostRegistro(postRegistro: PostRegistro){
         viewModelScope.launch {
             val response = repository.pushPostRegistro(postRegistro)
-            myResponse2.value = response
+            myResponse.value = response
         }
     }
 //

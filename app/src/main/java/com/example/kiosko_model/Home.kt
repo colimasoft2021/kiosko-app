@@ -28,10 +28,12 @@ import com.example.kiosko_model.models.ComponentesViewModel
 import com.example.kiosko_model.models.ComponentsViewModelFactory
 import com.example.kiosko_model.repository.Repository
 import com.google.android.material.navigation.NavigationView
-import android.view.MenuItem as MenuItem1
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.example.kiosko_model.PopUps.Popup1
+import com.example.kiosko_model.PopUps.Popup2
 import com.example.kiosko_model.models.CompuestosViewModel
+import com.example.kiosko_model.models.Id
 
 
 class Home : AppCompatActivity() {
@@ -101,35 +103,37 @@ class Home : AppCompatActivity() {
         val sharedPref = getSharedPreferences("UsD", Context.MODE_PRIVATE)
         val nEmpleado = sharedPref.getString("userName","defaultName")
         val cEmpleado = sharedPref.getString("userID","defaultName")
+        val i = sharedPref.getString("id","defaultName")
+
+        val id = Id(sharedPref.getString("id","defaultName")!!.toInt())
         nombre_empleado.text = nEmpleado
         cuenta_empleado.text = cEmpleado
 
         val repository = Repository()
         val viewModelFactory = ComponentsViewModelFactory(repository)
         viewModel = ViewModelProvider(this,viewModelFactory)[ComponentesViewModel::class.java]
-        viewModel.getComponentes()
+        viewModel.getComponentes(id)
 
           try  {
-                viewModel.datos.observe(this, { response ->
-                    if (response.isSuccessful) {
-                        response.body()?.forEach {
-                            val menu: Menu = navView.getMenu()
-
-                            when(it.padre){
-                                null -> {
-                                    menu.add(it.id, it.id, it.orden, it.titulo)
-                                    Id.add(it.id)
-                                }
-                            }
-                            Log.d("ResponseOfComponentes", Id.toString())
-
-
-
-                        }
-                    }else{
-                        Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
-                    }
-                    })
+                viewModel.datos.observe(this) { response ->
+//                    if (response.isSuccessful) {
+//                        response.body()?.forEach {
+//                            val menu: Menu = navView.getMenu()
+//
+//                            when (it!!.padre) {
+//                                null -> {
+//                                    menu.add(it.id, it.id, it.orden, it.titulo)
+//                                    Id.add(it.id)
+//                                }
+//                            }
+//                            Log.d("ResponseOfComponentes", Id.toString())
+//
+//
+//                        }
+//                    } else {
+//                        Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
+//                    }
+                }
           } catch (e: Error){
               Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show()
           }

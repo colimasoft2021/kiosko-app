@@ -1,4 +1,8 @@
 package com.example.kiosko_model.models
 
-class PostRegistro {
-}
+
+class PostRegistro (
+    val IdUsuario : Int,
+    val NombreUsuario: String,
+    val Rol : String
+)

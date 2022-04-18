@@ -44,4 +44,6 @@
     <string name="videos">VIDEOS</string>
     <string name="loading">Loading...</string>
     <string name="images">Images</string>
+    <string name="imagenpopup">ImagenPopup</string>
+    <string name="Videopopup">VideoPopUp</string>
 </resources>

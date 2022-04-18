@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:background="@drawable/kioskoheader_homebackground"
     android:layout_height="match_parent"
-    tools:context=".fragments.Contenido">
+    tools:context=".fragments.Contenido2">
 
     <ScrollView
         android:id="@+id/View"

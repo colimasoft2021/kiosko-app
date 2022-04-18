@@ -8,7 +8,7 @@ class LoginRegistroViewModelFactory(
     private val repository: Repository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LoginViewModel(repository) as T
+        return LoginRegistroViewModel(repository) as T
     }
 
 
