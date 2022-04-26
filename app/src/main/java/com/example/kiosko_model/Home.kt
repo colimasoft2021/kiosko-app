@@ -1,5 +1,6 @@
 package com.example.kiosko_model
 
+import android.app.Dialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -10,30 +11,28 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
-import android.view.Menu
-
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.example.kiosko_model.databinding.ActivityHomeBinding
-import com.example.kiosko_model.models.ComponentesViewModel
-import com.example.kiosko_model.models.ComponentsViewModelFactory
-import com.example.kiosko_model.repository.Repository
-import com.google.android.material.navigation.NavigationView
-import androidx.activity.viewModels
-import androidx.lifecycle.ViewModelProvider
 import com.example.kiosko_model.PopUps.Popup1
 import com.example.kiosko_model.PopUps.Popup2
-import com.example.kiosko_model.models.CompuestosViewModel
-import com.example.kiosko_model.models.Id
+import com.example.kiosko_model.PopUps.popUpComponente
+import com.example.kiosko_model.databinding.ActivityHomeBinding
+import com.example.kiosko_model.models.*
+import com.example.kiosko_model.repository.Repository
+import com.google.android.material.navigation.NavigationView
+import java.util.concurrent.TimeoutException
 
 
 class Home : AppCompatActivity() {
@@ -49,17 +48,44 @@ class Home : AppCompatActivity() {
     // menu de navegacion bottom
     private lateinit var viewModel: ComponentesViewModel
     private val viewModel2: CompuestosViewModel by viewModels()
+    private lateinit var avisoViewModel: MensajeInicialViewModel
 
-    private val Id = mutableListOf(0)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    // Pop Up
-        intentPopUp()
-        createNotificationChannel()
+
+        hideSystemUI()
+
+        val main = binding.main
+        val repository = Repository()
+
+        val viewModelFactoryAviso = MensajeInicialViewModelFactory(repository)
+
+        avisoViewModel =  ViewModelProvider(this, viewModelFactoryAviso)[MensajeInicialViewModel::class.java]
+        avisoViewModel.getAvisoInicial()
+
+        try{
+            avisoViewModel.AvisoResponse.observe(this) { response ->
+//            Log.d("response Avisos", response.body().toString())
+                val size = response.body()!!.size
+                var index = 0
+
+                response.body()?.forEach {
+                    index++
+
+                    PopUp(index.toString(),it.url)
+
+//                    intentPopUp()
+                }
+            }
+        }catch (e: Error) {
+
+        }
+
+        // Pop Up
 
         //define el control de navegacion de los fragmentos a un val para ligarlo a su menu correspondiente
         val navController = findNavController(R.id.nav_host_fragment_content_home)
@@ -109,7 +135,6 @@ class Home : AppCompatActivity() {
         nombre_empleado.text = nEmpleado
         cuenta_empleado.text = cEmpleado
 
-        val repository = Repository()
         val viewModelFactory = ComponentsViewModelFactory(repository)
         viewModel = ViewModelProvider(this,viewModelFactory)[ComponentesViewModel::class.java]
         viewModel.getComponentes(id)
@@ -166,9 +191,17 @@ class Home : AppCompatActivity() {
 
 
     fun intentPopUp(){
-        startActivity(Intent(this, Popup2::class.java))
+//        startActivity(Intent(this, Popup2::class.java))
         startActivity(Intent(this, Popup1::class.java))
     }
+    fun PopUp(descripcion:String,url:String){
+        val intent = Intent(this, Popup1::class.java)
+        intent.putExtra("texto", descripcion)
+        intent.putExtra("url", url)
+
+        startActivity(intent)
+    }
+
     fun  setNotifications(numer : Int) {
 
         val navBar = binding.navigationBotommm
@@ -184,6 +217,17 @@ class Home : AppCompatActivity() {
         toast.show()
 
     }
+// asi sera el load con esta funcion
+//    private fun showDialog() {
+//        // custom dialog
+//        val dialog = Dialog(this)
+//        dialog.setContentView(R.layout.activity_popup1)
+//
+//        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        dialog.show()
+//    }
+//    showDialog()
+
 
 
 
@@ -211,23 +255,25 @@ class Home : AppCompatActivity() {
             notify(notificationId, builder.build())
         }
     }
-    private fun createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = getString(R.string.notificaciones)
-            val descriptionText = getString(R.string.notificaciones)
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(channelId, name, importance).apply {
-                description = descriptionText
-            }
-            // Register the channel with the system
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
+
+    fun hideSystemUI() {
+
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                // Set the content to appear under the system bars so that the
+                // content doesn't resize when the system bars hide and show.
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                // Hide the nav bar and status bar
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
 
-
+    // Shows the system bars by removing all the flags
+    // except for the ones that make the content appear under the system bars.
+    fun showSystemUI() {
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+    }
 
 }

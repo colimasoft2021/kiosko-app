@@ -15,6 +15,9 @@ interface ApiService {
     @GET("Aleex-A")
     suspend fun getPost(): Response<Post>
 
+    @GET("MessagesInitialsForApp")
+    suspend fun getAvisoIniciales(): Response<List<avisoInicialResponse>>
+
     @GET("{postNombre}")
     suspend fun getPost2(
         @Path("postNombre") nombre : String

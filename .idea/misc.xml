@@ -22,9 +22,11 @@
         <entry key="app/src/main/res/drawable/outline_chevron_right_opaque.xml" value="0.22291666666666668" />
         <entry key="app/src/main/res/drawable/pop_bg.xml" value="0.37083333333333335" />
         <entry key="app/src/main/res/drawable/round_corners.xml" value="0.22291666666666668" />
+        <entry key="app/src/main/res/drawable/round_corners_noColor.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/round_corners_no_color.xml" value="0.196" />
         <entry key="app/src/main/res/drawable/withe_box.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/layout/activity_extencion.xml" value="0.11458333333333333" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.12658227848101267" />
         <entry key="app/src/main/res/layout/activity_load.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_loading_spash_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29483695652173914" />
@@ -40,6 +42,7 @@
         <entry key="app/src/main/res/layout/content_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.18" />
         <entry key="app/src/main/res/layout/content_row_layout.xml" value="0.75" />
+        <entry key="app/src/main/res/layout/custom_layout_popup.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_acceso_directo.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_contenido.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_contenido2.xml" value="0.33958333333333335" />
@@ -55,7 +58,7 @@
         <entry key="app/src/main/res/layout/fragment_recycler_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.29483695652173914" />
         <entry key="app/src/main/res/layout/fragment_videos.xml" value="0.25317028985507245" />
-        <entry key="app/src/main/res/layout/inicio.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/inicio.xml" value="0.1" />
         <entry key="app/src/main/res/layout/login.xml" value="0.1" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.33" />
         <entry key="app/src/main/res/layout/pop_ups.xml" value="0.14" />

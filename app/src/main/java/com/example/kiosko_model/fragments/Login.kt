@@ -1,21 +1,22 @@
 package com.example.kiosko_model.fragments
 
+import android.app.AppOpsManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.kiosko_model.PopUps.Load
+import com.example.kiosko_model.MainActivity
 import com.example.kiosko_model.PopUps.LoadingScreen
-import com.example.kiosko_model.PopUps.Popup2
 import com.example.kiosko_model.R
 import com.example.kiosko_model.databinding.LoginBinding
 import com.example.kiosko_model.models.*
@@ -61,12 +62,25 @@ class Login : Fragment() {
         val viewModelFactory = LoginViewModelFactory(repository)
         val viewModelRegistroFactory = LoginRegistroViewModelFactory(repository)
 
+        val layout = binding.layoutLogin
+
         val  usertexto: TextView = binding.usuariotxt
         val  passtexto: TextView = binding.contrasenatxt
         viewLogModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
         viewLogRegModel = ViewModelProvider(this, viewModelRegistroFactory)[LoginRegistroViewModel::class.java]
 
+        val mContext = this.context
 
+        layout.setOnClickListener {
+            (activity as MainActivity?)?.hideSystemUI()
+
+            val manager = mContext?.getSystemService(
+                Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+            manager
+                ?.hideSoftInputFromWindow(
+                    view.windowToken, 0)
+
+        }
 
         binding.buttonSecond.setOnClickListener {
             val loadinDialog = LoadingScreen()
@@ -96,9 +110,6 @@ class Login : Fragment() {
                                             val name =
                                                 response.body()?.get(0)?.nombre_Completo.toString()
                                             val UserId = response.body()?.get(0)?.iD_Usuario
-
-
-
 
                                             val PostRegistro =
                                                 PostRegistro(UserId!!, name, "Empleado")
@@ -153,5 +164,7 @@ class Login : Fragment() {
 
         }
     }
+
+
 
 }
