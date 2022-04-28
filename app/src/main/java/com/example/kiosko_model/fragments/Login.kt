@@ -1,7 +1,12 @@
 package com.example.kiosko_model.fragments
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.AppOpsManager
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +26,7 @@ import com.example.kiosko_model.R
 import com.example.kiosko_model.databinding.LoginBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class Login : Fragment() {
@@ -29,6 +35,7 @@ class Login : Fragment() {
 
     private lateinit var viewLogModel: LoginViewModel
     private lateinit var viewLogRegModel: LoginRegistroViewModel
+    lateinit var dialog: Dialog
 
 
 
@@ -54,6 +61,21 @@ class Login : Fragment() {
 //        binding.viewModel = viewModel
         return binding.root
 
+    }
+
+    fun showMaterialDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Error")
+            .setMessage("Usuario y/o contraseña incorrectos")
+            .show()
+    }
+
+    private fun showDialog() {
+        dialog = Dialog(requireContext())
+        dialog.setContentView(R.layout.activity_loading_spash_screen)
+
+        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {                                                                    
@@ -83,8 +105,8 @@ class Login : Fragment() {
         }
 
         binding.buttonSecond.setOnClickListener {
-            val loadinDialog = LoadingScreen()
-            loadinDialog.LoadingDialog(requireActivity())
+            //val loadinDialog = LoadingScreen()
+            //loadinDialog.LoadingDialog(requireActivity())
 
            if (usertexto.text!!.isNotEmpty()&&passtexto.text!!.isNotEmpty()) {
 //            findNavController().navigate(R.id.action_login_to_remember)
@@ -92,15 +114,22 @@ class Login : Fragment() {
 //               val intent = Intent(activity, Load::class.java)
 //               startActivity(intent)
 
-               loadinDialog.loadingAnimation()
+               //loadinDialog.loadingAnimation()
+                   //showDialog()
+
                val myPost = Post(usertexto.text.toString(), passtexto.text.toString())
 
                viewLogModel.pushPost(myPost)
                             viewLogModel.myResponse.observe(viewLifecycleOwner,
                                 Observer { response ->
+                                    Log.d("respuesta",response.body().toString())
+                                    Log.d("respuesta completa", response.toString())
 
                                     if (response.isSuccessful) {
-
+                                        if(response.body().isNullOrEmpty()){
+                                            showMaterialDialog()
+                                            dialog.dismiss()
+                                        }
                                             Toast.makeText(context,
                                                 "Bienvenido ${
                                                     response.body()?.get(0)?.nombre_Completo
@@ -128,9 +157,9 @@ class Login : Fragment() {
                                             editor.apply()
                                             Log.d("ErrorASDASDASDAASDASD#",  r.body()?.id.toString())
 
-
-                                            findNavController().navigate(R.id.action_login_to_remember)
-                                            loadinDialog.dismisDialog()
+                                            //dialog.cancel()
+                                            //findNavController().navigate(R.id.action_login_to_remember)
+                                            //loadinDialog.dismisDialog()
 
                                         })
 
@@ -138,15 +167,17 @@ class Login : Fragment() {
                                         usertexto.text = ""
                                         passtexto.text = ""
                                     } else {
-
+                                        Log.d("error respuesta", response.toString())
                                         usertexto.text = ""
                                         passtexto.text = ""
+                                        //dialog.dismiss()
 
-                                        loadinDialog.dismisDialog()
-                                        Toast.makeText(context,"Datos incorrectos",
+                                        Toast.makeText(context,"Error al conectar con el servidor",
                                             Toast.LENGTH_SHORT).show()
-                                        viewLogModel.error.observe(viewLifecycleOwner, Observer { response ->
+                                        //loadinDialog.dismisDialog()
 
+
+                                        viewLogModel.error.observe(viewLifecycleOwner, Observer { response ->
 
                                         })
 
@@ -155,12 +186,12 @@ class Login : Fragment() {
 
                                 })
 
-            }else{
-
+           }else{
+                
                Toast.makeText(context,
                    "Falta algun Dato",
                    Toast.LENGTH_SHORT).show()
-            }
+           }
 
         }
     }
