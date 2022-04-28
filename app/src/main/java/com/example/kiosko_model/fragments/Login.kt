@@ -35,7 +35,7 @@ class Login : Fragment() {
 
     private lateinit var viewLogModel: LoginViewModel
     private lateinit var viewLogRegModel: LoginRegistroViewModel
-    lateinit var dialog: Dialog
+    lateinit var loading: Dialog
 
 
 
@@ -57,25 +57,26 @@ class Login : Fragment() {
 
 
         _binding = LoginBinding.inflate(inflater, container, false)
-//        binding.lifecycleOwner = this
-//        binding.viewModel = viewModel
         return binding.root
 
     }
 
-    fun showMaterialDialog() {
+    fun showMaterialDialog(title: String, message: String) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Error")
-            .setMessage("Usuario y/o contraseña incorrectos")
+            .setTitle(title)
+            .setMessage(message)
+            .setNeutralButton("Ok") { dialog, which ->
+                dialog.dismiss()
+            }
             .show()
     }
 
-    private fun showDialog() {
-        dialog = Dialog(requireContext())
-        dialog.setContentView(R.layout.activity_loading_spash_screen)
+    private fun showLoading() {
+        loading = Dialog(requireContext())
+        loading.setContentView(R.layout.activity_loading_spash_screen)
 
-        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
+        loading.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        loading.show()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {                                                                    
@@ -105,18 +106,8 @@ class Login : Fragment() {
         }
 
         binding.buttonSecond.setOnClickListener {
-            //val loadinDialog = LoadingScreen()
-            //loadinDialog.LoadingDialog(requireActivity())
-
            if (usertexto.text!!.isNotEmpty()&&passtexto.text!!.isNotEmpty()) {
-//            findNavController().navigate(R.id.action_login_to_remember)
-
-//               val intent = Intent(activity, Load::class.java)
-//               startActivity(intent)
-
-               //loadinDialog.loadingAnimation()
-                   //showDialog()
-
+               showLoading()
                val myPost = Post(usertexto.text.toString(), passtexto.text.toString())
 
                viewLogModel.pushPost(myPost)
@@ -127,15 +118,10 @@ class Login : Fragment() {
 
                                     if (response.isSuccessful) {
                                         if(response.body().isNullOrEmpty()){
-                                            showMaterialDialog()
-                                            dialog.dismiss()
-                                        }
-                                            Toast.makeText(context,
-                                                "Bienvenido ${
-                                                    response.body()?.get(0)?.nombre_Completo
-                                                }",
-                                                Toast.LENGTH_SHORT).show()
-
+                                            showMaterialDialog("Error", "Usuario y/o contraseña incorrectos.")
+                                            loading.dismiss()
+                                        } else {
+                                            showMaterialDialog("Bienvenido", response.body()?.get(0)?.nombre_Completo.toString())
                                             val name =
                                                 response.body()?.get(0)?.nombre_Completo.toString()
                                             val UserId = response.body()?.get(0)?.iD_Usuario
@@ -143,54 +129,34 @@ class Login : Fragment() {
                                             val PostRegistro =
                                                 PostRegistro(UserId!!, name, "Empleado")
 
-                                        viewLogRegModel.pushPostRegistro(PostRegistro)
-                                        viewLogRegModel.myResponse.observe(viewLifecycleOwner, Observer { r ->
+                                            viewLogRegModel.pushPostRegistro(PostRegistro)
+                                            viewLogRegModel.myResponse.observe(viewLifecycleOwner, Observer { r ->
+                                                Log.d("RNSuccesfullCode", id.toString()+""+name )
+                                                val sharedPref = this.requireActivity()
+                                                    .getSharedPreferences("UsD", Context.MODE_PRIVATE)
+                                                val editor = sharedPref.edit()
+                                                editor.putString("userName", name)
+                                                editor.putString("userID",UserId.toString())
+                                                editor.putString("id", r.body()?.id.toString())
+                                                editor.apply()
+                                                Log.d("ErrorASDASDASDAASDASD#",  r.body()?.id.toString())
 
-
-                                            Log.d("RNSuccesfullCode", id.toString()+""+name )
-                                            val sharedPref = this.requireActivity()
-                                                .getSharedPreferences("UsD", Context.MODE_PRIVATE)
-                                            val editor = sharedPref.edit()
-                                            editor.putString("userName", name)
-                                            editor.putString("userID",UserId.toString())
-                                            editor.putString("id", r.body()?.id.toString())
-                                            editor.apply()
-                                            Log.d("ErrorASDASDASDAASDASD#",  r.body()?.id.toString())
-
-                                            //dialog.cancel()
-                                            //findNavController().navigate(R.id.action_login_to_remember)
-                                            //loadinDialog.dismisDialog()
-
-                                        })
-
-
-                                        usertexto.text = ""
-                                        passtexto.text = ""
+                                                loading.dismiss()
+                                                findNavController().navigate(R.id.action_login_to_remember)
+                                            })
+                                            usertexto.text = ""
+                                            passtexto.text = ""
+                                        }
                                     } else {
-                                        Log.d("error respuesta", response.toString())
+                                        showMaterialDialog("Error", "Ha ocurrido algún error, inténtelo de nuevo más tarde.")
+                                        loading.dismiss()
                                         usertexto.text = ""
                                         passtexto.text = ""
-                                        //dialog.dismiss()
-
-                                        Toast.makeText(context,"Error al conectar con el servidor",
-                                            Toast.LENGTH_SHORT).show()
-                                        //loadinDialog.dismisDialog()
-
-
-                                        viewLogModel.error.observe(viewLifecycleOwner, Observer { response ->
-
-                                        })
-
                                     }
-
-
                                 })
 
            }else{
-                
-               Toast.makeText(context,
-                   "Falta algun Dato",
-                   Toast.LENGTH_SHORT).show()
+               showMaterialDialog("Error", "El usuario y contraseña son requeridos.")
            }
 
         }
