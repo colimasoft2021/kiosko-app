@@ -28,6 +28,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.kiosko_model.PopUps.Popup1
 import com.example.kiosko_model.PopUps.Popup2
 import com.example.kiosko_model.PopUps.popUpComponente
+import com.example.kiosko_model.PopUps.popUpComponenteVideo
 import com.example.kiosko_model.databinding.ActivityHomeBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
@@ -48,6 +49,7 @@ class Home : AppCompatActivity() {
     // menu de navegacion bottom
     private lateinit var viewModel: ComponentesViewModel
     private val viewModel2: CompuestosViewModel by viewModels()
+    private val pv: primerVezVM by viewModels()
     private lateinit var avisoViewModel: MensajeInicialViewModel
 
 
@@ -56,6 +58,7 @@ class Home : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         hideSystemUI()
 
@@ -67,23 +70,23 @@ class Home : AppCompatActivity() {
         avisoViewModel =  ViewModelProvider(this, viewModelFactoryAviso)[MensajeInicialViewModel::class.java]
         avisoViewModel.getAvisoInicial()
 
-        try{
-            avisoViewModel.AvisoResponse.observe(this) { response ->
-//            Log.d("response Avisos", response.body().toString())
-                val size = response.body()!!.size
-                var index = 0
-
-                response.body()?.forEach {
-                    index++
-
-                    PopUp(index.toString(),it.url)
-
-//                    intentPopUp()
-                }
-            }
-        }catch (e: Error) {
-
-        }
+//        try{
+//            avisoViewModel.AvisoResponse.observe(this) { response ->
+////            Log.d("response Avisos", response.body().toString())
+//                val size = response.body()!!.size
+//                var index = 0
+//
+//                response.body()?.forEach {
+//                    index++
+//
+//                    PopUp(it.descripcion,it.url)
+//
+////                    intentPopUp()
+//                }
+//            }
+//        }catch (e: Error) {
+//
+//        }
 
         // Pop Up
 
@@ -199,6 +202,21 @@ class Home : AppCompatActivity() {
         intent.putExtra("texto", descripcion)
         intent.putExtra("url", url)
 
+        pv.posicion(false)
+
+        startActivity(intent)
+    }
+    fun PopUpComponente(descripcion:String?,url:String?){
+        val intent = Intent(this, popUpComponente::class.java)
+        intent.putExtra("texto", descripcion)
+        intent.putExtra("url", url)
+
+        startActivity(intent)
+    }
+    fun PopUpComponenteVideo(descripcion:String?,url:String?){
+        val intent = Intent(this, popUpComponenteVideo::class.java)
+        intent.putExtra("texto", descripcion)
+        intent.putExtra("url", url)
         startActivity(intent)
     }
 

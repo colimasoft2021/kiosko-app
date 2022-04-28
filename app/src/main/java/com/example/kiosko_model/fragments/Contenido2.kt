@@ -92,12 +92,48 @@ class Contenido2 : Fragment() {
 
         binding.llContenedor.removeAllViews()
 
-        setupRecyclerview()
         try{
             viewModel.componentes.observe(viewLifecycleOwner) { it ->
-//                    Toast.makeText(context, "that is $it", Toast.LENGTH_SHORT).show()
+
                 if (it.isNotEmpty()) {
                     binding.llContenedor.removeAllViews()
+
+                    val listViewBackBoton = LinearLayout(context)
+                    val buttonBack = Button(context)
+
+                    val LayoutBotonBack = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                    LayoutBotonBack.setMargins(0,0,0,10)
+                    listViewBackBoton.orientation = LinearLayout.HORIZONTAL
+
+                    val color = Color.parseColor("#000000")
+                    val radius = 20//radius will be 5px
+                    val strokeWidth = 5
+                    val gradientDrawable = GradientDrawable()
+                    gradientDrawable.setColor(color)
+                    gradientDrawable.cornerRadius = radius.toFloat()
+                    gradientDrawable.setStroke(strokeWidth, color)
+
+                    buttonBack.textSize = 18F
+                    buttonBack.text = "  Pagina Principal  "
+                    buttonBack.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back_button,0,0,0)
+                    buttonBack.marginStart
+                    buttonBack.gravity = Gravity.CENTER
+                    buttonBack.setTextColor(Color.WHITE)
+                    buttonBack.background = gradientDrawable
+                    buttonBack.setOnClickListener {
+
+                        val intento =
+                            Intent(context, Home::class.java)
+                        context?.startActivity(intento)
+
+                    }
+                    val progresoPModulo = porcentajeViewModel.progresoPerModulo.value
+                    val progress = porcentajeViewModel.porcentaje.value
+                    porcentajeViewModel.setPorcentaje(progress!! + progresoPModulo!!)
+
+                    listViewBackBoton.addView(buttonBack, LayoutBotonBack)
+                    llContenedor.addView(listViewBackBoton)
+
                     it.forEach { it ->
 
                         when(it!!.tipoComponente){
@@ -106,7 +142,12 @@ class Contenido2 : Fragment() {
                             "subtitulo" -> {
                                 val subtituloW = TextView(context)
                                 subtituloW.text = it.subtitulo
-                                llContenedor.addView(subtituloW)
+                                subtituloW.textSize = 30F
+                                subtituloW.setTextColor(Color.BLACK)
+                                subtituloW.gravity = Gravity.CENTER
+                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lp.setMargins(0,15,0,10)
+                                llContenedor.addView(subtituloW,lp)
                             }
 
                             "banner-informativo" -> {
@@ -155,9 +196,30 @@ class Contenido2 : Fragment() {
                             }
 
                             "texto" -> {
+                                val listView = LinearLayout(context)
                                 val textoW = TextView(context)
                                 textoW.text = it.descripcion
-                                llContenedor.addView(textoW)
+                                textoW.textSize = 20F
+                                textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                textoW.setTextColor(Color.BLACK)
+
+                                val color = Color.WHITE
+                                val radius = 30//radius will be 5px
+                                val strokeWidth = 5
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color)
+
+                                listView.background = gradientDrawable
+                                textoW.gravity = Gravity.CENTER
+                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lp.setMargins(30,20,5,15)
+                                listView.addView(textoW,lp)
+
+                                val lp2 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lp2.setMargins(0,0,0,0)
+                                llContenedor.addView(listView,lp2)
                             }
 
                             "desplazante-texto-imagen" -> {
@@ -326,35 +388,49 @@ class Contenido2 : Fragment() {
                                 listView.addView(buttonW,lp)
                                 listView2.addView(listView)
                                 llContenedor.addView(listView2)
-//                                   val param = listView.layoutParams as ViewGroup.MarginLayoutParams
-//                                   param.setMargins(width-(width-50),5,0,0)
-//                                   listView.layoutParams = param
+//
                             }
                             "imagen" -> {
+
+
+                                //fondo redondo blanco
+                                val color = Color.WHITE
+                                val radius = 30
+                                val strokeWidth = 5
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color)
+                                //fondo redondo blanco
+
                                 val imagenW = ImageView(context)
                                 val pieImagenW = TextView(context)
                                 val listView = LinearLayout(context)
-                                val listView2 = LinearLayout(context)
+                                listView.background = gradientDrawable
                                 listView.orientation= LinearLayout.VERTICAL
                                 listView.gravity = Gravity.CENTER_HORIZONTAL
-                                val lp = LinearLayout.LayoutParams(width-50, 300)
+                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lp.setMargins(0,15,0,10)
                                 imagenW.load(it.url) {
                                     placeholder(R.drawable.loading_animation)
                                     error(R.drawable.ic_broken_image)
                                 }
                                 imagenW.scaleType= ImageView.ScaleType.CENTER
-                                listView.addView(imagenW)
+                                listView.addView(imagenW,lp)
                                 pieImagenW.text = it.descripcion
                                 pieImagenW.gravity = Gravity.CENTER
-                                listView.addView(pieImagenW)
-                                listView2.addView(listView)
-                                val param = listView.layoutParams as ViewGroup.MarginLayoutParams
-                                param.setMargins(0,0,0,10)
-                                listView.layoutParams = param
-                                llContenedor.addView(listView2)
-                                val param2 = listView2.layoutParams as ViewGroup.MarginLayoutParams
-                                param2.setMargins(width/2-50 ,5,0,0)
-                                listView2.layoutParams = param2
+                                pieImagenW.textSize = 20F
+                                pieImagenW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                pieImagenW.setTextColor(Color.BLACK)
+
+                                val lpPieImagen = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpPieImagen.setMargins(0,15,0,10)
+                                listView.addView(pieImagenW,lpPieImagen)
+
+                                val lpcontenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpcontenedor.setMargins(0,20,0,10)
+                                llContenedor.addView(listView,lpcontenedor)
+
                             }
                             "video-guia"-> {
 
@@ -404,82 +480,17 @@ class Contenido2 : Fragment() {
 
                             }
                             "pop-up" -> {
-                                val listView = LinearLayout(context)
-                                listView.orientation= LinearLayout.HORIZONTAL
-                                listView.gravity = Gravity.CENTER_HORIZONTAL
-                                val buttonW = Button(context)
 
-                                // boton redondo
-                                val color = Color.BLACK
-                                val radius = 30//radius will be 5px
-                                val strokeWidth = 5
-                                val gradientDrawable = GradientDrawable()
-//                                   gradientDrawable.setColor(color)
-                                gradientDrawable.cornerRadius = radius.toFloat()
-                                gradientDrawable.setStroke(strokeWidth, color)
-                                buttonW.background = gradientDrawable
-                                //fin boton redondo
-
-                                val lp = LinearLayout.LayoutParams(width/3,height/10)
-                                lp.setMargins(0,15,0,10)
-
-                                buttonW.textSize = 18F
-                                buttonW.text = it.descripcion
-                                buttonW.marginStart
-                                buttonW.gravity = Gravity.CENTER
                                 val descripcion = it.descripcion
                                 val url = it.url
-                                buttonW.setOnClickListener {
-                                    val intent = Intent(activity, popUpComponente::class.java)
-                                    intent.putExtra("texto", descripcion)
-                                    intent.putExtra("url", url)
+                                (activity as Home?) ?.PopUpComponente(descripcion,url)
 
-                                    startActivity(intent)
-                                }
-
-                                listView.addView(buttonW,lp)
-
-                                llContenedor.addView(listView)
                             }
                             "pop-up-video" -> {
 
-
-
-                                val listView = LinearLayout(context)
-                                listView.orientation= LinearLayout.HORIZONTAL
-                                listView.gravity = Gravity.CENTER_HORIZONTAL
-
-                                val buttonW = Button(context)
-
-                                // boton redondo
-                                val color = Color.BLACK
-                                val radius = 30//radius will be 5px
-                                val strokeWidth = 5
-                                val gradientDrawable = GradientDrawable()
-//                                   gradientDrawable.setColor(color)
-                                gradientDrawable.cornerRadius = radius.toFloat()
-                                gradientDrawable.setStroke(strokeWidth, color)
-                                buttonW.background = gradientDrawable
-                                //fin boton redondo
-
-                                val lp = LinearLayout.LayoutParams(width/3,height/10)
-                                lp.setMargins(0,15,0,10)
-
-                                buttonW.textSize = 18F
-                                buttonW.text = it.descripcion
-//                                   buttonW.setBackgroundColor(Color.parseColor(it.backgroundColor))
-                                buttonW.marginStart
-                                buttonW.gravity = Gravity.CENTER
                                 val descripcion = it.descripcion
                                 val url = it.url
-                                buttonW.setOnClickListener {
-                                    val intent = Intent(activity, popUpComponenteVideo::class.java)
-                                    intent.putExtra("texto", descripcion)
-                                    intent.putExtra("url", url)
-                                    requireActivity().startActivity(intent)
-                                }
-                                listView.addView(buttonW,lp)
-                                llContenedor.addView(listView)
+                                (activity as Home?) ?.PopUpComponenteVideo(descripcion,url)
 
                             }
                             "desplegable-texto-imagen" ->{
@@ -602,10 +613,8 @@ class Contenido2 : Fragment() {
                                             Log.d("padreLOCAL",padre)
 
                                             if (padre == a.toString()) {
-                                                val listView =
-                                                    LinearLayout(context)
-                                                val buttonNext =
-                                                    Button(context)
+                                                val listView = LinearLayout(context)
+                                                val buttonNext = Button(context)
                                                 respo.forEach { its ->
                                                     if(its.componentes.isNullOrEmpty()&&its.submodulos?.isNotEmpty() == true){
                                                         its.submodulos.forEach{ b->
@@ -613,20 +622,25 @@ class Contenido2 : Fragment() {
                                                                 if (b.id == index) {
 
 
-                                                                    listView.orientation =
-                                                                        LinearLayout.HORIZONTAL
-//                                                                        listView.gravity =
-//                                                                            Gravity.CENTER_HORIZONTAL
-
-                                                                    buttonNext.textSize =
-                                                                        18F
-                                                                    buttonNext.text =
-                                                                        b.titulo
-                                                                    buttonNext.marginStart
-                                                                    buttonNext.gravity =
-                                                                        Gravity.CENTER
+                                                                    val color = Color.parseColor("#263238")
+                                                                    val radius = 20//radius will be 5px
+                                                                    val strokeWidth = 5
+                                                                    val gradientDrawable = GradientDrawable()
+                                                                    gradientDrawable.setColor(color)
+                                                                    gradientDrawable.cornerRadius = radius.toFloat()
+                                                                    gradientDrawable.setStroke(strokeWidth, color)
 
 
+                                                                    listView.orientation = LinearLayout.HORIZONTAL
+                                                                    listView.gravity = Gravity.END
+
+                                                                    buttonNext.textSize = 18F
+                                                                    val titlo = "  ${b.titulo} "
+                                                                    buttonNext.text = titlo
+                                                                    buttonNext.gravity = Gravity.CENTER
+                                                                    buttonNext.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.chevron,0)
+                                                                    buttonNext.setTextColor(Color.WHITE)
+                                                                    buttonNext.background = gradientDrawable
 
                                                                     buttonNext.setOnClickListener {
                                                                         viewModel3.componentes(b.componentes)
@@ -637,38 +651,19 @@ class Contenido2 : Fragment() {
 
                                                                     }
 
-
                                                                 }
 
                                                             }
                                                         }
                                                     }
                                                 }
-                                                val buttonBack = Button(context)
-                                                val LayoutBotonBack = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
                                                 val LayoutBotonNext = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-
-                                                buttonBack.textSize = 18F
-                                                buttonBack.text = "Pagina Principal "
-                                                buttonBack.marginStart
-                                                buttonBack.gravity = Gravity.CENTER
-                                                buttonBack.setOnClickListener {
-
-                                                    val intento =
-                                                        Intent(context, Home::class.java)
-                                                    context?.startActivity(intento)
-
-                                                }
-                                                val progresoPModulo = porcentajeViewModel.progresoPerModulo.value
-                                                val progress = porcentajeViewModel.porcentaje.value
-                                                porcentajeViewModel.setPorcentaje(progress!! + progresoPModulo!!)
-
-                                                listView.addView(buttonBack, LayoutBotonBack)
+                                                val LayoutBotonNextC = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                                LayoutBotonNextC.setMargins(0,20,0,10)
                                                 listView.addView(buttonNext, LayoutBotonNext)
                                                 llContenedor.addView(listView)
 
 
-//
                                             }
                                         }
 

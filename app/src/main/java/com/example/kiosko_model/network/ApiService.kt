@@ -12,7 +12,7 @@ interface ApiService {
 
 
 //    @GET("posts/1")
-    @GET("Aleex-A")
+    @GET("")
     suspend fun getPost(): Response<Post>
 
     @GET("MessagesInitialsForApp")
