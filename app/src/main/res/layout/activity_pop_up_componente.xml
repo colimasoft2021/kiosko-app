@@ -35,6 +35,7 @@
         android:textSize="25sp"
         android:textStyle="bold"
         android:gravity="center"
+        tools:text="Mensaje popUpVideo"
         app:layout_constraintBottom_toTopOf="@id/message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -45,11 +46,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:contentDescription="@string/safety_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titlepop" />
+        app:layout_constraintTop_toBottomOf="@id/titlepop"
+        tools:src="@tools:sample/avatars[6]"/>
 
 
 </LinearLayout>

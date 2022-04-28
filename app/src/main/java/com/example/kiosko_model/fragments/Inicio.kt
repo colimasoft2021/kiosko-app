@@ -1,9 +1,9 @@
 package com.example.kiosko_model.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -12,12 +12,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import coil.load
+import com.example.kiosko_model.Home
+import com.example.kiosko_model.PopUps.popUpComponente
 import com.example.kiosko_model.R
 import com.example.kiosko_model.adapter.ButtonRowAdapter
 import com.example.kiosko_model.databinding.InicioBinding
@@ -32,8 +36,11 @@ class Inicio : Fragment() {
     private lateinit var viewModel: ComponentesViewModel
 //    private lateinit var avisoViewModel: MensajeInicialViewModel
     private val viewModel2: CompuestosViewModel by viewModels({requireParentFragment()})
+    private val viewModelprimerVez: primerVezVM by viewModels({requireParentFragment()})
     private val porcentajeViewModel: PorcentajeViewModel by viewModels({requireParentFragment()})
     private lateinit var avisoViewModel: MensajeInicialViewModel
+
+    private val pv: primerVezVM by viewModels({requireParentFragment()})
 
 
     private val buttonRowAdapter by lazy { ButtonRowAdapter()}
@@ -51,13 +58,12 @@ class Inicio : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-
         val displaymetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
         val height = displaymetrics.heightPixels
         val width = displaymetrics.widthPixels
+
+
 
                     val llBotoneraConProgreso = binding.llBotoneraConProgreso
                     binding.llBotoneraConProgreso.removeAllViews()
@@ -67,7 +73,6 @@ class Inicio : Fragment() {
                     val repository = Repository()
                     val viewModelFactory = ComponentsViewModelFactory(repository)
 
-//                    val viewModelFactoryAviso = MensajeInicialViewModelFactory(repository)
         try{
 
             val sharedPref = this.requireActivity()
@@ -76,16 +81,6 @@ class Inicio : Fragment() {
             val id = Id(sharedPref.getString("id","defaultName")!!.toInt())
             viewModel = ViewModelProvider(this, viewModelFactory)[ComponentesViewModel::class.java]
             viewModel.getComponentes(id)
-//            avisoViewModel =  ViewModelProvider(this, viewModelFactoryAviso)[MensajeInicialViewModel::class.java]
-//            avisoViewModel.getAvisoInicial()
-//            avisoViewModel.AvisoResponse.observe(viewLifecycleOwner){
-//                response ->
-//                Log.d("response Avisos", response.body().toString())
-//
-//            }
-
-
-
 
             porcentajeViewModel.reset()
 
@@ -170,6 +165,8 @@ class Inicio : Fragment() {
                                             val compuestos = it.submodulos[0].componentes
                                             val idSubmodulo = it.submodulos[0].id
                                             val padre = it.submodulos[0].padre
+                                            val imagenBoton = it.submodulos[0].componentes[0]?.idModuloNavigation?.url
+
 
                                             val linearLayout = LinearLayout(context)
                                             linearLayout.orientation = LinearLayout.HORIZONTAL
@@ -191,10 +188,16 @@ class Inicio : Fragment() {
                                             contenedorBotoneraProgreso.gravity = Gravity.CENTER
 
 
-                                            val ButtonProgress = Button(context)
-                                            ButtonProgress.setTextColor(Color.parseColor("#FFFFFFFF"))
-                                            ButtonProgress.background = ResourcesCompat.getDrawable(resources,
-                                                R.drawable.round_corners, null)
+                                            val ButtonProgress = ImageButton(context)
+//                                            ButtonProgress.setTextColor(Color.parseColor("#FFFFFFFF"))
+
+                                            ButtonProgress.load(imagenBoton) {
+                                                placeholder(R.drawable.loading_animation)
+                                                error(R.drawable.ic_broken_image)
+                                            }
+                                            ButtonProgress.adjustViewBounds = true
+                                            ButtonProgress.scaleType = ImageView.ScaleType.FIT_XY
+                                            ButtonProgress.background= null
 
                                             ButtonProgress.setOnClickListener {
                                                 porcentajeViewModel.setCantidadModulos(hijos)
@@ -218,11 +221,16 @@ class Inicio : Fragment() {
                                             tituloBotonProgres.textSize = 18F
                                             tituloBotonProgres.gravity = Gravity.CENTER
 
-                                            val ButtonProgressBotonera = Button(context)
-                                            ButtonProgressBotonera.setTextColor(Color.parseColor("#FFFFFFFF"))
-                                            ButtonProgressBotonera.background = ResourcesCompat.getDrawable(resources,
-                                                R.drawable.round_corners, null)
+                                            val ButtonProgressBotonera = ImageButton(context)
+                                            ButtonProgressBotonera.background = null
+//                                            ButtonProgress.setTextColor(Color.parseColor("#FFFFFFFF"))
 
+                                            ButtonProgressBotonera.load(imagenBoton) {
+                                                placeholder(R.drawable.loading_animation)
+                                                error(R.drawable.ic_broken_image)
+                                            }
+                                            ButtonProgressBotonera.adjustViewBounds = true
+                                            ButtonProgressBotonera.scaleType = ImageView.ScaleType.FIT_XY
                                             ButtonProgressBotonera.setOnClickListener {
                                                 porcentajeViewModel.setCantidadModulos(hijos)
                                                 porcentajeViewModel.setIdModulo(idModulo)
@@ -357,12 +365,34 @@ class Inicio : Fragment() {
                     Log.d("Falta certificado SSL", e.toString())
                 }
 
-    }
 
-//    private fun setupRecyclerview(){
-//        binding.recyclerViewBotones.adapter = buttonRowAdapter
-//        binding.recyclerViewBotones.layoutManager = LinearLayoutManager(context)
-//    }
+        val repo = Repository()
+        val viewModelFactoryAviso = MensajeInicialViewModelFactory(repo)
+
+        avisoViewModel =  ViewModelProvider(this, viewModelFactoryAviso)[MensajeInicialViewModel::class.java]
+        avisoViewModel.getAvisoInicial()
+
+        Log.d("PV", pv.primerVez.value.toString())
+        if(pv.primerVez.value==true){
+
+            try {
+                avisoViewModel.AvisoResponse.observe(viewLifecycleOwner) { response ->
+
+                    val size = response.body()!!.size
+                    var index = 0
+
+                    response.body()?.forEach {
+                        index++
+                        (activity as Home?)?.PopUp(it.descripcion, it.url)
+                    }
+
+
+                }
+            } catch (e: Error) {
+
+            }
+        }
+    }
 
     override fun onPause() {
         super.onPause()
@@ -370,22 +400,7 @@ class Inicio : Fragment() {
         binding.llBotonera.removeAllViews()
     }
 
-    fun refreshFragment(context: Context?){
 
-        context?.let {
-            val fragmentManager = (context as? AppCompatActivity)?.supportFragmentManager
-            fragmentManager?.let {
-                val  currentFragment = fragmentManager.findFragmentById(R.id.inicioFragment)
-                currentFragment?.let {
-                    val fragmentTransaction =fragmentManager.beginTransaction()
-                    fragmentTransaction.detach(it)
-                    fragmentTransaction.attach(it)
-                    fragmentTransaction.commit()
-                }
-            }
-        }
-
-    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

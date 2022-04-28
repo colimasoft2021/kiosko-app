@@ -2,7 +2,10 @@ package com.example.kiosko_model.PopUps
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import coil.load
 import com.example.kiosko_model.R
 import com.example.kiosko_model.databinding.ActivityPopUpComponenteBinding
@@ -38,15 +41,36 @@ class popUpComponente : Activity() {
         }
         hideSystemUI()
 //
-//        val width2 = 500
-//        val height2 = 650
-//            window.setLayout(width2, height2)
+        val displaymetrics = DisplayMetrics()
+        this.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
+        val height = displaymetrics.heightPixels
+        val width = displaymetrics.widthPixels
+        if (height > 1000 && width>600 ){
 
-//        val params =  WindowManager.LayoutParams()
-//            params.gravity= Gravity.CENTER
-//            params.x = 0
-//            params.y = - 20
-//
+            if (height > 1400  && width>1000 ){
+                val width2 = 1000
+                val height2 = 1300
+                window.setLayout(width2, height2)
+
+
+            }else{
+                val width2 = 700
+                val height2 = 1100
+                window.setLayout(width2, height2)
+            }
+
+        }
+        else{
+            val width2 = 550
+            val height2 = 650
+            window.setLayout(width2, height2)
+        }
+
+        val params =  WindowManager.LayoutParams()
+            params.gravity= Gravity.CENTER
+            params.x = 0
+            params.y = - 20
+
 
     }
 

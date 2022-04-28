@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -28,8 +29,37 @@ class Popup1 : Activity() {
             finish()
         }
 
+        val displaymetrics = DisplayMetrics()
+        this.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
+        val height = displaymetrics.heightPixels
+        val width = displaymetrics.widthPixels
+        if (height > 1000 && width>600 ){
+
+            if (height > 1400  && width>1000 ){
+                val width2 = 1000
+                val height2 = 1300
+                window.setLayout(width2, height2)
+
+
+            }else{
+                val width2 = 700
+                val height2 = 1100
+                window.setLayout(width2, height2)
+            }
+
+        }
+        else{
+            val width2 = 550
+            val height2 = 650
+            window.setLayout(width2, height2)
+        }
+
+        Log.d("height", height.toString())
+        Log.d("width", width.toString())
+
         val texto = intent.extras!!.getString("texto")
         val url2 = intent.extras!!.getString("url")
+
 //
 //        val sharedPref = this
 //            .getSharedPreferences("AvisoInicial", Context.MODE_PRIVATE)
@@ -47,14 +77,12 @@ class Popup1 : Activity() {
 
         hideSystemUI()
 //
-        val width2 = 500
-        val height2 = 650
-            window.setLayout(width2, height2)
+
 
         val params =  WindowManager.LayoutParams()
             params.gravity= Gravity.CENTER
             params.x = 0
-            params.y = - 20
+            params.y = -10
 //
 
     }
