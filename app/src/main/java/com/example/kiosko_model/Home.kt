@@ -23,6 +23,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkBuilder
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.kiosko_model.PopUps.Popup1
@@ -102,7 +103,28 @@ class Home : AppCompatActivity() {
 
         val navBar = binding.navigationBotommm
         //control de navegación ligado a los fragments
-        navBar.setupWithNavController(navController)
+        //navBar.setupWithNavController(navController)
+        /*
+        navBar.setOnItemSelectedListener () {
+            when(it.itemId){
+                R.id.inicioFragment -> {
+                    val intent = Intent(this, Home::class.java)
+                    startActivity(intent)
+                    Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                R.id.accesoDirectoFragment -> {
+                    findNavController(R.id.nav_host_fragment_content_home).navigate(R.id.accesoDirectoFragment)
+                    Toast.makeText(this, "Accesos directos", Toast.LENGTH_SHORT).show()
+                    true
+                }
+
+                else -> {
+                    true
+                }
+            }
+        }*/
 
         val toolbar: Toolbar = binding.toolbar
         setSupportActionBar(toolbar)

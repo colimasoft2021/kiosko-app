@@ -1,5 +1,6 @@
 package com.example.kiosko_model
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.example.kiosko_model.PopUps.LoadingDialog
 import com.example.kiosko_model.databinding.ActivityMainBinding
 import com.example.kiosko_model.models.primerVezVM
 
