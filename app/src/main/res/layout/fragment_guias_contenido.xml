@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/kioskoheader_homebackground"
-    tools:context=".fragments.GuiasFragment">
+    tools:context=".fragments.GuiasContenido">
+
     <LinearLayout
-        android:id="@+id/GuiasRapidasLista"
+        android:id="@+id/GuiasRapidasContenido"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="10dp"

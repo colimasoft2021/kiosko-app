@@ -43,7 +43,11 @@
         android:id="@+id/guiasFragment"
         android:name="com.example.kiosko_model.fragments.GuiasFragment"
         android:label="fragment_guias"
-        tools:layout="@layout/fragment_guias" />
+        tools:layout="@layout/fragment_guias" >
+        <action
+            android:id="@+id/action_guiasFragment_to_guiasContenido"
+            app:destination="@id/guiasContenido" />
+    </fragment>
     <fragment
         android:id="@+id/videosFragment"
         android:name="com.example.kiosko_model.fragments.VideosFragment"
@@ -58,5 +62,10 @@
             android:id="@+id/action_contenido2_to_contenido"
             app:destination="@id/contenido" />
     </fragment>
+    <fragment
+        android:id="@+id/guiasContenido"
+        android:name="com.example.kiosko_model.fragments.GuiasContenido"
+        android:label="fragment_guias_contenido"
+        tools:layout="@layout/fragment_guias_contenido" />
 
 </navigation>

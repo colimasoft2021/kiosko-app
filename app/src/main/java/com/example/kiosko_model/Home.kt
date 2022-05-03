@@ -213,11 +213,13 @@ class Home : AppCompatActivity() {
 
         startActivity(intent)
     }
-    fun PopUpComponenteVideo(descripcion:String?,url:String?){
-        val intent = Intent(this, popUpComponenteVideo::class.java)
-        intent.putExtra("texto", descripcion)
-        intent.putExtra("url", url)
-        startActivity(intent)
+    fun PopUpComponenteVideo(descripcion:String?,url:String?,mensajeInicial:Boolean){
+            val intent = Intent(this, popUpComponenteVideo::class.java)
+            intent.putExtra("texto", descripcion)
+            intent.putExtra("url", url)
+            intent.putExtra("MensajeInicial", mensajeInicial)
+            startActivity(intent)
+
     }
 
     fun  setNotifications(numer : Int) {

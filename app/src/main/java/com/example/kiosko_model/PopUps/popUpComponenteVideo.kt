@@ -29,6 +29,7 @@ class popUpComponenteVideo : AppCompatActivity() {
 
             val texto = intent.extras!!.getString("texto")
             val url2 = intent.extras!!.getString("url")
+            val mensajeIncial = intent.extras!!.getBoolean("MensajeInicial")
 //
 //        val sharedPref = this
 //            .getSharedPreferences("AvisoInicial", Context.MODE_PRIVATE)
@@ -83,12 +84,18 @@ class popUpComponenteVideo : AppCompatActivity() {
             params.y = - 20
 //
 
-            video.setOnCompletionListener(OnCompletionListener { //Termina reproduccion,
-                //Realiza Intent.
-                binding.closeV.setOnClickListener{
+            if(mensajeIncial==true){
+                video.setOnCompletionListener(OnCompletionListener { //Termina reproduccion,
+                    //Realiza Intent.
+                    binding.closeV.setOnClickListener {
+                        finish()
+                    }
+                })
+            }else{
+                binding.closeV.setOnClickListener {
                     finish()
                 }
-            })
+            }
 
         }
 

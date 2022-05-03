@@ -32,7 +32,7 @@
         <entry key="app/src/main/res/drawable/round_corners_no_color.xml" value="0.196" />
         <entry key="app/src/main/res/drawable/withe_box.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/layout/activity_extencion.xml" value="0.11458333333333333" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_load.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_loading_spash_screen.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29483695652173914" />
@@ -58,6 +58,7 @@
         <entry key="app/src/main/res/layout/fragment_ejemplo_i_i_i.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.29483695652173914" />
         <entry key="app/src/main/res/layout/fragment_guias.xml" value="0.25317028985507245" />
+        <entry key="app/src/main/res/layout/fragment_guias_contenido.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/fragment_notificaciones.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_perfil.xml" value="0.2477355072463768" />
         <entry key="app/src/main/res/layout/fragment_quienes_somos.xml" value="0.36875" />

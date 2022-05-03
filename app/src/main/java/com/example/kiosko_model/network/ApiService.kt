@@ -12,8 +12,13 @@ interface ApiService {
 
 
 //    @GET("posts/1")
-    @GET("")
-    suspend fun getPost(): Response<Post>
+
+
+    @GET("GetAllComponentesPopUpVideo")
+    suspend fun getVideos(): Response<List<Videos>>
+
+    @GET("GetAllComponentesPopUpVideo")
+    suspend fun getGuias(): Response<List<Guias>>
 
     @GET("MessagesInitialsForApp")
     suspend fun getAvisoIniciales(): Response<List<avisoInicialResponse>>

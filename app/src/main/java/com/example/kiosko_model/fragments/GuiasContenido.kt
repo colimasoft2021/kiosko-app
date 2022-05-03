@@ -9,157 +9,117 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.marginEnd
 import androidx.core.view.marginStart
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.kiosko_model.Home
-import com.example.kiosko_model.PopUps.popUpComponente
-import com.example.kiosko_model.PopUps.popUpComponenteVideo
 import com.example.kiosko_model.R
 import com.example.kiosko_model.adapter.ContentRowAdapter
-import com.example.kiosko_model.databinding.FragmentContenido2Binding
 import com.example.kiosko_model.databinding.FragmentContenidoBinding
+import com.example.kiosko_model.databinding.FragmentGuiasContenidoBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.modelslite.ProgresoViewModel
 import com.example.kiosko_model.repository.Repository
 import java.security.cert.CertPathValidatorException
 import java.util.concurrent.TimeoutException
 
-
-class Contenido2 : Fragment() {
-    private val viewModel3: CompuestosViewModel by viewModels({requireParentFragment()})
-    private val viewModel: CompuestosViewModel2 by viewModels({requireParentFragment()})
-    private val porcentajeViewModel: PorcentajeViewModel by viewModels({requireParentFragment()})
-    private val viewModelLocal: ComponentesViewModel2 by viewModels ({requireParentFragment()})
+class GuiasContenido : Fragment() {
+    private val viewModel: GuiasViewModel by viewModels({requireParentFragment()})
 
 
-    private val contentRowAdapter by lazy { ContentRowAdapter(context) }
-
-    private lateinit var progreso: ProgresoViewModel
-
-    private lateinit var viewModel2: ComponentesViewModel
-
-    private var _binding: FragmentContenido2Binding? = null
+    private var _binding: FragmentGuiasContenidoBinding? = null
     private val binding get() = _binding!!
 
 
-//    private val viewBinding by lazy(LazyThreadSafetyMode.NONE) {
-//        FragmentContenidoBinding.inflate(layoutInflater)
-//    }
-
     override fun onStop() {
         super.onStop()
-        binding.llContenedor.removeAllViews()
+        binding.GuiasRapidasContenido.removeAllViews()
 
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ) : View? {
-        _binding = FragmentContenido2Binding.inflate(inflater,container,false)
-        binding.llContenedor.removeAllViews()
+        _binding = FragmentGuiasContenidoBinding.inflate(inflater,container,false)
+        binding.GuiasRapidasContenido.removeAllViews()
 
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val repository = Repository()
-        val viewModelFactory = ProgresoViewModelFactory(repository)
-        progreso = ViewModelProvider(this, viewModelFactory)[ProgresoViewModel::class.java]
-
-
-        val idU = porcentajeViewModel.idProgreso.value!!
-        val idM = porcentajeViewModel.idModulo.value!!
-        val p = porcentajeViewModel.porcentaje.value!!.toDouble()
-
-
-        val progresoPost = PostProgreso(idU,idM,p.toDouble())
-        progreso.pushProgresoRegistro(progresoPost)
-
-        Log.d("response ID MODULO", porcentajeViewModel.idModulo.value.toString())
-        Log.d("response PORCENTAJE", porcentajeViewModel.porcentaje.value.toString())
-        Log.d("RESPONSE CANTIDADMOD", porcentajeViewModel.cantidadModulos.value.toString())
-        Log.d("RESPONSE id", porcentajeViewModel.idProgreso.value.toString())
-
-
-        val llContenedor = binding.llContenedor
-//        val llContenedor2 = binding.llContenedor2
+        val GuiasRapidasContenido = binding.GuiasRapidasContenido
 
         val displaymetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
         val height = displaymetrics.heightPixels
         val width = displaymetrics.widthPixels
 
-        binding.llContenedor.removeAllViews()
+        binding.GuiasRapidasContenido.removeAllViews()
 
         try{
-            viewModel.componentes.observe(viewLifecycleOwner) { it ->
+            viewModel.componentes.observe(viewLifecycleOwner) {
 
                 if (it.isNotEmpty()) {
-                    binding.llContenedor.removeAllViews()
+                    binding.GuiasRapidasContenido.removeAllViews()
 
                     val listViewBackBoton = LinearLayout(context)
                     val buttonBack = Button(context)
 
-                    val LayoutBotonBack = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                    val LayoutBotonBack = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT)
                     LayoutBotonBack.setMargins(0,0,0,10)
                     listViewBackBoton.orientation = LinearLayout.HORIZONTAL
 
-                    val submodulo = viewModelLocal.componentes2.value
-                    val index = viewModelLocal.index.value
 
-//                    if(index == 1){
-                        binding.llContenedor.removeAllViews()
+                    binding.llContenedor.removeAllViews()
 
-                        val col = Color.parseColor("#000000")
-                        val rad = 20//radius will be 5px
-                        val strk = 5
-                        val gD = GradientDrawable()
-                        gD.setColor(col)
-                        gD.cornerRadius = rad.toFloat()
-                        gD.setStroke(strk, col)
-                        Log.d("CONTENIDO2",index.toString())
-                        buttonBack.textSize = 18F
-                        buttonBack.text = "  Pagina Principal  "
-                        buttonBack.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back_button,
-                            0,
-                            0,
-                            0)
-                        buttonBack.marginStart
-                        buttonBack.gravity = Gravity.CENTER
-                        buttonBack.setTextColor(Color.WHITE)
-                        buttonBack.background = gD
-                        buttonBack.setOnClickListener {
-                            binding.llContenedor.removeAllViews()
+                    val col = Color.parseColor("#000000")
+                    val rad = 20//radius will be 5px
+                    val strk = 5
+                    val gD = GradientDrawable()
+                    gD.setColor(col)
+                    gD.cornerRadius = rad.toFloat()
+                    gD.setStroke(strk, col)
+                    Log.d("CONTENIDO2",index.toString())
+                    buttonBack.textSize = 18F
+                    buttonBack.text = "  Pagina Principal  "
+                    buttonBack.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back_button,
+                        0,
+                        0,
+                        0)
+                    buttonBack.marginStart
+                    buttonBack.gravity = Gravity.CENTER
+                    buttonBack.setTextColor(Color.WHITE)
+                    buttonBack.background = gD
+                    buttonBack.setOnClickListener {
+                        binding.GuiasRapidasContenido.removeAllViews()
 
-                            val intento =
-                                Intent(context, Home::class.java)
-                            context?.startActivity(intento)
-                            binding.llContenedor.removeAllViews()
+                        val intento =
+                            Intent(context, Home::class.java)
+                        context?.startActivity(intento)
+                        binding.GuiasRapidasContenido.removeAllViews()
 
 
-                        }
+                    }
 //
-
                     val progresoPModulo = porcentajeViewModel.progresoPerModulo.value
                     val progress = porcentajeViewModel.porcentaje.value
                     porcentajeViewModel.setPorcentaje(progress!! + progresoPModulo!!)
 
                     listViewBackBoton.addView(buttonBack, LayoutBotonBack)
                     llContenedor.addView(listViewBackBoton)
-                    it.forEach { it ->
 
-                        when (it!!.tipoComponente) {
+                    it.forEach {
 
+                        when(it!!.tipoComponente){
 
 
                             "subtitulo" -> {
@@ -174,7 +134,8 @@ class Contenido2 : Fragment() {
                                 //fondo redondo blanco
 //
                                 val buttonW = Button(context)
-                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lp.setMargins(0,15,0,10)
                                 buttonW.textSize = 25F
                                 buttonW.isClickable= false
@@ -191,7 +152,8 @@ class Contenido2 : Fragment() {
 
                             "banner-informativo" -> {
                                 val buttonW = Button(context)
-                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lp.setMargins(0,15,0,10)
                                 buttonW.textSize = 25F
                                 buttonW.isClickable= false
@@ -252,11 +214,13 @@ class Contenido2 : Fragment() {
 
                                 listView.background = gradientDrawable
                                 textoW.gravity = Gravity.CENTER
-                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lp.setMargins(30,20,5,15)
                                 listView.addView(textoW,lp)
 
-                                val lp2 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                val lp2 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lp2.setMargins(0,0,0,0)
                                 llContenedor.addView(listView,lp2)
                             }
@@ -495,7 +459,7 @@ class Contenido2 : Fragment() {
                                 listView2.orientation= LinearLayout.HORIZONTAL
                                 listView2.gravity = Gravity.CENTER_HORIZONTAL
 
-                                val lp = LinearLayout.LayoutParams(width/4,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                val lp = LinearLayout.LayoutParams(width/4, LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lp.setMargins(0,15,0,15)
                                 buttonW.textSize = 18F
                                 buttonW.text = it.titulo
@@ -555,7 +519,8 @@ class Contenido2 : Fragment() {
                                 pieImagenW.textAlignment = View.TEXT_ALIGNMENT_CENTER
                                 pieImagenW.setTextColor(Color.BLACK)
 
-                                val lpPieImagen = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                val lpPieImagen = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lpPieImagen.setMargins(0,15,0,10)
                                 listView.addView(pieImagenW,lpPieImagen)
 
@@ -642,7 +607,7 @@ class Contenido2 : Fragment() {
                                     error(R.drawable.ic_broken_image)
                                 }
                                 imagenW.scaleType= ImageView.ScaleType.CENTER
-                                listView2.orientation=LinearLayout.HORIZONTAL
+                                listView2.orientation= LinearLayout.HORIZONTAL
                                 imagenW2.load(it.urlDos) {
                                     placeholder(R.drawable.loading_animation)
                                     error(R.drawable.ic_broken_image)
@@ -679,148 +644,6 @@ class Contenido2 : Fragment() {
                         }
                     }
 
-
-                    val repository = Repository()
-                    val viewModelFactory = ComponentsViewModelFactory(repository)
-                    try {
-
-                        viewModel2 = ViewModelProvider(this, viewModelFactory)[ComponentesViewModel::class.java]
-                        val sharedPref = this.requireActivity()
-                            .getSharedPreferences("UsD", Context.MODE_PRIVATE)
-
-                        val id = Id(sharedPref.getString("id","defaultName")!!.toInt())
-                        viewModel2.getComponentes(id)
-                        val lp =
-                            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.WRAP_CONTENT)
-
-                        try {
-                            viewModel2.datos.observe(viewLifecycleOwner) { response ->
-
-                                if (response.isSuccessful) {
-
-
-                                    val respo = response.body()!!.customModulos
-
-                                        viewModel.padre.observe(viewLifecycleOwner) { a ->
-
-                                            val listView = LinearLayout(context)
-
-                                            val padre = a.toString()
-                                            val buttonNext = Button(context)
-//
-                                           if(viewModelLocal.hijos.value == viewModelLocal.index.value) {
-                                               val buttonExit = Button(context)
-
-                                               val c =
-                                                   Color.parseColor("#000000")
-                                               val r = 20//radius will be 5px
-                                               val s = 5
-                                               val g = GradientDrawable()
-                                               g.setColor(c)
-                                               g.cornerRadius = r.toFloat()
-                                               g.setStroke(s, c)
-
-
-                                               listView.orientation =
-                                                   LinearLayout.HORIZONTAL
-                                               listView.gravity = Gravity.END
-
-                                               val titlo = " Pagina principal "
-                                               buttonExit.text = titlo
-                                               buttonExit.textSize = 18F
-                                               buttonExit.gravity =
-                                                   Gravity.CENTER
-                                               buttonExit.setCompoundDrawablesWithIntrinsicBounds(
-                                                   0,
-                                                   0,
-                                                   R.drawable.chevron,
-                                                   0)
-                                               buttonExit.setTextColor(Color.WHITE)
-                                               buttonExit.background = g
-
-                                               buttonExit.setOnClickListener {
-                                                   val intento =
-                                                       Intent(context,
-                                                           Home::class.java)
-                                                   context?.startActivity(
-                                                       intento)
-                                               }
-
-                                               val LayoutBotonNext =
-                                                   LinearLayout.LayoutParams(
-                                                       LinearLayout.LayoutParams.WRAP_CONTENT,
-                                                       LinearLayout.LayoutParams.WRAP_CONTENT)
-                                               val LayoutBotonNextC =
-                                                   LinearLayout.LayoutParams(
-                                                       LinearLayout.LayoutParams.WRAP_CONTENT,
-                                                       LinearLayout.LayoutParams.WRAP_CONTENT)
-                                               LayoutBotonNextC.setMargins(0,
-                                                   20,
-                                                   0,
-                                                   10)
-                                               listView.addView(buttonExit,
-                                                   LayoutBotonNext)
-                                               llContenedor.addView(listView)
-
-
-                                           }else{
-                                               val coBotonNext = Color.parseColor("#263238")
-                                               val raBotonNext = 20//radius will be 5px
-                                               val sWBotonNext = 5
-                                               val gDBotonNext = GradientDrawable()
-                                               gDBotonNext.setColor(coBotonNext)
-                                               gDBotonNext.cornerRadius = raBotonNext.toFloat()
-                                               gDBotonNext.setStroke(sWBotonNext,coBotonNext)
-
-                                               listView.orientation = LinearLayout.HORIZONTAL
-                                               listView.gravity = Gravity.END
-
-                                               buttonNext.textSize = 18F
-
-                                               val titlo ="  ${submodulo!![index!!]!!.titulo} "
-                                               buttonNext.text = titlo
-                                               buttonNext.gravity = Gravity.CENTER
-                                               buttonNext.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.chevron,0)
-                                               buttonNext.setTextColor(Color.WHITE)
-                                               buttonNext.background =gDBotonNext
-                                               buttonNext.setOnClickListener {
-                                                   viewModelLocal.index(index!!+1)
-                                                   viewModel3.componentes(submodulo!![index]!!.componentes)
-                                                        findNavController().navigate(R.id.action_contenido2_to_contenido)
-                                                   binding.llContenedor.removeAllViews()
-
-                                               }
-
-
-                                               val LayoutBotonNext = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                               val LayoutBotonNextC = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                               LayoutBotonNextC.setMargins(0, 20, 0, 10)
-                                               listView.addView(buttonNext, LayoutBotonNext)
-                                               llContenedor.addView(listView)
-
-
-
-
-
-                                           }
-
-
-                                        }
-                                }
-                            }
-                        }catch (e: TimeoutException) {
-                            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-
-                        }
-                    }catch (e: CertPathValidatorException) {
-                        Toast.makeText(context, "Falta certificado SSL banda $e", Toast.LENGTH_SHORT)
-                            .show()
-                        Log.d("Falta certificado SSL", e.toString())
-                    }
-
-
-                    contentRowAdapter.setData(it!!)
                 } else {
                     Log.d("Error#", "ERROR ####")
                 }
