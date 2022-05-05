@@ -103,7 +103,7 @@ class Home : AppCompatActivity() {
 
         val navBar = binding.navigationBotommm
         //control de navegación ligado a los fragments
-        //navBar.setupWithNavController(navController)
+        navBar.setupWithNavController(navController)
         /*
         navBar.setOnItemSelectedListener () {
             when(it.itemId){
