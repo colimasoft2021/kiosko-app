@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,15 +9,50 @@
 
 
     <LinearLayout
-        android:id="@+id/VideosLista"
+        android:id="@+id/bButonVideo"
+        android:backgroundTint="@color/black"
+        android:backgroundTintMode="multiply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="100dp"
+        android:orientation="horizontal"/>
+
+    <Button
+        android:id="@+id/llTituloVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bButonVideo"
+        android:layout_marginTop="10dp"
+        android:background="@color/transparent"
+        android:text="Videos"
+        android:textColor="@color/black"
+        android:textSize="25sp" />
+
+
+    <TextView
+        android:id="@+id/txtvVideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llTituloVideo"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/procedimientos_a_ejecutar"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <GridView
+        android:id="@+id/ListaVideo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
+        android:layout_below="@+id/txtvVideo"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="100dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:columnWidth="150dp"
+        android:horizontalSpacing="0dp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

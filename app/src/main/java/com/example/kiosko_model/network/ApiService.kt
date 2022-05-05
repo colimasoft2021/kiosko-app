@@ -17,7 +17,7 @@ interface ApiService {
     @GET("GetAllComponentesPopUpVideo")
     suspend fun getVideos(): Response<List<Videos>>
 
-    @GET("GetAllComponentesPopUpVideo")
+    @GET("GetModulosGuiasRapidas")
     suspend fun getGuias(): Response<List<Guias>>
 
     @GET("MessagesInitialsForApp")

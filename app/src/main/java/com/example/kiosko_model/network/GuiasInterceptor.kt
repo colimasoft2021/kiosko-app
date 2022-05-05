@@ -5,8 +5,8 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 class GuiasInterceptor: Interceptor {
-    private val userName = "SicomAcess"
-    private val Password = "$1c0om007"
+    private val userName = "Admin"
+    private val Password = "password"
     private val credential = Credentials.basic(userName,Password)
 
 
