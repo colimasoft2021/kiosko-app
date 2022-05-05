@@ -1,7 +1,6 @@
 package com.example.kiosko_model.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
@@ -12,16 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.viewModels
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.kiosko_model.Home
-import com.example.kiosko_model.PopUps.popUpComponente
 import com.example.kiosko_model.R
 import com.example.kiosko_model.adapter.ButtonRowAdapter
 import com.example.kiosko_model.databinding.InicioBinding
@@ -36,6 +31,8 @@ class Inicio : Fragment() {
     private lateinit var viewModel: ComponentesViewModel
 //    private lateinit var avisoViewModel: MensajeInicialViewModel
     private val viewModel2: CompuestosViewModel by viewModels({requireParentFragment()})
+    private val viewModel3: CompuestosViewModel2 by viewModels({requireParentFragment()})
+    private val viewModelLocal: ComponentesViewModel2 by viewModels({requireParentFragment()})
     private val viewModelprimerVez: primerVezVM by viewModels({requireParentFragment()})
     private val porcentajeViewModel: PorcentajeViewModel by viewModels({requireParentFragment()})
     private lateinit var avisoViewModel: MensajeInicialViewModel
@@ -164,8 +161,11 @@ class Inicio : Fragment() {
 
                                             val compuestos = it.submodulos[0].componentes
                                             val idSubmodulo = it.submodulos[0].id
-                                            val padre = it.submodulos[0].padre
-                                            val imagenBoton = it.submodulos[0].componentes[0]?.idModuloNavigation?.url
+                                            val submodulo = it.submodulos
+                                            val padre = it.idModulo
+                                            val hijo = it.numeroHijos
+                                            val index = 1
+                                            val imagenBoton = it.url
 
 
                                             val linearLayout = LinearLayout(context)
@@ -211,6 +211,11 @@ class Inicio : Fragment() {
                                                 viewModel2.componentes(compuestos)
                                                 viewModel2.id(idSubmodulo)
                                                 viewModel2.padre(padre)
+                                                viewModel3.padre(padre)
+                                                viewModelLocal.hijos(hijo)
+                                                viewModelLocal.index(index)
+                                                viewModelLocal.componentes2(submodulo)
+
 
                                                 findNavController().navigate(R.id.action_inicioFragment_to_contenido)
                                             }
@@ -243,6 +248,10 @@ class Inicio : Fragment() {
                                                 viewModel2.componentes(compuestos)
                                                 viewModel2.id(idSubmodulo)
                                                 viewModel2.padre(padre)
+                                                viewModel3.padre(padre)
+                                                viewModelLocal.hijos(hijo)
+                                                viewModelLocal.index(index)
+                                                viewModelLocal.componentes2(submodulo)
 
                                                 findNavController().navigate(R.id.action_inicioFragment_to_contenido)
                                             }
@@ -292,8 +301,8 @@ class Inicio : Fragment() {
                                             val lpProgresoContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
                                             lpProgresoContenedor.setMargins(20,20,30,50)
 
-                                            val lpProgresoBotonContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT)
-                                            lpProgresoContenedor.setMargins(20,10,30,50)
+                                            val lpProgresoBotonContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
+                                            lpProgresoContenedor.setMargins(0,0,0,0)
 
                                             val lpContenedorBotonera = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT)
                                             lpContenedorBotonera.setMargins(15,30,20,20)
@@ -308,13 +317,13 @@ class Inicio : Fragment() {
 
 
                                             contenedorBotoneraProgreso.addView(ButtonProgressBotonera,lpBotonProgreso)
-                                            contenedorBotoneraProgreso.addView(tituloBotoneraProgres)
+                                            contenedorBotoneraProgreso.addView(tituloBotoneraProgres,lpProgresoBotonContenedor)
                                             LinearHorizontalBotones.addView(contenedorBotoneraProgreso,lpContenedorBotonera)
 
 
 
                                             contenedorBotonProgreso.addView(ButtonProgress,lpBotonProgreso)
-                                            contenedorBotonProgreso.addView(tituloBotonProgres)
+                                            contenedorBotonProgreso.addView(tituloBotonProgres,lpProgresoBotonContenedor)
                                             linearLayout.addView(contenedorBotonProgreso)
 
 

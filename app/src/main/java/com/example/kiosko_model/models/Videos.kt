@@ -1,11 +1,8 @@
-package com.example.kiosko_model.modelsimagenBoton
+package com.example.kiosko_model.models
 
-import android.net.Uri
-import com.example.kiosko_model.models.Desplazantes
-import com.example.kiosko_model.models.idModuloNavigation
-import java.net.URL
+import com.example.kiosko_model.modelsimagenBoton.Compuestos
 
-data class Compuestos (
+data class Videos(
     val id: Int,
     val padre: String,
     val tipoComponente: String,
@@ -19,6 +16,6 @@ data class Compuestos (
     val urlDos: String?,
     val urlTres: String?,
     val idModulo: Int,
-    val idModuloNavigation : idModuloNavigation?,
+    val idModuloNavigation : idModuloNavigation,
     val desplazantes: List<Desplazantes>
-    )
+)

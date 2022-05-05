@@ -7,12 +7,12 @@ import retrofit2.Retrofit
 
 class Repository {
 
-    suspend fun getPost(): Response<Post> {
-        return RetrofitLoginInstance.api.getPost()
+    suspend fun getVideos(): Response<List<Videos>> {
+        return RetrofitVideosInstance.api.getVideos()
     }
 
-    suspend fun getPost2(nombre : String): Response<Post>{
-        return RetrofitLoginInstance.api.getPost2(nombre)
+    suspend fun getGuias(): Response<List<Guias>>{
+        return RetrofitGuiasInstance.api.getGuias()
     }
 
     suspend fun getComponentes(id: Id): Response<customModulos> {

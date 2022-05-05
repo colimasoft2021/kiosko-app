@@ -5,6 +5,7 @@ data class Desplazantes (
   val url: String?,
   val titulo: String?,
   val texto: String?,
+  val backgroundColor: String?,
   val idComponente: Int?,
   val idComponenteNavigation: String?
         )
