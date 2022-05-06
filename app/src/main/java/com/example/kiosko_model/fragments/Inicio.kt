@@ -103,8 +103,26 @@ class Inicio : Fragment() {
                                 lltextHardCoded.gravity = Gravity.CENTER_VERTICAL
 
                                 val ContenedorHeader = LinearLayout(context)
-                                ContenedorHeader.orientation = LinearLayout.HORIZONTAL
+                                ContenedorHeader.orientation = LinearLayout.VERTICAL
+                                ContenedorHeader.gravity = Gravity.CENTER_VERTICAL
                                 ContenedorHeader.setBackgroundColor(Color.WHITE)
+
+                                val HeaderImg = ImageView(context)
+                                HeaderImg.setImageResource(R.drawable.banner)
+
+                                val lpHeaderImg= LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                ContenedorHeader.addView(HeaderImg, lpHeaderImg)
+
+                                val TextHeaderTitle = TextView(context)
+                                TextHeaderTitle.text = "¡Bienvenido a capacitación!"
+                                TextHeaderTitle.setTextColor(Color.BLACK)
+                                TextHeaderTitle.textSize = 30F
+                                TextHeaderTitle.gravity = Gravity.CENTER
+                                TextHeaderTitle.typeface = Typeface.DEFAULT
+
+                                val lpTextHeaderTitle = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpTextHeaderTitle.setMargins(0,10,0,15)
+                                ContenedorHeader.addView(TextHeaderTitle, lpTextHeaderTitle)
 
                                 val TextHeader = TextView(context)
                                 TextHeader.text = "El objetivo de esta aplicación es bridarte capacitación para tener un mejor rendimiento como parte de la familia kiosko."
@@ -112,6 +130,10 @@ class Inicio : Fragment() {
                                 TextHeader.textSize = 20F
                                 TextHeader.gravity = Gravity.LEFT
                                 TextHeader.typeface = Typeface.DEFAULT_BOLD
+
+                                val lpTextHeader = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpTextHeader.setMargins(0,10,0,15)
+                                ContenedorHeader.addView(TextHeader, lpTextHeader)
 
                                 val TextHardCodedTitle = TextView(context)
                                 TextHardCodedTitle.text = "Inicia tu capacitación"
@@ -133,6 +155,7 @@ class Inicio : Fragment() {
                                 val lpTextHardCodedSubTitle = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lpTextHardCodedSubTitle.setMargins(0,10,0,15)
 
+                                lltextHardCoded.addView(ContenedorHeader)
                                 lltextHardCoded.addView(TextHardCodedTitle,lpTextHardCodedTitle)
                                 lltextHardCoded.addView(TextHardCodedSubTitle,lpTextHardCodedSubTitle)
 
