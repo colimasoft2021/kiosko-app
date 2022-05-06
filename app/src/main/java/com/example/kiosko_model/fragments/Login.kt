@@ -115,6 +115,7 @@ class Login : Fragment() {
                                         "Error",
                                         "Usuario y/o contraseña incorrectos."
                                     )
+
                                     //viewLogModel.myResponse.removeObservers(viewLifecycleOwner)
                                 } else {
                                     showMaterialDialog("Bienvenido", response.body()?.get(0)?.nombre_Completo.toString())
@@ -151,7 +152,7 @@ class Login : Fragment() {
                                 usertexto.text = ""
                                 passtexto.text = ""
                             }
-                            viewLogModel.myResponse.removeObservers(viewLifecycleOwner)
+                            //viewLogModel.myResponse.removeObservers(viewLifecycleOwner)
                         })
 
                 }else{

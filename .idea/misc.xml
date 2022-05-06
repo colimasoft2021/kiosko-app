@@ -5,21 +5,28 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1962962962962963" />
         <entry key="../../Android/Sdk/platforms/android-32/data/res/layout-car/car_alert_dialog_button_bar.xml" value="0.1765625" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/drawable-xxhdpi/round_corners_blue.xml" value="0.15" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/drawable/round_corners.xml" value="0.15" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/drawable/round_corners_no_color.xml" value="0.15" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/activity_home.xml" value="0.14" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/activity_loading_spash_screen.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/activity_main.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/activity_pop_up_componente.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/activity_popup1.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/activity_remember.xml" value="0.16" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/content_home.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/content_row_layout.xml" value="0.1" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/fragment_acceso_directo.xml" value="0.3390625" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/fragment_contenido.xml" value="0.3390625" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/fragment_contenido2.xml" value="0.3390625" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/fragment_videos.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/inicio.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/loading_dialog.xml" value="0.2453125" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/loading_screen.xml" value="0.12395833333333334" />
-        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/login.xml" value="0.25" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/login.xml" value="0.33" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/nav_header.xml" value="0.18704710144927536" />
-        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/welcome.xml" value="0.22" />
+        <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/layout/welcome.xml" value="0.25" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/menu/drawable_slide_menu.xml" value="0.11822916666666666" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/menu/nav_menu.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/Usuario/Documents/proyectos/kiosko-app/app/src/main/res/menu/o.xml" value="0.25729166666666664" />

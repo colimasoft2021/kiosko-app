@@ -7,29 +7,22 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Remember">
 
-        <ImageView
-            android:id="@+id/ribbon_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/liston"
-            android:src="@drawable/liston"
-            android:adjustViewBounds="true"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
         <TextView
             android:id="@+id/welcome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:fontFamily="@font/gotham_bold"
             android:text="@string/recuerda"
             android:textAlignment="center"
-            android:textSize="50sp"
             android:textAppearance="@android:style/TextAppearance.Material.Headline"
+            android:textFontWeight="700"
+            android:textSize="36sp"
             android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ribbon_up" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="100dp"
+            tools:layout_editor_absoluteY="59dp" />
 
 
         <TextView
@@ -39,7 +32,8 @@
             android:text="@string/Este_espacio_esta_construido"
             android:textAlignment="center"
             android:textAppearance="@android:style/TextAppearance.Material.Headline"
-            android:textSize="20sp"
+            android:fontFamily="@font/gotham_book"
+            android:textSize="18sp"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -50,9 +44,9 @@
             android:id="@+id/red_leydi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:contentDescription="@string/mujer_en_uniforme"
             android:src="@drawable/green"
-            app:layout_constraintBottom_toTopOf="@+id/start"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/message" />
@@ -65,22 +59,13 @@
             android:drawableEnd="@drawable/chevron"
             android:text="@string/siguiente"
             android:layout_marginBottom="50dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/ribbon_down"
+            android:textAllCaps="false"
+            android:textFontWeight="700"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/red_leydi"
             tools:ignore="TextContrastCheck" />
-
-        <ImageView
-            android:id="@+id/ribbon_down"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/liston"
-            android:src="@drawable/liston"
-            android:adjustViewBounds="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

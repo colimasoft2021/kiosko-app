@@ -6,7 +6,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Kiosko_Model" parent="Theme.MaterialComponents.DayNight">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/azul</item>
+        <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/red</item>
         <item name="colorPrimaryDark">@color/transparent</item>
         <item name="colorOnPrimary">@color/white</item>
