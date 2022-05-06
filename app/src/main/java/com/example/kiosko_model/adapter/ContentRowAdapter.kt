@@ -1,19 +1,16 @@
 package com.example.kiosko_model.adapter
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import com.example.kiosko_model.Home
 import com.example.kiosko_model.R
-import com.example.kiosko_model.models.Compuestos
+import com.example.kiosko_model.modelsimagenBoton.Compuestos
 
 
 class ContentRowAdapter(context: Context?) :

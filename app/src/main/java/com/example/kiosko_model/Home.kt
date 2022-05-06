@@ -102,7 +102,7 @@ class Home : AppCompatActivity() {
 
         val navBar = binding.navigationBotommm
         //control de navegación ligado a los fragments
-        //navBar.setupWithNavController(navController)
+        navBar.setupWithNavController(navController)
         /*
         navBar.setOnItemSelectedListener () {
             when(it.itemId){
@@ -234,11 +234,13 @@ class Home : AppCompatActivity() {
 
         startActivity(intent)
     }
-    fun PopUpComponenteVideo(descripcion:String?,url:String?){
-        val intent = Intent(this, popUpComponenteVideo::class.java)
-        intent.putExtra("texto", descripcion)
-        intent.putExtra("url", url)
-        startActivity(intent)
+    fun PopUpComponenteVideo(descripcion:String?,url:String?,mensajeInicial:Boolean){
+            val intent = Intent(this, popUpComponenteVideo::class.java)
+            intent.putExtra("texto", descripcion)
+            intent.putExtra("url", url)
+            intent.putExtra("MensajeInicial", mensajeInicial)
+            startActivity(intent)
+
     }
 
     fun  setNotifications(numer : Int) {
