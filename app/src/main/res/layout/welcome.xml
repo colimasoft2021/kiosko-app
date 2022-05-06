@@ -6,35 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.Welcome">
-    <ImageView
-        android:id="@+id/ribbon_up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/liston"
-        android:src="@drawable/liston"
-        android:adjustViewBounds="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="100dp"
         android:text="@string/bienvenido_a_kiosko"
         android:textAlignment="center"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
         android:textStyle="bold"
+        android:fontFamily="@font/gotham_bold"
+        android:textFontWeight="700"
+        android:textSize="36sp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ribbon_up" />
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
     <LinearLayout
         android:id="@+id/textBanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/yellow"
+        android:background="@color/orange"
         android:orientation="horizontal"
         android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,23 +38,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:background="@color/yellow"
+            android:background="@color/orange"
             android:text="@string/es_muy_nuestro"
             android:textAppearance="@android:style/TextAppearance.Material.Headline"
             android:textColor="@color/less_white"
-            android:textStyle="bold"
+            android:fontFamily="@font/gotham_bold"
+            android:textFontWeight="700"
+            android:textSize="36sp"
             android:gravity="center"/>
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/message"
-        android:layout_width="wrap_content"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/espacio_asignado_para_tu_capacitaci_n"
         android:textAppearance="@android:style/TextAppearance.Material.Headline"
-        android:textSize="20sp"
+        android:fontFamily="@font/gotham_book"
+        android:textSize="18sp"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,32 +72,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/message"
         app:layout_constraintBottom_toTopOf="@id/start"
-        android:contentDescription="@string/mujer_en_uniforme" />
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/mujer_en_uniforme"
+        android:textFontWeight="500"/>
 
     <Button
         android:id="@+id/start"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corners"
+        android:background="@drawable/round_corners_blue"
         android:drawableEnd="@drawable/chevron"
+        android:fontFamily="@font/gotham_bold"
         android:text="@string/comenzar"
-        android:layout_marginBottom="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAllCaps="false"
+        android:textFontWeight="700"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/red_leydi"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/ribbon_down"
         app:layout_constraintTop_toBottomOf="@id/red_leydi"
         tools:ignore="TextContrastCheck" />
-
-    <ImageView
-        android:id="@+id/ribbon_down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/liston"
-        android:src="@drawable/liston"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

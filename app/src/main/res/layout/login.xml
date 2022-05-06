@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutLogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/kioskoheader_homebackground"
+    android:background="@drawable/kioskoheader_login"
 
     tools:context=".fragments.Login">
+
+    <TextView
+        android:id="@+id/iniciar_sesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="360dp"
+        android:text="@string/iniciar_sesi_n"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        android:textStyle="bold"
+        android:fontFamily="@font/gotham_bold"
+        android:textFontWeight="600"
+        android:textSize="30sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -17,16 +33,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="150dp"
         android:hint="@string/usuario"
         android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxStrokeColor="@color/black"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/blue"
+        app:startIconDrawable="@drawable/ic_user_input"
         app:hintTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:hintTextColor="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/iniciar_sesion">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/usuariotxt"
@@ -46,10 +65,15 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginVertical="30dp"
+        android:layout_marginTop="84dp"
         android:hint="@string/contrase_a"
+        app:startIconDrawable="@drawable/ic_password_input"
         android:textColorHint="@color/black"
-        app:boxCornerRadiusBottomEnd="20dp"
-        app:boxStrokeColor="@color/black"
+        app:boxCornerRadiusBottomEnd="10dp"
+        app:boxCornerRadiusBottomStart="10dp"
+        app:boxCornerRadiusTopEnd="10dp"
+        app:boxCornerRadiusTopStart="10dp"
+        app:boxStrokeColor="@color/blue"
         app:endIconMode="password_toggle"
         app:hintTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:hintTextColor="@color/black"
@@ -68,23 +92,28 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/buttonSecond"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/iniciar_sesi_n"
-            android:background="@drawable/round_corners"
-            android:drawableEnd="@drawable/chevron"
-            android:layout_marginTop="100dp"
-            android:textColorHint="@color/black"
-            app:boxStrokeColor="@color/black"
-            app:layout_constraintTop_toBottomOf="@id/contrasena"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:clickable = "true"
-            tools:ignore="TextContrastCheck" />
+    <Button
+        android:id="@+id/buttonSecond"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/round_corners"
+        android:clickable="true"
+        android:drawableEnd="@drawable/chevron"
+        android:textAllCaps="false"
+        android:text="@string/iniciar_sesi_n"
+        android:textColorHint="@color/black"
+        app:boxStrokeColor="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/contrasena"
+        tools:ignore="TextContrastCheck"
+        android:fontFamily="@font/gotham_bold"
+        android:textFontWeight="700"
+        android:textSize="20sp"/>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 

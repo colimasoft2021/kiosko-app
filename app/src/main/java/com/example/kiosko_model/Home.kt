@@ -60,7 +60,6 @@ class Home : AppCompatActivity() {
         _binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         hideSystemUI()
 
         val main = binding.main

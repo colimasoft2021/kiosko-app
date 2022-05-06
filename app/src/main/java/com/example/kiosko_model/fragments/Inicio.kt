@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.fonts.FontFamily
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -100,6 +101,17 @@ class Inicio : Fragment() {
                                 val lltextHardCoded = LinearLayout(context)
                                 lltextHardCoded.orientation = LinearLayout.VERTICAL
                                 lltextHardCoded.gravity = Gravity.CENTER_VERTICAL
+
+                                val ContenedorHeader = LinearLayout(context)
+                                ContenedorHeader.orientation = LinearLayout.HORIZONTAL
+                                ContenedorHeader.setBackgroundColor(Color.WHITE)
+
+                                val TextHeader = TextView(context)
+                                TextHeader.text = "El objetivo de esta aplicación es bridarte capacitación para tener un mejor rendimiento como parte de la familia kiosko."
+                                TextHeader.setTextColor(Color.BLACK)
+                                TextHeader.textSize = 20F
+                                TextHeader.gravity = Gravity.LEFT
+                                TextHeader.typeface = Typeface.DEFAULT_BOLD
 
                                 val TextHardCodedTitle = TextView(context)
                                 TextHardCodedTitle.text = "Inicia tu capacitación"
