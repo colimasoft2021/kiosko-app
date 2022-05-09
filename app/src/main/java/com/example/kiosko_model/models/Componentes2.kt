@@ -11,6 +11,7 @@ data class Componentes2(
     val desplegable: Int,
     val idModulo: String,
     val numeroHijos: Int,
+    val urlFondo:String?,
     val padre: String?,
     val submodulos: List<Componentes>?,
     val componentes: List<Compuestos?>

@@ -12,6 +12,7 @@ data class Guias(
     val desplegable: Int,
     val idModulo: String,
     val numeroHijos: Int,
+    val tipoGuia: String?,
     val padre: String?,
     val componentes: List<Compuestos?>
 )

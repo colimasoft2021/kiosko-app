@@ -21,4 +21,10 @@
     <color name="orange">#FC4C02</color>
     <color name="blue">#008BCE</color>
 
+    <integer-array name="progress_colors">
+        <item>@color/orange</item>
+        <item>@color/yellow</item>
+        <item>@color/white</item>
+    </integer-array>
+
 </resources>

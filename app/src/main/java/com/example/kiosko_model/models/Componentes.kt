@@ -12,6 +12,7 @@ data class Componentes(
     val idModulo: String,
     val numeroHijos: Int,
     val url: String?,
+    val urlFondo:String?,
     val padre: String?,
     val submodulos: List<Componentes2>?,
     val componentes: List<Compuestos?>
