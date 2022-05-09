@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.Button
 import android.widget.GridView
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -20,6 +21,7 @@ import com.example.kiosko_model.R
 import com.example.kiosko_model.databinding.FragmentGuiasBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
+import com.google.android.exoplayer2.util.Log
 import retrofit2.Response
 import java.util.concurrent.TimeoutException
 
@@ -30,8 +32,48 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
     private lateinit var viewModel: GuiasViewModel
     private val viewModel2:GuiasContenidoViewModel by viewModels({requireParentFragment()})
 
+    private var gridViewListControlInterno:GridView? = null
+    private var gridViewListEjecucion:GridView? = null
+    private var gridViewListAbastecimiento:GridView? = null
+    private var gridViewListSeguridad:GridView? = null
+    private var gridViewListServicio:GridView? = null
     private var gridView:GridView? = null
+
+
+
+
+
+
+
+
+    private var ListControlInterno: List<ItemDataGuias> ? = null
+    private var ListEjecucion: List<ItemDataGuias> ? = null
+    private var ListAbastecimiento: List<ItemDataGuias> ? = null
+    private var ListSeguridad: List<ItemDataGuias> ? = null
+    private var ListServicio: List<ItemDataGuias> ? = null
+
     private var List: List<ItemDataGuias> ? = null
+
+
+    private var ListControlInternoAdapter:  GuiasAdapter ? = null
+    private var ListEjecucionAdapter:  GuiasAdapter ? = null
+    private var ListAbastecimientoAdapter:  GuiasAdapter ? = null
+    private var ListSeguridadAdapter:  GuiasAdapter ? = null
+    private var ListServicioAdapter:  GuiasAdapter ? = null
+
+    private var responseControlInterno: MutableList<Guias>? = mutableListOf()
+    private var responseEjecucion: MutableList<Guias>? = mutableListOf()
+    private var responseAbastecimiento: MutableList<Guias>? = mutableListOf()
+    private var responseSeguridad: MutableList<Guias>? = mutableListOf()
+    private var responseServicio: MutableList<Guias>? = mutableListOf()
+
+    private var ControlInterno: MutableList<Guias>? = null
+    private var Ejecucion: MutableList<Guias>? = null
+    private var Abastecimiento: MutableList<Guias>? = null
+    private var Seguridad: MutableList<Guias>? = null
+    private var Servicio: MutableList<Guias>? = null
+
+
     private var guiasAdapter: GuiasAdapter ? = null
 
 
@@ -50,7 +92,6 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.llTitulo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liston_4,0, R.drawable.liston_4,0)
 
         val col = Color.parseColor("#000000")
         val rad = 20//radius will be 5px
@@ -81,12 +122,101 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
             viewModel.getGuias()
             viewModel.guiasResponse.observe(viewLifecycleOwner) { response ->
 
-                gridView = binding.GuiasRapidasLista
-                List = ArrayList()
-                List = setDataList(response)
-                guiasAdapter = GuiasAdapter(requireContext(), List as List<ItemDataGuias>)
-                gridView?.adapter = guiasAdapter
-                gridView?.onItemClickListener = this
+
+
+                response.body()!!.forEach {
+                    when(it.tipoGuia){
+                        "control-interno" -> {
+
+//                            Log.d("responseTest", it.toString())
+                            responseControlInterno?.add(it)
+
+
+
+                        }
+                        "ejecucion" -> {
+
+                            responseEjecucion?.add(it)
+
+
+                        }
+                        "abastecimiento-e-inventario" -> {
+
+                            responseAbastecimiento?.add(it)
+
+
+                        }
+                        "seguridad" -> {
+
+                            responseSeguridad?.add(it)
+
+
+                        }
+                        "servicio" -> {
+
+                            responseServicio?.add(it)
+
+
+                        }
+                    }
+                }
+
+//                Log.d("responseTest", responseControlInterno?.toList().toString())
+
+//                responseControlInterno = ControlInterno.toList()
+
+                gridViewListControlInterno = binding.GuiasRapidasListaControlInterno
+                ListControlInterno = ArrayList()
+                ListControlInterno =setDataList(responseControlInterno?.toList())
+                ListControlInternoAdapter = GuiasAdapter(requireContext(), ListControlInterno as List<ItemDataGuias>)
+                gridViewListControlInterno?.adapter = ListControlInternoAdapter
+                Log.d("responseTest", ListControlInterno.toString())
+
+                gridViewListControlInterno?.onItemClickListener = this
+
+
+                gridViewListEjecucion = binding.GuiasRapidasListaEjecuciN
+                ListEjecucion = ArrayList()
+                ListEjecucion =setDataList(responseEjecucion?.toList())
+                ListEjecucionAdapter = GuiasAdapter(requireContext(), ListEjecucion as List<ItemDataGuias>)
+                gridViewListEjecucion?.adapter = ListEjecucionAdapter
+                gridViewListEjecucion?.onItemClickListener = this
+
+
+
+                gridViewListAbastecimiento = binding.GuiasRapidasListaAbastecimientoeInventario
+                ListAbastecimiento = ArrayList()
+                ListAbastecimiento =setDataList(responseAbastecimiento?.toList())
+                ListAbastecimientoAdapter = GuiasAdapter(requireContext(), ListAbastecimiento as List<ItemDataGuias>)
+                gridViewListAbastecimiento?.adapter = ListAbastecimientoAdapter
+                gridViewListAbastecimiento?.onItemClickListener = this
+
+
+
+                gridViewListSeguridad = binding.GuiasRapidasListaSeguridad
+                ListSeguridad = ArrayList()
+                ListSeguridad =setDataList(responseSeguridad?.toList())
+                ListSeguridadAdapter = GuiasAdapter(requireContext(), ListSeguridad as List<ItemDataGuias>)
+                gridViewListSeguridad?.adapter = ListSeguridadAdapter
+                gridViewListSeguridad?.onItemClickListener = this
+
+
+                gridViewListServicio = binding.GuiasRapidasListaServicio
+                ListServicio = ArrayList()
+                ListServicio =setDataList(responseServicio?.toList())
+                ListServicioAdapter = GuiasAdapter(requireContext(), ListServicio as List<ItemDataGuias>)
+                gridViewListServicio?.adapter = ListServicioAdapter
+                gridViewListServicio?.onItemClickListener = this
+
+
+//
+//                gridView = binding.GuiasRapidasListaSeguridad
+//                List = ArrayList()
+//                List = setDataList(response)
+//G99qAcJXuMeh2sqY
+//                guiasAdapter = GuiasAdapter(requireContext(), List as List<ItemDataGuias>)
+//                gridView?.adapter = guiasAdapter
+//                gridView?.onItemClickListener = this
 
 
 
@@ -97,7 +227,7 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
         }
     }
 
-private fun setDataList(list: Response<List<Guias>>) : ArrayList<ItemDataGuias>{
+private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
     var array:ArrayList<ItemDataGuias> = ArrayList()
     var index = 0
@@ -113,7 +243,7 @@ private fun setDataList(list: Response<List<Guias>>) : ArrayList<ItemDataGuias>{
 
 
 
-    list.body()!!.forEach{
+    list?.forEach{
 
         val color : String
 
@@ -130,12 +260,58 @@ private fun setDataList(list: Response<List<Guias>>) : ArrayList<ItemDataGuias>{
 }
 
     override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        Log.d("p0", p0?.id.toString())
+        Log.d("p1", p1?.id.toString())
+        Log.d("p2", p2.toString())
+        Log.d("p3", p3.toString())
 
-    var item:ItemDataGuias = List?.get(p2)!!
+        val controlInterno = 2131361802
+        val ejecucion = 2131361803
+        val abastecimiento = 2131361801
+        val seguridad = 2131361804
+        val servicio = 2131361805
 
-        viewModel2.componentes(item.componentes!!)
-        findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
-//        Toast.makeText(requireContext(), "workkk+${item.name}+${item.icons}",Toast.LENGTH_LONG).show()
+
+        when(p0?.id){
+
+            controlInterno ->{
+                val item:ItemDataGuias = ListControlInterno?.get(p2)!!
+                viewModel2.componentes(item.componentes!!)
+                findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
+
+            }
+            ejecucion->{
+
+                val item:ItemDataGuias = ListEjecucion?.get(p2)!!
+                viewModel2.componentes(item.componentes!!)
+                findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
+
+            }
+            abastecimiento->{
+
+                val item:ItemDataGuias = ListAbastecimiento?.get(p2)!!
+                viewModel2.componentes(item.componentes!!)
+                findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
+
+            }
+            seguridad->{
+
+                val item:ItemDataGuias = ListSeguridad?.get(p2)!!
+                viewModel2.componentes(item.componentes!!)
+                findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
+
+            }
+            servicio->{
+
+                val item:ItemDataGuias = ListServicio?.get(p2)!!
+                viewModel2.componentes(item.componentes!!)
+                findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
+
+            }
+
+        }
+
+
 
     }
 

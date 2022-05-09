@@ -6,4 +6,5 @@ data class idModuloNavigation (
  val idModulo: String,
  val padre: String,
  val url:String?,
+ val urlFondo:String?
         )

@@ -76,6 +76,8 @@ class Contenido2 : Fragment() {
         val viewModelFactory = ProgresoViewModelFactory(repository)
         progreso = ViewModelProvider(this, viewModelFactory)[ProgresoViewModel::class.java]
 
+        val imagenFondo = binding.imagenViewContenido2
+
 
         val idU = porcentajeViewModel.idProgreso.value!!
         val idM = porcentajeViewModel.idModulo.value!!
@@ -106,6 +108,11 @@ class Contenido2 : Fragment() {
 
                 if (it.isNotEmpty()) {
                     binding.llContenedor.removeAllViews()
+
+                    imagenFondo.load(it[0]?.idModuloNavigation?.urlFondo){
+//                        placeholder(R.drawable.loading_animation)
+//                        kotlin.error(R.drawable.ic_broken_image)
+                    }
 
                     val listViewBackBoton = LinearLayout(context)
                     val buttonBack = Button(context)

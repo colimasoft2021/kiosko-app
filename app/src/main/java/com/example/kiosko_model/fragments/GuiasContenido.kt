@@ -58,7 +58,7 @@ class GuiasContenido : Fragment() {
 //        val GuiasRapidasContenido = LinearLayout(context)
 //        GuiasRapidasContenido.orientation= LinearLayout.HORIZONTAL
 
-
+        val imagenFondo = binding.imagenViewContenido
 //        val grid = binding.GuiasRapidasContenido
         val GuiasRapidasContenido = binding.GuiasRapidasContenido
 
@@ -73,6 +73,11 @@ class GuiasContenido : Fragment() {
             viewModel.componentes.observe(viewLifecycleOwner) {
                 if (it.isNotEmpty()) {
                     binding.GuiasRapidasContenido.removeAllViews()
+
+                    imagenFondo.load(it[0]?.idModuloNavigation?.urlFondo){
+//                            placeholder(R.drawable.loading_animation)
+//                            kotlin.error(R.drawable.ic_broken_image)
+                    }
 
                     val listViewBackBoton = LinearLayout(context)
                     val buttonBack = Button(context)
