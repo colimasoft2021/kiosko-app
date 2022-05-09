@@ -12,6 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -99,6 +102,7 @@ class Inicio : Fragment() {
                                 lltextHardCoded.orientation = LinearLayout.VERTICAL
                                 lltextHardCoded.gravity = Gravity.CENTER_VERTICAL
 
+                                /*
                                 val ContenedorHeader = LinearLayout(context)
                                 ContenedorHeader.orientation = LinearLayout.VERTICAL
                                 ContenedorHeader.gravity = Gravity.CENTER_VERTICAL
@@ -131,6 +135,7 @@ class Inicio : Fragment() {
                                 val lpTextHeader = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lpTextHeader.setMargins(0,10,0,15)
                                 ContenedorHeader.addView(TextHeader, lpTextHeader)
+                                */
 
                                 val TextHardCodedTitle = TextView(context)
                                 TextHardCodedTitle.text = "Inicia tu capacitación"
@@ -142,7 +147,6 @@ class Inicio : Fragment() {
                                 val lpTextHardCodedTitle = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lpTextHardCodedTitle.setMargins(0,15,0,5)
 
-
                                 val TextHardCodedSubTitle = TextView(context)
                                 TextHardCodedSubTitle.text = "Elige el apartado con el que quieres comenzar"
                                 TextHardCodedSubTitle.setTextColor(Color.BLACK)
@@ -151,10 +155,12 @@ class Inicio : Fragment() {
 
                                 val lpTextHardCodedSubTitle = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lpTextHardCodedSubTitle.setMargins(0,10,0,15)
-
+                                
+                                /*
                                 lltextHardCoded.addView(ContenedorHeader)
                                 lltextHardCoded.addView(TextHardCodedTitle,lpTextHardCodedTitle)
                                 lltextHardCoded.addView(TextHardCodedSubTitle,lpTextHardCodedSubTitle)
+                                 */
 
                                 val lltextHardCodedProgress = LinearLayout(context)
                                 lltextHardCodedProgress.orientation = LinearLayout.VERTICAL
@@ -217,12 +223,18 @@ class Inicio : Fragment() {
                                             val contenedorBotonProgreso = LinearLayout(context)
                                             contenedorBotonProgreso.orientation = LinearLayout.VERTICAL
                                             contenedorBotonProgreso.gravity = Gravity.CENTER
+                                            contenedorBotonProgreso.setBackgroundResource(R.drawable.round_corners_header)
 
                                             val contenedorBotoneraProgreso = LinearLayout(context)
                                             contenedorBotoneraProgreso.orientation = LinearLayout.VERTICAL
                                             contenedorBotoneraProgreso.gravity = Gravity.CENTER
+                                            contenedorBotoneraProgreso.setBackgroundResource(R.drawable.round_corners_header)
 
-
+                                            // cambiar esto por button
+                                            //
+                                            //
+                                            //
+                                            /*
                                             val ButtonProgress = ImageButton(context)
 //                                            ButtonProgress.setTextColor(Color.parseColor("#FFFFFFFF"))
 
@@ -233,6 +245,10 @@ class Inicio : Fragment() {
                                             ButtonProgress.adjustViewBounds = true
                                             ButtonProgress.scaleType = ImageView.ScaleType.FIT_XY
                                             ButtonProgress.background= null
+                                             */
+                                            val ButtonProgress = Button(context)
+                                            ButtonProgress.text = it.titulo
+                                            ButtonProgress.setBackgroundColor(Color.BLUE)
 
                                             ButtonProgress.setOnClickListener {
                                                 porcentajeViewModel.setCantidadModulos(hijos)
@@ -255,12 +271,18 @@ class Inicio : Fragment() {
                                                 findNavController().navigate(R.id.action_inicioFragment_to_contenido)
                                             }
 
+                                            /* meter esto al boton */
+                                            //
+                                            //
+                                            /*
                                             val tituloBotonProgres = TextView(context)
                                             tituloBotonProgres.text = it.titulo
                                             tituloBotonProgres.setTextColor(Color.BLACK)
                                             tituloBotonProgres.textSize = 18F
                                             tituloBotonProgres.gravity = Gravity.CENTER
+                                             */
 
+                                            /*
                                             val ButtonProgressBotonera = ImageButton(context)
                                             ButtonProgressBotonera.background = null
 //                                            ButtonProgress.setTextColor(Color.parseColor("#FFFFFFFF"))
@@ -271,6 +293,11 @@ class Inicio : Fragment() {
                                             }
                                             ButtonProgressBotonera.adjustViewBounds = true
                                             ButtonProgressBotonera.scaleType = ImageView.ScaleType.FIT_XY
+                                            */
+                                            val ButtonProgressBotonera = Button(context)
+                                            ButtonProgressBotonera.text = it.titulo
+                                            ButtonProgressBotonera.setBackgroundColor(Color.GREEN)
+
                                             ButtonProgressBotonera.setOnClickListener {
                                                 porcentajeViewModel.setCantidadModulos(hijos)
                                                 porcentajeViewModel.setIdModulo(idModulo)
@@ -290,22 +317,35 @@ class Inicio : Fragment() {
 
                                                 findNavController().navigate(R.id.action_inicioFragment_to_contenido)
                                             }
-
+                                            /*
                                             val tituloBotoneraProgres = TextView(context)
                                             tituloBotoneraProgres.text = it.titulo
                                             tituloBotoneraProgres.setTextColor(Color.BLACK)
                                             tituloBotoneraProgres.textSize = 18F
                                             tituloBotoneraProgres.gravity = Gravity.CENTER
+                                             */
 
                                             val contenedorProgreso = LinearLayout(context)
                                             contenedorProgreso.orientation = LinearLayout.VERTICAL
                                             contenedorProgreso.gravity = Gravity.CENTER
 
                                             val progresoDEText = TextView(context)
-                                            progresoDEText.text = "Llevas un progreso de:"
+                                            progresoDEText.text = "Continuar con tu progreso actual"
                                             progresoDEText.setTextColor(Color.BLACK)
-                                            progresoDEText.textSize = 15F
+                                            progresoDEText.textSize = 13F
                                             progresoDEText.gravity = Gravity.LEFT
+
+                                            val tituloModulos = TextView(context)
+                                            tituloModulos.text = "Inicia tu capacitación"
+                                            tituloModulos.setTextColor(Color.BLACK)
+                                            tituloModulos.textSize = 13F
+                                            tituloModulos.gravity = Gravity.LEFT
+
+                                            val descripcionModulos = TextView(context)
+                                            descripcionModulos.text = "Elige el apartado con el que quieres comenzar"
+                                            descripcionModulos.setTextColor(Color.BLACK)
+                                            descripcionModulos.textSize = 11F
+                                            descripcionModulos.gravity = Gravity.LEFT
 
                                             val porc = it.porcentaje.toString()
                                             val progreso = TextView(context)
@@ -337,28 +377,29 @@ class Inicio : Fragment() {
                                             lpProgresoContenedor.setMargins(20,20,30,50)
 
                                             val lpProgresoBotonContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
-                                            lpProgresoContenedor.setMargins(0,0,0,0)
+                                            //lpProgresoContenedor.setMargins(0,0,0,0)
 
                                             val lpContenedorBotonera = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.MATCH_PARENT)
                                             lpContenedorBotonera.setMargins(15,30,20,20)
 
-                                            val lpBotonProgreso = LinearLayout.LayoutParams(200,150)
+                                            val lpBotonProgreso = LinearLayout.LayoutParams(150,100)
+                                            //lpBotonProgreso.setMargins(20,20,20,20)
 
                                             val lpTituloBotonProgres = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                             lpTituloBotonProgres.setMargins(0,10,0,20)
 
 
 
-
-
+                                            contenedorBotoneraProgreso.addView(tituloModulos)
+                                            contenedorBotoneraProgreso.addView(descripcionModulos)
                                             contenedorBotoneraProgreso.addView(ButtonProgressBotonera,lpBotonProgreso)
-                                            contenedorBotoneraProgreso.addView(tituloBotoneraProgres,lpProgresoBotonContenedor)
+                                            //contenedorBotoneraProgreso.addView(tituloBotoneraProgres,lpProgresoBotonContenedor)
                                             LinearHorizontalBotones.addView(contenedorBotoneraProgreso,lpContenedorBotonera)
 
 
 
                                             contenedorBotonProgreso.addView(ButtonProgress,lpBotonProgreso)
-                                            contenedorBotonProgreso.addView(tituloBotonProgres,lpProgresoBotonContenedor)
+                                            //contenedorBotonProgreso.addView(tituloBotonProgres,lpProgresoBotonContenedor)
                                             linearLayout.addView(contenedorBotonProgreso)
 
 
