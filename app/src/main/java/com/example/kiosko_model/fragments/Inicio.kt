@@ -3,6 +3,7 @@ package com.example.kiosko_model.fragments
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.fonts.FontFamily
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -154,6 +155,7 @@ class Inicio : Fragment() {
 
                                 val lpTextHardCodedSubTitle = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                 lpTextHardCodedSubTitle.setMargins(0,10,0,15)
+                                
                                 /*
                                 lltextHardCoded.addView(ContenedorHeader)
                                 lltextHardCoded.addView(TextHardCodedTitle,lpTextHardCodedTitle)
