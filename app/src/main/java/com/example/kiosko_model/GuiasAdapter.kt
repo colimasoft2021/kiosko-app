@@ -55,4 +55,5 @@ class GuiasAdapter(var context: Context, var arrayList: List<ItemDataGuias>) : B
         return view
 
     }
+
 }
