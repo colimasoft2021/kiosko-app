@@ -13,6 +13,7 @@ data class Componentes2(
     val numeroHijos: Int,
     val urlFondo:String?,
     val padre: String?,
+    val backgroundColor:String?,
     val submodulos: List<Componentes>?,
     val componentes: List<Compuestos?>
 )

@@ -19,5 +19,12 @@ class GuiasContenidoViewModel(): ViewModel() {
         _componentes.value = componentes
     }
 
+    private val _urlFondo = MutableLiveData<String?>()
+    val urlFondo: LiveData<String?> get() = _urlFondo
+
+    fun urlFondo(url: String?) {
+        _urlFondo.value = url
+    }
+
 
 }

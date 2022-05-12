@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/drawable/outline_chevron_right_opaque.xml" value="0.22291666666666668" />
         <entry key="app/src/main/res/drawable/pop_bg.xml" value="0.37083333333333335" />
         <entry key="app/src/main/res/drawable/round_corners.xml" value="0.22291666666666668" />
+        <entry key="app/src/main/res/drawable/round_corners_header.xml" value="0.3415" />
         <entry key="app/src/main/res/drawable/round_corners_noColor.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/round_corners_no_color.xml" value="0.196" />
         <entry key="app/src/main/res/drawable/withe_box.xml" value="0.20833333333333334" />
@@ -57,7 +58,7 @@
         <entry key="app/src/main/res/layout/fragment_ejemplo_i_i.xml" value="0.2477355072463768" />
         <entry key="app/src/main/res/layout/fragment_ejemplo_i_i_i.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.29483695652173914" />
-        <entry key="app/src/main/res/layout/fragment_guias.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_guias.xml" value="0.75" />
         <entry key="app/src/main/res/layout/fragment_guias_contenido.xml" value="0.35520833333333335" />
         <entry key="app/src/main/res/layout/fragment_notificaciones.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_perfil.xml" value="0.2477355072463768" />

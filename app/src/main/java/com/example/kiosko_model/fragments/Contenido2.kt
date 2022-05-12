@@ -201,6 +201,9 @@ class Contenido2 : Fragment() {
                                 lp.setMargins(0,15,0,10)
                                 buttonW.textSize = 30F
                                 buttonW.isClickable= false
+
+                                buttonW.text = Html.fromHtml(it.subtitulo)
+
                                 buttonW.text = it.subtitulo
                                 buttonW.background = gradientDrawable
                                 buttonW.setTextColor(Color.BLACK)

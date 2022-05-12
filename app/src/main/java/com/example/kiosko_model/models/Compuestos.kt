@@ -10,6 +10,7 @@ data class Compuestos (
     val padre: String,
     val tipoComponente: String,
     val url: String?,
+    val urlFondo: String?,
     val descripcion: String?,
     val backgroundColor: String?,
     val agregarFondo: String?,
