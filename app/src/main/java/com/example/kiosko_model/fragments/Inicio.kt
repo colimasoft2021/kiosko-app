@@ -383,7 +383,7 @@ class Inicio : Fragment() {
                                             lpContenedorBotonera.setMargins(15,30,20,20)
 
                                             val lpBotonProgreso = LinearLayout.LayoutParams(150,100)
-                                            //lpBotonProgreso.setMargins(20,20,20,20)
+                                            lpBotonProgreso.setMargins(20,20,20,20)
 
                                             val lpTituloBotonProgres = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                             lpTituloBotonProgres.setMargins(0,10,0,20)
