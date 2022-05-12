@@ -155,6 +155,8 @@ class Inicio : Fragment() {
 
                         val scrollPorcentaje = ScrollView(context)
 
+                        val lpBotonProgreso = LinearLayout.LayoutParams(150,100)
+                        lpBotonProgreso.setMargins(20,20,20,20)
 
                         response.body()?.customModulos!!.forEach {
                             if (it.componentes.isNullOrEmpty()&&it.submodulos.isNullOrEmpty()){
