@@ -15,8 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginTop="80dp"
         android:orientation="horizontal"/>
+
     <LinearLayout
         android:id="@+id/GuiastitleContainer"
         android:layout_width="match_parent"
@@ -46,103 +47,168 @@
             android:textStyle="bold" />
 
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:progress="100"
-            app:indeterminateAnimationType="disjoint"
-            app:indicatorColor="@color/Naranja"
-            app:trackCornerRadius="50dp" />
-
         <TextView
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:text="@string/dentro_de_t"
             android:textAlignment="textStart"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/botonesAgrupados"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/GuiastitleContainer"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/botonesAgrupados1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/controlInterno"
+                android:backgroundTint="#008BCE"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:text="Control Interno"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/ejecucion"
+                android:backgroundTint="#D9027D"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:text="Ejecución"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/abastecimiento"
+                android:backgroundTint="#43B02A"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:text="Abastecimiento"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/botonesAgrupados2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/seguridad"
+                android:backgroundTint="#DA291C"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:text="Seguridad"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/servicio"
+                android:backgroundTint="#FC4C02"
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:text="Servicio"
+                android:layout_marginEnd="100dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+    </LinearLayout>
 
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:layout_below="@+id/GuiastitleContainer">
+        android:layout_below="@+id/botonesAgrupados"
+        android:layout_marginBottom="60dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="50dp"
-            android:layout_marginTop="20dp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
 
             <LinearLayout
+                android:id="@+id/llControlInterno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_corners_no_color"
-                android:orientation="vertical"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="50dp"
-                android:layout_marginTop="20dp"
+                android:background="@drawable/round_corners_no_color"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:gravity="center_horizontal"
-                android:text="Control Interno"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
-            <GridView
-                android:id="@+id/GuiasRapidasListaControlInterno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
-                android:nestedScrollingEnabled="true"
-                android:columnWidth="150dp"
-                android:horizontalSpacing="0dp"
-                android:layout_marginBottom="20dp"
-                android:numColumns="auto_fit"
-                android:verticalSpacing="10dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center_horizontal"
+                    android:text="Control Interno"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <GridView
+                    android:id="@+id/GuiasRapidasListaControlInterno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:columnWidth="150dp"
+                    android:horizontalSpacing="0dp"
+                    android:nestedScrollingEnabled="true"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="10dp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llEjecucion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_corners_no_color"
-                android:orientation="vertical"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="50dp"
-                android:layout_marginTop="20dp"
+                android:background="@drawable/round_corners_no_color"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -159,26 +225,27 @@
                     android:id="@+id/GuiasRapidasListaEjecución"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
-                    android:nestedScrollingEnabled="true"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="20dp"
                     android:columnWidth="150dp"
                     android:horizontalSpacing="0dp"
+                    android:nestedScrollingEnabled="true"
                     android:numColumns="auto_fit"
                     android:verticalSpacing="10dp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llAbastecimiento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_corners_no_color"
-                android:orientation="vertical"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="50dp"
-                android:layout_marginTop="20dp"
+                android:background="@drawable/round_corners_no_color"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -199,8 +266,8 @@
                     android:id="@+id/GuiasRapidasListaAbastecimientoeInventario"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="20dp"
                     android:columnWidth="150dp"
@@ -211,14 +278,15 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llSeguridad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_corners_no_color"
-                android:orientation="vertical"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="50dp"
-                android:layout_marginTop="20dp"
+                android:background="@drawable/round_corners_no_color"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -239,26 +307,27 @@
                     android:id="@+id/GuiasRapidasListaSeguridad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:layout_marginStart="20dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="20dp"
                     android:columnWidth="150dp"
                     android:horizontalSpacing="0dp"
+                    android:nestedScrollingEnabled="true"
                     android:numColumns="auto_fit"
-                    android:verticalSpacing="10dp"
-                    android:nestedScrollingEnabled="true" />
+                    android:verticalSpacing="10dp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llServicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_corners_no_color"
-                android:orientation="vertical"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="50dp"
-                android:layout_marginTop="20dp"
+                android:background="@drawable/round_corners_no_color"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -279,13 +348,13 @@
                     android:id="@+id/GuiasRapidasListaServicio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="true"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="20dp"
                     android:columnWidth="150dp"
                     android:horizontalSpacing="0dp"
+                    android:nestedScrollingEnabled="true"
                     android:numColumns="auto_fit"
                     android:verticalSpacing="10dp" />
             </LinearLayout>

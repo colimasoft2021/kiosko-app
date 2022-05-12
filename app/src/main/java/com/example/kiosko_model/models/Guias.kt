@@ -11,6 +11,7 @@ data class Guias(
     val orden: Int,
     val desplegable: Int,
     val idModulo: String,
+    val urlFondo : String,
     val numeroHijos: Int,
     val tipoGuia: String?,
     val padre: String?,

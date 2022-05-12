@@ -2,6 +2,7 @@ package com.example.kiosko_model.fragments
 
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.os.Binder
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -67,11 +68,13 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
     private var responseSeguridad: MutableList<Guias>? = mutableListOf()
     private var responseServicio: MutableList<Guias>? = mutableListOf()
 
-    private var ControlInterno: MutableList<Guias>? = null
-    private var Ejecucion: MutableList<Guias>? = null
-    private var Abastecimiento: MutableList<Guias>? = null
-    private var Seguridad: MutableList<Guias>? = null
-    private var Servicio: MutableList<Guias>? = null
+    private var FondoresponseControlInterno: MutableList<String>? = mutableListOf()
+    private var FondoresponseEjecucion: MutableList<String>? = mutableListOf()
+    private var FondoresponseAbastecimiento: MutableList<String>? = mutableListOf()
+    private var FondoresponseSeguridad: MutableList<String>? = mutableListOf()
+    private var FondoresponseServicio: MutableList<String>? = mutableListOf()
+
+
 
 
     private var guiasAdapter: GuiasAdapter ? = null
@@ -92,6 +95,29 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        val butonControlInterno = binding.controlInterno
+        val llControlInterno = binding.llControlInterno
+
+        val butonEjecucion = binding.ejecucion
+        val llEjecucion = binding.llEjecucion
+
+        val butonAbastecimiento = binding.abastecimiento
+        val llAbastecimiento = binding.llAbastecimiento
+
+        val butonSeguridad = binding.seguridad
+        val llSeguridad = binding.llSeguridad
+
+        val butonServicio = binding.servicio
+        val llServicio = binding.llServicio
+
+
+
+        llControlInterno.visibility = View.GONE
+        llEjecucion.visibility = View.GONE
+        llAbastecimiento.visibility = View.GONE
+        llSeguridad.visibility = View.GONE
+        llServicio.visibility = View.GONE
 
         val col = Color.parseColor("#000000")
         val rad = 20//radius will be 5px
@@ -130,32 +156,32 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
 
 //                            Log.d("responseTest", it.toString())
                             responseControlInterno?.add(it)
-
+                            FondoresponseControlInterno?.add(it.urlFondo)
 
 
                         }
                         "ejecucion" -> {
 
                             responseEjecucion?.add(it)
-
+                            FondoresponseEjecucion?.add(it.urlFondo)
 
                         }
                         "abastecimiento-e-inventario" -> {
 
                             responseAbastecimiento?.add(it)
-
+                            FondoresponseAbastecimiento?.add(it.urlFondo)
 
                         }
                         "seguridad" -> {
 
                             responseSeguridad?.add(it)
-
+                            FondoresponseSeguridad?.add(it.urlFondo)
 
                         }
                         "servicio" -> {
 
                             responseServicio?.add(it)
-
+                            FondoresponseServicio?.add(it.urlFondo)
 
                         }
                     }
@@ -208,23 +234,52 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
                 gridViewListServicio?.adapter = ListServicioAdapter
                 gridViewListServicio?.onItemClickListener = this
 
-
-//
-//                gridView = binding.GuiasRapidasListaSeguridad
-//                List = ArrayList()
-//                List = setDataList(response)
-//G99qAcJXuMeh2sqY
-//                guiasAdapter = GuiasAdapter(requireContext(), List as List<ItemDataGuias>)
-//                gridView?.adapter = guiasAdapter
-//                gridView?.onItemClickListener = this
-
-
-
             }
         } catch (e: TimeoutException) {
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
 
         }
+
+
+        butonControlInterno.setOnClickListener {
+            llControlInterno.visibility = View.VISIBLE
+            llEjecucion.visibility = View.GONE
+            llAbastecimiento.visibility = View.GONE
+            llSeguridad.visibility = View.GONE
+            llServicio.visibility = View.GONE
+        }
+
+        butonEjecucion.setOnClickListener {
+            llControlInterno.visibility = View.GONE
+            llEjecucion.visibility = View.VISIBLE
+            llAbastecimiento.visibility = View.GONE
+            llSeguridad.visibility = View.GONE
+            llServicio.visibility = View.GONE         }
+
+        butonAbastecimiento.setOnClickListener {
+            llControlInterno.visibility = View.GONE
+            llEjecucion.visibility = View.GONE
+            llAbastecimiento.visibility = View.VISIBLE
+            llSeguridad.visibility = View.GONE
+            llServicio.visibility = View.GONE         }
+
+        butonSeguridad.setOnClickListener {
+            llControlInterno.visibility = View.GONE
+            llEjecucion.visibility = View.GONE
+            llAbastecimiento.visibility = View.GONE
+            llSeguridad.visibility = View.VISIBLE
+            llServicio.visibility = View.GONE         }
+
+        butonServicio.setOnClickListener {
+            llControlInterno.visibility = View.GONE
+            llEjecucion.visibility = View.GONE
+            llAbastecimiento.visibility = View.GONE
+            llSeguridad.visibility = View.GONE
+            llServicio.visibility = View.VISIBLE         }
+
+
+
+        
     }
 
 private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
@@ -276,6 +331,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
             controlInterno ->{
                 val item:ItemDataGuias = ListControlInterno?.get(p2)!!
+                viewModel2.urlFondo(FondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
@@ -283,6 +339,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
             ejecucion->{
 
                 val item:ItemDataGuias = ListEjecucion?.get(p2)!!
+                viewModel2.urlFondo(FondoresponseEjecucion?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
@@ -290,6 +347,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
             abastecimiento->{
 
                 val item:ItemDataGuias = ListAbastecimiento?.get(p2)!!
+                viewModel2.urlFondo(FondoresponseAbastecimiento?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
@@ -297,6 +355,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
             seguridad->{
 
                 val item:ItemDataGuias = ListSeguridad?.get(p2)!!
+                viewModel2.urlFondo(FondoresponseSeguridad?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
@@ -304,6 +363,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
             servicio->{
 
                 val item:ItemDataGuias = ListServicio?.get(p2)!!
+                viewModel2.urlFondo(FondoresponseServicio?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 

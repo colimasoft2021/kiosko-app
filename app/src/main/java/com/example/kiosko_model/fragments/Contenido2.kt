@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
@@ -185,6 +186,9 @@ class Contenido2 : Fragment() {
                                 lp.setMargins(0,15,0,10)
                                 buttonW.textSize = 25F
                                 buttonW.isClickable= false
+
+                                buttonW.text = Html.fromHtml(it.subtitulo)
+
                                 buttonW.text = it.subtitulo
                                 buttonW.background = gradientDrawable
                                 buttonW.textSize = 30F
