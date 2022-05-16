@@ -106,7 +106,7 @@ class Inicio : Fragment() {
                         val TextHardCodedTitle = TextView(context)
                         TextHardCodedTitle.text = "Inicia tu capacitación"
                         TextHardCodedTitle.setTextColor(Color.BLACK)
-                        TextHardCodedTitle.textSize = 30F
+                        TextHardCodedTitle.textSize = 24F
                         TextHardCodedTitle.gravity = Gravity.LEFT
                         TextHardCodedTitle.typeface = Typeface.DEFAULT_BOLD
 
@@ -117,7 +117,7 @@ class Inicio : Fragment() {
                         val TextHardCodedSubTitle = TextView(context)
                         TextHardCodedSubTitle.text = "Elige el apartado con el que quieres comenzar"
                         TextHardCodedSubTitle.setTextColor(Color.BLACK)
-                        TextHardCodedSubTitle.textSize = 20F
+                        TextHardCodedSubTitle.textSize = 16F
                         TextHardCodedSubTitle.gravity = Gravity.LEFT
 
                         val lpTextHardCodedSubTitle = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -133,7 +133,7 @@ class Inicio : Fragment() {
                         val TextHardCodedProgres = TextView(context)
                         TextHardCodedProgres.text = "Continuar con tu progreso llevado"
                         TextHardCodedProgres.setTextColor(Color.BLACK)
-                        TextHardCodedProgres.textSize = 30F
+                        TextHardCodedProgres.textSize = 24F
                         TextHardCodedProgres.gravity = Gravity.LEFT
                         TextHardCodedProgres.typeface = Typeface.DEFAULT_BOLD
 
@@ -247,6 +247,7 @@ class Inicio : Fragment() {
                                     botoneraHorizontalProgreso.setTextColor(Color.WHITE)
                                     botoneraHorizontalProgreso.textSize = 18F
                                     botoneraHorizontalProgreso.gravity = Gravity.CENTER
+                                    botoneraHorizontalProgreso.isAllCaps = false
 
                                     val botoneraHorizontal = Button(context)
 
@@ -279,6 +280,7 @@ class Inicio : Fragment() {
                                     botoneraHorizontal.setTextColor(Color.WHITE)
                                     botoneraHorizontal.textSize = 18F
                                     botoneraHorizontal.gravity = Gravity.CENTER
+                                    botoneraHorizontal.isAllCaps = false
 
                                     val contenedorProgreso = LinearLayout(context)
                                     contenedorProgreso.orientation = LinearLayout.VERTICAL

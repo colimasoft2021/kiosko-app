@@ -7,10 +7,14 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.text.LineBreaker
 import android.media.SubtitleData
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
+import android.text.Layout
+import android.text.Layout.JUSTIFICATION_MODE_INTER_WORD
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
@@ -18,6 +22,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginStart
 import androidx.core.view.marginTop
@@ -63,7 +68,7 @@ class Contenido : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        binding.GuiasRapidasContenido.removeAllViews()
+        binding.llContenedor.removeAllViews()
 
     }
     override fun onCreateView(
@@ -71,10 +76,11 @@ class Contenido : Fragment() {
         savedInstanceState: Bundle?,
     ) : View? {
         _binding = FragmentContenidoBinding.inflate(inflater,container,false)
-        binding.GuiasRapidasContenido.removeAllViews()
+        binding.llContenedor.removeAllViews()
 
         return binding.root
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -100,16 +106,17 @@ class Contenido : Fragment() {
         Log.d("RESPONSE id", porcentajeViewModel.idProgreso.value.toString())
 
 
-        val GuiasRapidasContenido = binding.GuiasRapidasContenido
-//        val GuiasRapidasContenido2 = binding.GuiasRapidasContenido2
+        val llContenedor = binding.llContenedor
+//        val llContenedor2 = binding.llContenedor2
 
         val displaymetrics = DisplayMetrics()
         activity?.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
         val height = displaymetrics.heightPixels
         val width = displaymetrics.widthPixels
 
-        binding.GuiasRapidasContenido.removeAllViews()
+        binding.llContenedor.removeAllViews()
         viewModel
+
             try{
                 viewModel.componentes.observe(viewLifecycleOwner) {
 
@@ -118,27 +125,25 @@ class Contenido : Fragment() {
 //                        placeholder(R.drawable.loading_animation)
 //                        error(R.drawable.ic_broken_image)
 //                    }
-
                     if (it.isNotEmpty()) {
-                       binding.GuiasRapidasContenido.removeAllViews()
+                       binding.llContenedor.removeAllViews()
 
                         imagenFondo.load(it[0]?.idModuloNavigation?.urlFondo){
 //                            placeholder(R.drawable.loading_animation)
 //                            kotlin.error(R.drawable.ic_broken_image)
                         }
-
                         val listViewBackBoton = LinearLayout(context)
                         val buttonBack = Button(context)
 
                         val LayoutBotonBack = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                        LayoutBotonBack.setMargins(0,0,0,10)
+                        LayoutBotonBack.setMargins(0,0,0,30)
                         listViewBackBoton.orientation = LinearLayout.HORIZONTAL
 
                         val submodulo = viewModelLocal.componentes2.value
                         val index = viewModelLocal.index.value
 
 //                        if(index == 1){
-                            binding.GuiasRapidasContenido.removeAllViews()
+                            binding.llContenedor.removeAllViews()
 
                             val col = Color.parseColor("#000000")
                             val rad = 20//radius will be 5px
@@ -159,12 +164,12 @@ class Contenido : Fragment() {
                             buttonBack.setTextColor(Color.WHITE)
                             buttonBack.background = gD
                             buttonBack.setOnClickListener {
-                                binding.GuiasRapidasContenido.removeAllViews()
+                                binding.llContenedor.removeAllViews()
 
                                 val intento =
                                     Intent(context, Home::class.java)
                                 context?.startActivity(intento)
-                                binding.GuiasRapidasContenido.removeAllViews()
+                                binding.llContenedor.removeAllViews()
 
 
                             }
@@ -174,7 +179,7 @@ class Contenido : Fragment() {
                         porcentajeViewModel.setPorcentaje(progress!! + progresoPModulo!!)
 
                         listViewBackBoton.addView(buttonBack, LayoutBotonBack)
-                        GuiasRapidasContenido.addView(listViewBackBoton)
+                        llContenedor.addView(listViewBackBoton)
 
                        it.forEach {
 
@@ -224,7 +229,7 @@ class Contenido : Fragment() {
                                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
                                    lp.setMargins(0,15,0,20)
 
-                                   GuiasRapidasContenido.addView(contenedorTitulo, lp)
+                                   llContenedor.addView(contenedorTitulo, lp)
                                }
                                "subtitulo-desc" -> {
 
@@ -263,7 +268,7 @@ class Contenido : Fragment() {
                                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
                                    lp.setMargins(0,15,0,20)
 
-                                   GuiasRapidasContenido.addView(contenedorTitulo, lp)
+                                   llContenedor.addView(contenedorTitulo, lp)
                                }
 
 
@@ -273,7 +278,7 @@ class Contenido : Fragment() {
                                    contenedorTitulo.orientation = LinearLayout.VERTICAL
                                    contenedorTitulo.gravity = Gravity.CENTER
                                    contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
-
+                                   /*
                                    val tituloW = TextView(context)
                                    tituloW.text = Html.fromHtml(it.subtitulo)
                                    tituloW.textSize = 30F
@@ -281,9 +286,12 @@ class Contenido : Fragment() {
                                    tituloW.setTextColor(Color.BLACK)
                                    tituloW.gravity = Gravity.CENTER
 
+
                                    val lpContenedorTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                    contenedorTitulo.addView(tituloW, lpContenedorTitulo)
-                                   /*val color = Color.WHITE
+                                   */
+
+                                   val color = Color.parseColor("#FC4C02")
                                    val radius = 30
                                    val strokeWidth = 5
                                    val gradientDrawable = GradientDrawable()
@@ -293,19 +301,20 @@ class Contenido : Fragment() {
                                    //fondo redondo blanco
 //
                                    val buttonW = Button(context)
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp.setMargins(0,15,0,10)
                                    buttonW.textSize = 30F
                                    buttonW.isClickable= false
                                    buttonW.text = it.subtitulo
                                    buttonW.background = gradientDrawable
                                    buttonW.setTextColor(Color.BLACK)
                                    buttonW.gravity = Gravity.CENTER
-                                   buttonW.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liston_4,0,R.drawable.liston_4,0)
-                                   buttonW.isEnabled = false*/
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp.setMargins(0,15,0,10)
-                                   GuiasRapidasContenido.addView(contenedorTitulo, lp)
+
+                                   //buttonW.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liston_4,0,R.drawable.liston_4,0)
+                                   buttonW.isEnabled = false
+                                   //val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                   //lp.setMargins(0,15,0,10)
+                                   val lpContenedorTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                   contenedorTitulo.addView(buttonW, lpContenedorTitulo)
+                                   llContenedor.addView(contenedorTitulo, lpContenedorTitulo)
                                }
 
                                "banner-informativo" -> {
@@ -320,7 +329,7 @@ class Contenido : Fragment() {
                                    buttonW.setBackgroundColor(Color.parseColor(it.backgroundColor))
                                    buttonW.gravity = Gravity.CENTER
                                    buttonW.setPadding(20,20,20,20)
-                                   GuiasRapidasContenido.addView(buttonW,lp)
+                                   llContenedor.addView(buttonW,lp)
                                }
 
                                "carrucel" -> {
@@ -348,7 +357,7 @@ class Contenido : Fragment() {
                                        listView.addView(imagenDesplazanteW,layoutParams)
                                    }
                                    horizontalScrollView.addView(listView)
-                                   GuiasRapidasContenido.addView(horizontalScrollView)
+                                   llContenedor.addView(horizontalScrollView)
                                    val param = listView.layoutParams as ViewGroup.MarginLayoutParams
                                    param.setMargins(0,5,0,0)
                                    listView.layoutParams = param
@@ -363,7 +372,9 @@ class Contenido : Fragment() {
                                    val textoW = TextView(context)
                                    textoW.text = Html.fromHtml(it.descripcion)
                                    textoW.textSize = 16F
-                                   textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                   //textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
+
                                    textoW.setTextColor(Color.BLACK)
                                    textoW.gravity = Gravity.CENTER
 
@@ -382,13 +393,14 @@ class Contenido : Fragment() {
 //
 //                                   listView.background = gradientDrawable
 
+
                                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
                                    lp.setMargins(30,20,5,15)
                                    listView.addView(textoW,lp)
 
                                    val lp2 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
                                    lp2.setMargins(0,0,0,0)
-                                   GuiasRapidasContenido.addView(listView,lp2)
+                                   llContenedor.addView(listView,lp2)
                                }
 
                                "desplazante-texto-imagen" -> {
@@ -445,10 +457,10 @@ class Contenido : Fragment() {
                                        listView.addView(contenedor,clayoutParams)
                                    }
                                    horizontalScrollView.addView(listView)
-                                   GuiasRapidasContenido.addView(horizontalScrollView)
+                                   llContenedor.addView(horizontalScrollView)
 
                                    val param = listView.layoutParams as ViewGroup.MarginLayoutParams
-                                   param.setMargins(0,5,0, 0)
+                                   param.setMargins(0,5,0, 20)
                                    listView.layoutParams = param
 
                                }
@@ -477,9 +489,9 @@ class Contenido : Fragment() {
                                    listView.addView(imagenW, lpI)
 
                                    texto.text = Html.fromHtml(it.descripcion)
-                                   texto.textSize = 18F
+                                   texto.textSize = 16F
                                    texto.setTextColor(Color.BLACK)
-                                   texto.gravity = Gravity.CENTER
+                                   texto.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
 
                                    val lpT =
                                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -491,9 +503,9 @@ class Contenido : Fragment() {
                                    val lp2 =
                                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                                            LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp2.setMargins(0, 10, 0, 15)
+                                   lp2.setMargins(0, 10, 0, 20)
 
-                                   GuiasRapidasContenido.addView(listView, lp2)
+                                   llContenedor.addView(listView, lp2)
 
                                }
 
@@ -566,7 +578,7 @@ class Contenido : Fragment() {
                                            LinearLayout.LayoutParams.WRAP_CONTENT)
                                    lp2.setMargins(0, 10, 0, 15)
 
-                                   GuiasRapidasContenido.addView(listView2, lp2)
+                                   llContenedor.addView(listView2, lp2)
 
                                }
 
@@ -600,7 +612,7 @@ class Contenido : Fragment() {
 
                                    }
                                    listView.addView(buttonW,lp)
-                                   GuiasRapidasContenido.addView(listView)
+                                   llContenedor.addView(listView)
                                    val param = listView.layoutParams as ViewGroup.MarginLayoutParams
                                    param.setMargins(width-(width-50),5,0,0)
                                    listView.layoutParams = param
@@ -653,7 +665,7 @@ class Contenido : Fragment() {
                                    listView.addView(imagenW)
                                    listView.addView(buttonW,lp)
                                    listView2.addView(listView)
-                                   GuiasRapidasContenido.addView(listView2)
+                                   llContenedor.addView(listView2)
 //
                                }
                                "imagen" -> {
@@ -697,7 +709,7 @@ class Contenido : Fragment() {
 
                                    val lpcontenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                    lpcontenedor.setMargins(0,20,0,10)
-                                   GuiasRapidasContenido.addView(listView,lpcontenedor)
+                                   llContenedor.addView(listView,lpcontenedor)
 
                                }
                                "video-guia"-> {
@@ -722,8 +734,8 @@ class Contenido : Fragment() {
                                    mediaController.setAnchorView(video)
                                    relativeLayout.addView(video)
                                    listView.addView(textoW)
-                                   GuiasRapidasContenido.addView(relativeLayout)
-                                   GuiasRapidasContenido.addView(listView)
+                                   llContenedor.addView(relativeLayout)
+                                   llContenedor.addView(listView)
 
                                }
                                "video"-> {
@@ -743,7 +755,7 @@ class Contenido : Fragment() {
                                    mediaController.setAnchorView(video)
                                    relativeLayout.addView(video)
                                    listView.addView(relativeLayout)
-                                   GuiasRapidasContenido.addView(listView)
+                                   llContenedor.addView(listView)
 
 
                                }
@@ -788,13 +800,15 @@ class Contenido : Fragment() {
                                    subtituloW.text = Html.fromHtml(it.subtitulo)
                                    subtituloW.gravity = Gravity.CENTER
                                    subtituloW.setTextColor(Color.BLACK)
-                                   subtituloW.textSize = 30F
+                                   subtituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                   subtituloW.setTypeface(null, Typeface.BOLD)
+                                   subtituloW.textSize = 20F
                                    listView.addView(subtituloW)
 
                                    textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.gravity = Gravity.START
+                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
                                    textoW.setTextColor(Color.BLACK)
-                                   textoW.textSize = 20F
+                                   textoW.textSize = 16F
 
                                    val listView2 = LinearLayout(context)
                                    listView2.gravity = Gravity.CENTER_VERTICAL
@@ -820,7 +834,7 @@ class Contenido : Fragment() {
                                    horizontalScrollView.addView(listView2)
 
                                    val lpTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpTexto.setMargins(10,10,0,0)
+                                   lpTexto.setMargins(10,10,0,20)
                                    /*
                                    val color = Color.WHITE
                                    val radius = 20
@@ -840,7 +854,7 @@ class Contenido : Fragment() {
                                    val lpContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
                                    lpContenedor.setMargins(0,15,0,20)
 
-                                   GuiasRapidasContenido.addView(Contenedor,lpContenedor)
+                                   llContenedor.addView(Contenedor,lpContenedor)
 
                                }
                                "desplegable-texto-imagen-imagen" ->{
@@ -868,13 +882,15 @@ class Contenido : Fragment() {
                                    subtituloW.text = Html.fromHtml(it.subtitulo)
                                    subtituloW.gravity = Gravity.CENTER
                                    subtituloW.setTextColor(Color.BLACK)
-                                   subtituloW.textSize = 30F
+                                   subtituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                   subtituloW.setTypeface(null, Typeface.BOLD)
+                                   subtituloW.textSize = 20F
                                    listView.addView(subtituloW)
 
                                    textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.gravity = Gravity.START
+                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
                                    textoW.setTextColor(Color.BLACK)
-                                   textoW.textSize = 20F
+                                   textoW.textSize = 16F
 
                                    val listView2 = LinearLayout(context)
                                    listView2.gravity = Gravity.CENTER_VERTICAL
@@ -900,7 +916,7 @@ class Contenido : Fragment() {
                                    horizontalScrollView.addView(listView2)
 
                                    val lpTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpTexto.setMargins(10,10,0,0)
+                                   lpTexto.setMargins(10,10,0,20)
 
                                    val color = Color.WHITE
                                    val radius = 20
@@ -918,9 +934,9 @@ class Contenido : Fragment() {
                                    Contenedor.addView(horizontalScrollView)
 
                                    val lpContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
-                                   lpContenedor.setMargins(0,15,0,0)
+                                   lpContenedor.setMargins(0,15,0,20)
 
-                                   GuiasRapidasContenido.addView(Contenedor,lpContenedor)
+                                   llContenedor.addView(Contenedor,lpContenedor)
                                }
                            }
                        }
@@ -1001,12 +1017,12 @@ class Contenido : Fragment() {
                                                         LinearLayout.LayoutParams.WRAP_CONTENT,
                                                         LinearLayout.LayoutParams.WRAP_CONTENT)
                                                 LayoutBotonNextC.setMargins(0,
-                                                    20,
+                                                    30,
                                                     0,
                                                     10)
                                                 listView.addView(buttonExit,
                                                     LayoutBotonNext)
-                                                GuiasRapidasContenido.addView(listView)
+                                                llContenedor.addView(listView)
 
 
                                             }else{
@@ -1034,7 +1050,7 @@ class Contenido : Fragment() {
                                                     viewModel3.componentes(submodulo!![index!!]!!.componentes)
                                                     viewModel3.colorModulo(colorModulo)
                                                     findNavController().navigate(R.id.action_contenido_to_contenido2)
-                                                    binding.GuiasRapidasContenido.removeAllViews()
+                                                    binding.llContenedor.removeAllViews()
                                                     listView.removeAllViews()
                                                 }
 
@@ -1043,7 +1059,7 @@ class Contenido : Fragment() {
                                                 val LayoutBotonNextC = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                                                 LayoutBotonNextC.setMargins(0, 30, 0, 10)
                                                 listView.addView(buttonNext, LayoutBotonNext)
-                                                GuiasRapidasContenido.addView(listView)
+                                                llContenedor.addView(listView)
 
 
 
@@ -1088,4 +1104,8 @@ class Contenido : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+}
+
+fun TextView.justificationMode(justificationModeInterWord: Int) {
+
 }
