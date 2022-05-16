@@ -26,5 +26,11 @@ class GuiasContenidoViewModel(): ViewModel() {
         _urlFondo.value = url
     }
 
+    private val _colorModuloGuias = MutableLiveData<String?>()
+    val colorModuloGuias: LiveData<String?> get() = _colorModuloGuias
+
+    fun colorModuloGuias(colorModulo:String?){
+        _colorModuloGuias.value = colorModulo
+    }
 
 }

@@ -10,6 +10,7 @@ data class Videos(
     val descripcion: String?,
     val backgroundColor: String?,
     val agregarFondo: String?,
+    val tipoCategoria: String?,
     val titulo: String?,
     val subtitulo: String?,
     val orden: Int,

@@ -4,14 +4,13 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Binder
 import android.os.Bundle
+import android.text.Layout
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.GridView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -25,8 +24,7 @@ import com.example.kiosko_model.repository.Repository
 import com.google.android.exoplayer2.util.Log
 import retrofit2.Response
 import java.util.concurrent.TimeoutException
-
-
+import kotlin.math.absoluteValue
 
 
 class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
@@ -39,13 +37,6 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
     private var gridViewListSeguridad:GridView? = null
     private var gridViewListServicio:GridView? = null
     private var gridView:GridView? = null
-
-
-
-
-
-
-
 
     private var ListControlInterno: List<ItemDataGuias> ? = null
     private var ListEjecucion: List<ItemDataGuias> ? = null
@@ -74,6 +65,12 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
     private var FondoresponseSeguridad: MutableList<String>? = mutableListOf()
     private var FondoresponseServicio: MutableList<String>? = mutableListOf()
 
+    private var ColorFondoresponseControlInterno: MutableList<String>? = mutableListOf()
+    private var ColorFondoresponseEjecucion: MutableList<String>? = mutableListOf()
+    private var ColorFondoresponseAbastecimiento: MutableList<String>? = mutableListOf()
+    private var ColorFondoresponseSeguridad: MutableList<String>? = mutableListOf()
+    private var ColorFondoresponseServicio: MutableList<String>? = mutableListOf()
+
 
 
 
@@ -94,6 +91,37 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val color = Color.parseColor("#FC4C02")
+        val radius = 15//radius will be 5px
+        val graDient = GradientDrawable()
+        graDient.setColor(color)
+        graDient.cornerRadius = radius.toFloat()
+
+        val vistaTitle = binding.GuiastitleContainer
+
+        val titulo = Button(context)
+        titulo.text = getString(R.string.gu_as_r_pidas)
+        titulo.textSize = 25f
+        titulo.background = graDient
+        titulo.gravity = Gravity.CENTER_HORIZONTAL
+        titulo.setTextColor(Color.WHITE)
+        val layoutTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+        layoutTitulo.setMargins(20,20,20,20)
+
+        vistaTitle.addView(titulo,layoutTitulo)
+
+        val texto = TextView(context)
+        texto.text = getString(R.string.dentro_de_t)
+        texto.textSize = 18f
+        texto.textAlignment = TextView.TEXT_ALIGNMENT_TEXT_START
+        texto.setTextColor(Color.BLACK)
+        val layoutTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+        layoutTexto.setMargins(20,5,20,20)
+
+        vistaTitle.addView(texto,layoutTexto)
+
+
 
 
         val butonControlInterno = binding.controlInterno
@@ -157,6 +185,8 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
 //                            Log.d("responseTest", it.toString())
                             responseControlInterno?.add(it)
                             FondoresponseControlInterno?.add(it.urlFondo)
+                            ColorFondoresponseControlInterno?.add(it.backgroundColor.toString())
+
 
 
                         }
@@ -164,24 +194,28 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
 
                             responseEjecucion?.add(it)
                             FondoresponseEjecucion?.add(it.urlFondo)
+                            ColorFondoresponseEjecucion?.add(it.backgroundColor.toString())
 
                         }
                         "abastecimiento-e-inventario" -> {
 
                             responseAbastecimiento?.add(it)
                             FondoresponseAbastecimiento?.add(it.urlFondo)
+                            ColorFondoresponseAbastecimiento?.add(it.backgroundColor.toString())
 
                         }
                         "seguridad" -> {
 
                             responseSeguridad?.add(it)
                             FondoresponseSeguridad?.add(it.urlFondo)
+                            ColorFondoresponseSeguridad?.add(it.backgroundColor.toString())
 
                         }
                         "servicio" -> {
 
                             responseServicio?.add(it)
                             FondoresponseServicio?.add(it.urlFondo)
+                            ColorFondoresponseServicio?.add(it.backgroundColor.toString())
 
                         }
                     }
@@ -284,31 +318,17 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
 
 private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
-    var array:ArrayList<ItemDataGuias> = ArrayList()
-    var index = 0
-
-    var arrayColors:ArrayList<String> = ArrayList()
-    arrayColors.add("#FC4C02")
-    arrayColors.add("#008BCE")
-    arrayColors.add("#DA291C")
-    arrayColors.add("#43B02A")
-    arrayColors.add("#D9027D")
-    arrayColors.add("#003DA5")
-    arrayColors.add("#FFFFFF")
-
+    val array:ArrayList<ItemDataGuias> = ArrayList()
 
 
     list?.forEach{
+        var color = String()
+            if(it.backgroundColor.isNullOrEmpty()){
+                color =  "#008BCE"
+            } else {
+                color = it.backgroundColor
+            }
 
-        val color : String
-
-        if(index <= arrayColors.size ){
-            color = arrayColors.get(index)
-            index++
-        }else{
-            index = 0
-            color = arrayColors.get(index)
-        }
         array.add(ItemDataGuias(color,it.titulo,it.componentes))
     }
     return array
@@ -332,6 +352,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
             controlInterno ->{
                 val item:ItemDataGuias = ListControlInterno?.get(p2)!!
                 viewModel2.urlFondo(FondoresponseControlInterno?.get(p2))
+                viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
@@ -340,6 +361,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
                 val item:ItemDataGuias = ListEjecucion?.get(p2)!!
                 viewModel2.urlFondo(FondoresponseEjecucion?.get(p2))
+                viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
@@ -348,6 +370,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
                 val item:ItemDataGuias = ListAbastecimiento?.get(p2)!!
                 viewModel2.urlFondo(FondoresponseAbastecimiento?.get(p2))
+                viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
@@ -356,6 +379,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
                 val item:ItemDataGuias = ListSeguridad?.get(p2)!!
                 viewModel2.urlFondo(FondoresponseSeguridad?.get(p2))
+                viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
@@ -364,6 +388,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
                 val item:ItemDataGuias = ListServicio?.get(p2)!!
                 viewModel2.urlFondo(FondoresponseServicio?.get(p2))
+                viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 

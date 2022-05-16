@@ -41,6 +41,7 @@ import com.example.kiosko_model.databinding.FragmentContenidoBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.modelslite.ProgresoViewModel
 import com.example.kiosko_model.repository.Repository
+import org.w3c.dom.Text
 import java.security.cert.CertPathValidatorException
 import java.util.concurrent.TimeoutException
 
@@ -93,6 +94,8 @@ class Contenido : Fragment() {
         val idM = porcentajeViewModel.idModulo.value!!
         val p = porcentajeViewModel.porcentaje.value!!
 
+        val colorModulo = viewModel.colorModulo.value!!
+
 
         val progresoPost = PostProgreso(idU,idM,p.toDouble())
         progreso.pushProgresoRegistro(progresoPost)
@@ -111,9 +114,8 @@ class Contenido : Fragment() {
         val height = displaymetrics.heightPixels
         val width = displaymetrics.widthPixels
 
-        var colorFondoTitulo = ""
-
         binding.llContenedor.removeAllViews()
+        viewModel
 
             try{
                 viewModel.componentes.observe(viewLifecycleOwner) {
@@ -184,6 +186,92 @@ class Contenido : Fragment() {
                            when(it!!.tipoComponente){
 
 
+                               "titulo-desc" -> {
+
+                                   val color = colorModulo
+                                   val radius = 15
+                                   val gradientDrawable = GradientDrawable()
+                                   gradientDrawable.setColor(color)
+                                   gradientDrawable.cornerRadius = radius.toFloat()
+
+
+
+                                   val contenedorTitulo = LinearLayout(context)
+                                   contenedorTitulo.orientation = LinearLayout.VERTICAL
+                                   contenedorTitulo.gravity = Gravity.CENTER
+                                   contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
+
+                                   val tituloW = Button(context)
+                                   tituloW.text = Html.fromHtml(it.titulo)
+                                   tituloW.typeface = Typeface.DEFAULT_BOLD
+                                   tituloW.textSize = 30F
+                                   tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                   tituloW.setTextColor(Color.BLACK)
+                                   tituloW.gravity = Gravity.CENTER
+                                   tituloW.background = gradientDrawable
+
+
+                                   val textoW = TextView(context)
+                                   textoW.text = Html.fromHtml(it.descripcion)
+                                   textoW.textSize = 16F
+                                   textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                   textoW.setTextColor(Color.BLACK)
+                                   textoW.gravity = Gravity.CENTER
+
+                                   val lpTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                   lpTitulo.setMargins(60,20,60,10)
+                                   contenedorTitulo.addView(tituloW, lpTitulo)
+
+                                   val lpTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                   lpTexto.setMargins(30,10,30,15)
+                                   contenedorTitulo.addView(textoW, lpTexto)
+
+                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                   lp.setMargins(0,15,0,20)
+
+                                   llContenedor.addView(contenedorTitulo, lp)
+                               }
+                               "subtitulo-desc" -> {
+
+                                   val contenedorTitulo = LinearLayout(context)
+                                   contenedorTitulo.orientation = LinearLayout.VERTICAL
+                                   contenedorTitulo.gravity = Gravity.CENTER
+
+                                   if(it.agregarFondo == 1){
+                                       contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
+                                   }
+
+                                   val tituloW = TextView(context)
+                                   tituloW.text = Html.fromHtml(it.subtitulo)
+                                   tituloW.textSize = 18F
+                                   tituloW.typeface = Typeface.DEFAULT_BOLD
+                                   tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                   tituloW.setTextColor(Color.BLACK)
+                                   tituloW.gravity = Gravity.CENTER
+
+                                   val textoW = TextView(context)
+                                   textoW.text = Html.fromHtml(it.descripcion)
+                                   textoW.textSize = 16F
+                                   textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                   textoW.setTextColor(Color.BLACK)
+                                   textoW.gravity = Gravity.CENTER
+
+
+                                   val lpTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                   lpTitulo.setMargins(60,20,60,10)
+                                   contenedorTitulo.addView(tituloW, lpTitulo)
+
+                                   val lpTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                   lpTexto.setMargins(30,10,30,15)
+                                   contenedorTitulo.addView(textoW, lpTexto)
+
+                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                   lp.setMargins(0,15,0,20)
+
+                                   llContenedor.addView(contenedorTitulo, lp)
+                               }
+
+
                                "subtitulo" -> {
                                    //texto
                                    val contenedorTitulo = LinearLayout(context)
@@ -219,6 +307,7 @@ class Contenido : Fragment() {
                                    buttonW.background = gradientDrawable
                                    buttonW.setTextColor(Color.BLACK)
                                    buttonW.gravity = Gravity.CENTER
+
                                    //buttonW.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liston_4,0,R.drawable.liston_4,0)
                                    buttonW.isEnabled = false
                                    //val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -276,7 +365,10 @@ class Contenido : Fragment() {
                                }
 
                                "texto" -> {
+
                                    val listView = LinearLayout(context)
+                                   listView.orientation = LinearLayout.VERTICAL
+                                   listView.gravity = Gravity.CENTER
                                    val textoW = TextView(context)
                                    textoW.text = Html.fromHtml(it.descripcion)
                                    textoW.textSize = 16F
@@ -284,6 +376,11 @@ class Contenido : Fragment() {
                                    textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
 
                                    textoW.setTextColor(Color.BLACK)
+                                   textoW.gravity = Gravity.CENTER
+
+                                   if(it.agregarFondo == 1){
+                                       listView.setBackgroundResource(R.drawable.round_corners_header)
+                                   }
 
 //                                fondo blanco
 //                                   val color = Color.WHITE
@@ -296,7 +393,7 @@ class Contenido : Fragment() {
 //
 //                                   listView.background = gradientDrawable
 
-                                   //textoW.gravity = Gravity.CENTER
+
                                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
                                    lp.setMargins(30,20,5,15)
                                    listView.addView(textoW,lp)
@@ -951,9 +1048,10 @@ class Contenido : Fragment() {
                                                 buttonNext.setOnClickListener {
                                                     viewModelLocal.index(index!!+1)
                                                     viewModel3.componentes(submodulo!![index!!]!!.componentes)
+                                                    viewModel3.colorModulo(colorModulo)
                                                     findNavController().navigate(R.id.action_contenido_to_contenido2)
                                                     binding.llContenedor.removeAllViews()
-
+                                                    listView.removeAllViews()
                                                 }
 
 

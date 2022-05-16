@@ -30,8 +30,7 @@ class VideosAdapter(var context: Context, var arrayList: List<VideoItem>) : Base
 //        var icon: ImageView = view.findViewById(R.id.idCourse)
 //        var names: TextView = view.findViewById(R.id.TxtCourse)
         var names: TextView = view.findViewById(R.id.txtVideos)
-     var boton: ImageView = view.findViewById(R.id.idIVcourseVideo)
-     var lay: LinearLayout = view.findViewById(R.id.layvideo)
+     var fondo: LinearLayout = view.findViewById(R.id.idIVcourseVideo)
 
 
 
@@ -48,7 +47,7 @@ class VideosAdapter(var context: Context, var arrayList: List<VideoItem>) : Base
 
 
 //        boton.background = gradientDrawable
-        boton.background = gradientDrawable
+        fondo.background = gradientDrawable
         names.text = videoItems.name
 
         return view

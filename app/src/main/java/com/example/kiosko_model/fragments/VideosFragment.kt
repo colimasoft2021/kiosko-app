@@ -3,6 +3,7 @@ package com.example.kiosko_model.fragments
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import com.example.kiosko_model.*
 import com.example.kiosko_model.databinding.FragmentVideosBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
+import com.google.android.exoplayer2.util.Log
 import retrofit2.Response
 import java.util.concurrent.TimeoutException
 
@@ -22,9 +24,31 @@ private lateinit var viewModel: VideosViewModel
 class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
 
-    private var gridView:GridView? = null
-    private var List: List<VideoItem> ? = null
-    private var videosAdapter: VideosAdapter? = null
+    private var gridViewListControlInterno:GridView? = null
+    private var gridViewListEjecucion:GridView? = null
+    private var gridViewListAbastecimiento:GridView? = null
+    private var gridViewListServicio:GridView? = null
+
+
+    private var responseControlInterno: MutableList<Videos>? = mutableListOf()
+    private var responseEjecucion: MutableList<Videos>? = mutableListOf()
+    private var responseAbastecimiento: MutableList<Videos>? = mutableListOf()
+    private var responseServicio: MutableList<Videos>? = mutableListOf()
+
+    private var ListControlInterno: List<VideoItem> ? = null
+    private var ListEjecucion: List<VideoItem> ? = null
+    private var ListAbastecimiento: List<VideoItem> ? = null
+    private var ListServicio: List<VideoItem> ? = null
+
+
+    private var ListControlInternoAdapter:  VideosAdapter ? = null
+    private var ListEjecucionAdapter:  VideosAdapter ? = null
+    private var ListAbastecimientoAdapter:  VideosAdapter ? = null
+    private var ListServicioAdapter:  VideosAdapter ? = null
+
+//    private var gridView:GridView? = null
+//    private var List: List<VideoItem> ? = null
+//    private var videosAdapter: VideosAdapter? = null
 
 
     private var _binding: FragmentVideosBinding? = null
@@ -41,8 +65,53 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val color = Color.parseColor("#D9027D")
+        val radius = 15//radius will be 5px
+        val graDient = GradientDrawable()
+        graDient.setColor(color)
+        graDient.cornerRadius = radius.toFloat()
 
-        binding.llTituloVideo.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liston_4,0, R.drawable.liston_4,0)
+        val vistaTitle = binding.videoTitleContainer
+
+        val titulo = Button(context)
+        titulo.text = getString(R.string.videos)
+        titulo.textSize = 25f
+        titulo.background = graDient
+        titulo.gravity = Gravity.CENTER_HORIZONTAL
+        titulo.setTextColor(Color.WHITE)
+        val layoutTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+        layoutTitulo.setMargins(20,20,20,20)
+
+        vistaTitle.addView(titulo,layoutTitulo)
+
+        val texto = TextView(context)
+        texto.text = getString(R.string.procedimientos_a_ejecutar)
+        texto.textSize = 18f
+        texto.textAlignment = TextView.TEXT_ALIGNMENT_TEXT_START
+        texto.setTextColor(Color.BLACK)
+        val layoutTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+        layoutTexto.setMargins(20,5,20,20)
+
+        vistaTitle.addView(texto,layoutTexto)
+
+
+        val butonControlInterno = binding.controlInterno
+        val llControlInterno = binding.llControlInterno
+
+        val butonEjecucion = binding.ejecucion
+        val llEjecucion = binding.llEjecucion
+
+        val butonAbastecimiento = binding.abastecimiento
+        val llAbastecimiento = binding.llAbastecimiento
+
+        val butonServicio = binding.servicio
+        val llServicio = binding.llServicio
+
+
+        llControlInterno.visibility = View.GONE
+        llEjecucion.visibility = View.GONE
+        llAbastecimiento.visibility = View.GONE
+        llServicio.visibility = View.GONE
 
         val col = Color.parseColor("#000000")
         val rad = 20//radius will be 5px
@@ -76,13 +145,72 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
             viewModel.getVideos()
             viewModel.videosResponse.observe(viewLifecycleOwner) { response ->
 
-                gridView = binding.ListaVideo
-                List = ArrayList()
-                List = setDataList(response)
-                videosAdapter = VideosAdapter(requireContext(), List as List<VideoItem>)
-                gridView?.adapter = videosAdapter
-                gridView?.onItemClickListener = this
 
+
+                response.body()!!.forEach {
+                    when(it.tipoCategoria){
+                        "control-interno" -> {
+
+//                            Log.d("responseTest", it.toString())
+                            responseControlInterno?.add(it)
+
+
+
+                        }
+                        "ejecucion" -> {
+
+                            responseEjecucion?.add(it)
+
+                        }
+                        "abastecimiento-e-inventario" -> {
+
+                            responseAbastecimiento?.add(it)
+
+                        }
+
+                        "servicio" -> {
+
+                            responseServicio?.add(it)
+
+                        }
+                    }
+                }
+
+
+
+                gridViewListControlInterno = binding.VideoListaControlInterno
+                ListControlInterno = ArrayList()
+                ListControlInterno =setDataList(responseControlInterno?.toList())
+                ListControlInternoAdapter = VideosAdapter(requireContext(), ListControlInterno as List<VideoItem>)
+                gridViewListControlInterno?.adapter = ListControlInternoAdapter
+                Log.d("responseTest", ListControlInterno.toString())
+
+                gridViewListControlInterno?.onItemClickListener = this
+
+
+                gridViewListEjecucion = binding.VideoListaEjecuciN
+                ListEjecucion = ArrayList()
+                ListEjecucion =setDataList(responseEjecucion?.toList())
+                ListEjecucionAdapter = VideosAdapter(requireContext(), ListEjecucion as List<VideoItem>)
+                gridViewListEjecucion?.adapter = ListEjecucionAdapter
+                gridViewListEjecucion?.onItemClickListener = this
+
+
+
+                gridViewListAbastecimiento = binding.VideoListaAbastecimientoeInventario
+                ListAbastecimiento = ArrayList()
+                ListAbastecimiento =setDataList(responseAbastecimiento?.toList())
+                ListAbastecimientoAdapter = VideosAdapter(requireContext(), ListAbastecimiento as List<VideoItem>)
+                gridViewListAbastecimiento?.adapter = ListAbastecimientoAdapter
+                gridViewListAbastecimiento?.onItemClickListener = this
+
+
+                gridViewListServicio = binding.VideoListaServicio
+                ListServicio = ArrayList()
+                ListServicio =setDataList(responseServicio?.toList())
+                ListServicioAdapter = VideosAdapter(requireContext(), ListServicio as List<VideoItem>)
+                gridViewListServicio?.adapter = ListServicioAdapter
+                gridViewListServicio?.onItemClickListener = this
 
 
             }
@@ -90,9 +218,40 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
 
         }
+
+
+
+
+        butonControlInterno.setOnClickListener {
+            llControlInterno.visibility = View.VISIBLE
+            llEjecucion.visibility = View.GONE
+            llAbastecimiento.visibility = View.GONE
+            llServicio.visibility = View.GONE
+        }
+
+        butonEjecucion.setOnClickListener {
+            llControlInterno.visibility = View.GONE
+            llEjecucion.visibility = View.VISIBLE
+            llAbastecimiento.visibility = View.GONE
+            llServicio.visibility = View.GONE         }
+
+        butonAbastecimiento.setOnClickListener {
+            llControlInterno.visibility = View.GONE
+            llEjecucion.visibility = View.GONE
+            llAbastecimiento.visibility = View.VISIBLE
+            llServicio.visibility = View.GONE         }
+
+
+        butonServicio.setOnClickListener {
+            llControlInterno.visibility = View.GONE
+            llEjecucion.visibility = View.GONE
+            llAbastecimiento.visibility = View.GONE
+            llServicio.visibility = View.VISIBLE         }
+
+
     }
 
-    private fun setDataList(list: Response<List<Videos>>) : ArrayList<VideoItem>{
+    private fun setDataList(list: List<Videos>?) : ArrayList<VideoItem>{
 
         var array:ArrayList<VideoItem> = ArrayList()
         var index = 0
@@ -108,7 +267,7 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
 
 
-        list.body()!!.forEach{
+        list?.forEach{
 
             val color : String
 
@@ -126,10 +285,47 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
     override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
 
-        var item:VideoItem = List?.get(p2)!!
-        (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
-//        Toast.makeText(requireContext(), "workkk+${item.name}+${item.icons}",Toast.LENGTH_LONG).show()
+        Log.d("p0000", p0?.id.toString())
+        Log.d("p1", p1?.id.toString())
+        Log.d("p2", p2.toString())
+        Log.d("p3", p3.toString())
 
+        val controlInterno = 2131361817
+        val ejecucion = 2131361818
+        val abastecimiento = 2131361816
+        val servicio = 2131361819
+
+        when(p0?.id){
+
+            controlInterno ->{
+                val item:VideoItem = ListControlInterno?.get(p2)!!
+                (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
+                Log.d("work??","work")
+
+            }
+            ejecucion->{
+
+                val item:VideoItem = ListEjecucion?.get(p2)!!
+                (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
+
+
+            }
+            abastecimiento->{
+
+                val item:VideoItem = ListAbastecimiento?.get(p2)!!
+                (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
+
+            }
+
+            servicio->{
+
+                val item:VideoItem = ListServicio?.get(p2)!!
+                (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
+
+
+            }
+
+        }
     }
 
 

@@ -10,6 +10,7 @@ data class Guias(
     val porcentaje: Int,
     val orden: Int,
     val desplegable: Int,
+    val backgroundColor:String?,
     val idModulo: String,
     val urlFondo : String,
     val numeroHijos: Int,

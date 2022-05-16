@@ -176,7 +176,6 @@ class Inicio : Fragment() {
                                     val index = 1
                                     val imagenBoton = it.url
 
-
                                     val linearLayout = LinearLayout(context)
                                     linearLayout.orientation = LinearLayout.HORIZONTAL
                                     linearLayout.gravity = Gravity.CENTER_VERTICAL
@@ -207,9 +206,15 @@ class Inicio : Fragment() {
                                     contenedorBotonera.gravity = Gravity.CENTER
                                     contenedorBotonera.background = gD
 
+                                    val color = Color.parseColor(colorBotonFondo)
+                                    val radius = 20//radius will be 5px
+                                    val grD = GradientDrawable()
+                                    grD.setColor(color)
+                                    grD.cornerRadius = rad.toFloat()
 
                                     val botoneraHorizontalProgreso = Button(context)
-                                    botoneraHorizontalProgreso.setBackgroundColor(Color.parseColor(colorBotonFondo))
+                                        botoneraHorizontalProgreso.background=grD
+//                                    botoneraHorizontalProgreso.setBackgroundColor(Color.parseColor(colorBotonFondo))
 
 //
 
@@ -225,6 +230,7 @@ class Inicio : Fragment() {
                                         viewModel2.componentes(compuestos)
                                         viewModel2.id(idSubmodulo)
                                         viewModel2.padre(padre)
+                                        viewModel2.colorModulo(color)
                                         viewModel3.padre(padre)
                                         viewModelLocal.hijos(hijo)
                                         viewModelLocal.index(index)
@@ -244,7 +250,9 @@ class Inicio : Fragment() {
                                     botoneraHorizontalProgreso.isAllCaps = false
 
                                     val botoneraHorizontal = Button(context)
-                                    botoneraHorizontal.setBackgroundColor(Color.parseColor(colorBotonFondo))
+
+                                    botoneraHorizontal.background=grD
+//                                    botoneraHorizontal.setBackgroundColor(Color.parseColor(colorBotonFondo))
                                     
                                     botoneraHorizontal.setOnClickListener {
                                         porcentajeViewModel.setCantidadModulos(hijos)
@@ -258,6 +266,7 @@ class Inicio : Fragment() {
                                         viewModel2.componentes(compuestos)
                                         viewModel2.id(idSubmodulo)
                                         viewModel2.padre(padre)
+                                        viewModel2.colorModulo(color)
                                         viewModel3.padre(padre)
                                         viewModelLocal.hijos(hijo)
                                         viewModelLocal.index(index)
