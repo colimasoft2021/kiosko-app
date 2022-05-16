@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="guias_title_color">#FC4C02</color>
+    <color name="videos_title_color">#D9027D</color>
     <color name="less_white">#F1EFE4</color>
     <color name="Naranja">#FF4340</color>
     <color name="azul">#19AA80</color>

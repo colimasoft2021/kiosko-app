@@ -13,7 +13,7 @@ data class Compuestos (
     val urlFondo: String?,
     val descripcion: String?,
     val backgroundColor: String?,
-    val agregarFondo: String?,
+    val agregarFondo: Int?,
     val titulo: String?,
     val subtitulo: String?,
     val orden: Int,

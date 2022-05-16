@@ -21,42 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <TextView
-            android:id="@+id/titleAccesoDirecto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:gravity="center_horizontal"
-            android:text="@string/material_de_apoyo"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold" />
 
-
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:progress="100"
-            app:indeterminateAnimationType="disjoint"
-            app:indicatorColor="@color/Naranja"
-            app:trackCornerRadius="50dp" />
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="20dp"
-            android:text="@string/con_la_finalidad_de_facilitar_tu_aprendizaje"
-            android:textAlignment="textStart"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
 
     </LinearLayout>
 
