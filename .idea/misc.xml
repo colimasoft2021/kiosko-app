@@ -55,7 +55,7 @@
         <entry key="app/src/main/res/layout/custom_layout_popup.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_acceso_directo.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_contenido.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/fragment_contenido2.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_contenido2.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_ejemplo.xml" value="0.1921875" />
         <entry key="app/src/main/res/layout/fragment_ejemplo_i.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_ejemplo_i_i.xml" value="0.2477355072463768" />

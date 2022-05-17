@@ -377,11 +377,11 @@ class Contenido2 : Fragment() {
 
                                 //textoW.gravity = Gravity.CENTER
                                 val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                lp.setMargins(30,20,5,15)
+                                lp.setMargins(30,20,15,15)
                                 listView.addView(textoW,lp)
 
                                 val lp2 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                lp2.setMargins(0,0,0,0)
+                                lp2.setMargins(0,20,0,20)
                                 llContenedor.addView(listView,lp2)
                             }
 
@@ -867,7 +867,9 @@ class Contenido2 : Fragment() {
                                 subtituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
                                 subtituloW.setTypeface(null, Typeface.BOLD)
                                 subtituloW.textSize = 20F
-                                listView.addView(subtituloW)
+
+                                val lpSubtitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                listView.addView(subtituloW,lpSubtitulo)
 
                                 textoW.text = Html.fromHtml(it.descripcion)
                                 textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)

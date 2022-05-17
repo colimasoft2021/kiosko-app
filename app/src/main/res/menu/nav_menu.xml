@@ -13,9 +13,5 @@
         android:id="@+id/accesoDirectoFragment"
         android:icon="@drawable/acceso_directo"
         android:title="@string/acceso_directo" />
-    <item
-        android:id="@+id/notificacionesFragment"
-        android:icon="@drawable/notification"
-        android:title="@string/notificaciones" />
 
 </menu>

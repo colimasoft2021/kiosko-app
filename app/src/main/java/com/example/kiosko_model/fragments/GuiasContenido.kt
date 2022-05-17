@@ -325,11 +325,11 @@ class GuiasContenido : Fragment() {
 //                                   listView.background = gradientDrawable
 
                                 val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                lp.setMargins(30,20,5,15)
+                                lp.setMargins(30,20,15,15)
                                 listView.addView(textoW,lp)
 
                                 val lp2 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                lp2.setMargins(0,0,0,0)
+                                lp2.setMargins(0,20,0,20)
                                 GuiasRapidasContenido.addView(listView,lp2)
                             }
 
@@ -731,7 +731,9 @@ class GuiasContenido : Fragment() {
                                 subtituloW.gravity = Gravity.CENTER
                                 subtituloW.setTextColor(Color.BLACK)
                                 subtituloW.textSize = 30F
-                                listView.addView(subtituloW)
+
+                                val lpSubtitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                listView.addView(subtituloW,lpSubtitulo)
 
                                 textoW.text = Html.fromHtml(it.descripcion)
                                 textoW.gravity = Gravity.START
