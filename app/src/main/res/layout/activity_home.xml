@@ -29,7 +29,7 @@
         android:layout_height="80dp"
         android:layout_gravity="bottom"
         app:itemTextColor="#07577F"
-        app:itemIconSize="50dp"
+        app:itemIconSize="60dp"
         app:menu="@menu/nav_menu"
         android:fitsSystemWindows="false"
         />
