@@ -131,7 +131,7 @@ class Inicio : Fragment() {
                         lltextHardCodedProgress.gravity = Gravity.CENTER_VERTICAL
 
                         val TextHardCodedProgres = TextView(context)
-                        TextHardCodedProgres.text = "Continuar con tu progreso llevado"
+                        TextHardCodedProgres.text = "Continuar con tu progreso actual"
                         TextHardCodedProgres.setTextColor(Color.BLACK)
                         TextHardCodedProgres.textSize = 24F
                         TextHardCodedProgres.gravity = Gravity.LEFT

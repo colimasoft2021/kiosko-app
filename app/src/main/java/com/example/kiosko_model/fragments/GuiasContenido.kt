@@ -5,7 +5,9 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
+import android.graphics.text.LineBreaker
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.util.DisplayMetrics
@@ -149,7 +151,7 @@ class GuiasContenido : Fragment() {
                                 tituloW.typeface = Typeface.DEFAULT_BOLD
                                 tituloW.textSize = 30F
                                 tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                tituloW.setTextColor(Color.BLACK)
+                                tituloW.setTextColor(Color.WHITE)
                                 tituloW.gravity = Gravity.CENTER
                                 tituloW.background = gradientDrawable
 
@@ -157,7 +159,7 @@ class GuiasContenido : Fragment() {
                                 val textoW = TextView(context)
                                 textoW.text = Html.fromHtml(it.descripcion)
                                 textoW.textSize = 16F
-                                textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
                                 textoW.setTextColor(Color.BLACK)
                                 textoW.gravity = Gravity.CENTER
 
@@ -195,7 +197,7 @@ class GuiasContenido : Fragment() {
                                 val textoW = TextView(context)
                                 textoW.text = Html.fromHtml(it.descripcion)
                                 textoW.textSize = 16F
-                                textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
                                 textoW.setTextColor(Color.BLACK)
                                 textoW.gravity = Gravity.CENTER
 
@@ -855,7 +857,9 @@ class GuiasContenido : Fragment() {
                                 gradientDrawable.setStroke(strokeWidth, color)
 
                                 val Contenedor = LinearLayout(context)
-                                Contenedor.background = gradientDrawable
+                                if(it.agregarFondo == 1){
+                                    Contenedor.background = gradientDrawable
+                                }
                                 Contenedor.orientation = LinearLayout.VERTICAL
                                 Contenedor.addView(listView)
                                 Contenedor.addView(textoW, lpTexto)

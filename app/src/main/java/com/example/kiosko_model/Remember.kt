@@ -14,6 +14,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
 import com.example.kiosko_model.databinding.ActivityRememberBinding
+import com.example.kiosko_model.models.Id
 
 class Remember : AppCompatActivity() {
 
@@ -27,6 +28,13 @@ class Remember : AppCompatActivity() {
 
         supportActionBar?.hide()
         hideSystemUI()
+        val sharedPref = getSharedPreferences("UsD", Context.MODE_PRIVATE)
+
+        val name = sharedPref.getString("userName","defaultName")
+
+
+        binding.TitleRemember.text = "¡RECUERDA! $name"
+
 
         binding.start.setOnClickListener {
             val intent = Intent(this, Home::class.java)

@@ -85,12 +85,12 @@ class popUpComponenteVideo : AppCompatActivity() {
 //
 
             if(mensajeIncial==true){
-                video.setOnCompletionListener(OnCompletionListener { //Termina reproduccion,
+                video.setOnCompletionListener { //Termina reproduccion,
                     //Realiza Intent.
                     binding.closeV.setOnClickListener {
                         finish()
                     }
-                })
+                }
             }else{
                 binding.closeV.setOnClickListener {
                     finish()

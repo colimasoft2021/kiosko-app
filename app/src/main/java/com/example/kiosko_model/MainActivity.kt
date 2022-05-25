@@ -1,29 +1,14 @@
 package com.example.kiosko_model
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
-import android.view.WindowInsets
 import androidx.activity.viewModels
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.example.kiosko_model.PopUps.LoadingDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.kiosko_model.databinding.ActivityMainBinding
 import com.example.kiosko_model.models.primerVezVM
 
-class MainActivity : AppCompatActivity() {
+class   MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val pv: primerVezVM by viewModels()
@@ -75,7 +60,16 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
+    fun isOnlineNet(): Boolean? {
+        try {
+            val p = Runtime.getRuntime().exec("ping -c 1 www.google.es")
+            val `val` = p.waitFor()
+            return `val` == 0
+        } catch (e: Exception) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+        }
+        return false
+    }
 
 }

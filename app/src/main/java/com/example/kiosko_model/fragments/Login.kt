@@ -93,78 +93,91 @@ class Login : Fragment() {
 
 
         binding.buttonSecond.setOnClickListener {
-            //val loading = LoadingDialog(context as Activity)
-           if (usertexto.text!!.isNotEmpty()&&passtexto.text!!.isNotEmpty()) {
-                binding.buttonSecond.isClickable = false
-               //loading.displayLoading()
-               val myPost = Post(usertexto.text.toString(), passtexto.text.toString())
+           try {
 
-               viewLogModel.changeState(loginViewModelState)
-                if(viewLogModel.uiState.value?.isUserLoggedIn == false) {
-                    viewLogModel.pushPost(myPost)
-                    viewLogModel.myResponse.observe(viewLifecycleOwner,
-                        Observer { response ->
-                            Log.d("respuesta",response.body().toString())
-                            Log.d("respuesta completa", response.toString())
+                //val loading = LoadingDialog(context as Activity)
 
-                            if (response.isSuccessful) {
-                                if(response.body().isNullOrEmpty()){
-                                    //loading.hideLoading()
-                                    binding.buttonSecond.isClickable = true
-                                    showMaterialDialog(
-                                        "Error",
-                                        "Usuario y/o contraseña incorrectos."
-                                    )
+                if (usertexto.text!!.isNotEmpty() && passtexto.text!!.isNotEmpty()) {
+                    binding.buttonSecond.isClickable = false
+                    //loading.displayLoading()
+                    val myPost = Post(usertexto.text.toString(), passtexto.text.toString())
 
+                    viewLogModel.changeState(loginViewModelState)
+                    if (viewLogModel.uiState.value?.isUserLoggedIn == false) {
+                        viewLogModel.pushPost(myPost)
+                        viewLogModel.myResponse.observe(viewLifecycleOwner,
+                            Observer { response ->
+                                Log.d("respuesta", response.body().toString())
+                                Log.d("respuesta completa", response.toString())
+
+                                if (response.isSuccessful) {
+                                    if (response.body().isNullOrEmpty()) {
+                                        //loading.hideLoading()
+                                        binding.buttonSecond.isClickable = true
+                                        showMaterialDialog(
+                                            "Error",
+                                            "Usuario y/o contraseña incorrectos."
+                                        )
+
+                                        //viewLogModel.myResponse.removeObservers(viewLifecycleOwner)
+                                    } else {
+                                        showMaterialDialog("Bienvenido",
+                                            response.body()?.get(0)?.nombre_Completo.toString())
+                                        val name =
+                                            response.body()?.get(0)?.nombre_Completo.toString()
+                                        val UserId = response.body()?.get(0)?.iD_Usuario
+
+                                        val PostRegistro =
+                                            PostRegistro(UserId!!, name, "Empleado")
+
+                                        viewLogRegModel.pushPostRegistro(PostRegistro)
+                                        viewLogRegModel.myResponse.observe(viewLifecycleOwner,
+                                            Observer { r ->
+                                                Log.d("RNSuccesfullCode", id.toString() + "" + name)
+                                                val sharedPref = this.requireActivity()
+                                                    .getSharedPreferences("UsD",
+                                                        Context.MODE_PRIVATE)
+                                                val editor = sharedPref.edit()
+                                                editor.putString("userName", name)
+                                                editor.putString("userID", UserId.toString())
+                                                editor.putString("id", r.body()?.id.toString())
+                                                editor.apply()
+                                                Log.d("ErrorASDASDASDAASDASD#",
+                                                    r.body()?.id.toString())
+
+                                                //loading.hideLoading()
+                                                findNavController().navigate(R.id.action_login_to_remember)
+                                            })
+                                        usertexto.text = ""
+                                        passtexto.text = ""
+                                    }
                                     //viewLogModel.myResponse.removeObservers(viewLifecycleOwner)
                                 } else {
-                                    showMaterialDialog("Bienvenido", response.body()?.get(0)?.nombre_Completo.toString())
-                                    val name =
-                                        response.body()?.get(0)?.nombre_Completo.toString()
-                                    val UserId = response.body()?.get(0)?.iD_Usuario
-
-                                    val PostRegistro =
-                                        PostRegistro(UserId!!, name, "Empleado")
-
-                                    viewLogRegModel.pushPostRegistro(PostRegistro)
-                                    viewLogRegModel.myResponse.observe(viewLifecycleOwner, Observer { r ->
-                                        Log.d("RNSuccesfullCode", id.toString()+""+name )
-                                        val sharedPref = this.requireActivity()
-                                            .getSharedPreferences("UsD", Context.MODE_PRIVATE)
-                                        val editor = sharedPref.edit()
-                                        editor.putString("userName", name)
-                                        editor.putString("userID",UserId.toString())
-                                        editor.putString("id", r.body()?.id.toString())
-                                        editor.apply()
-                                        Log.d("ErrorASDASDASDAASDASD#",  r.body()?.id.toString())
-
-                                        //loading.hideLoading()
-                                        findNavController().navigate(R.id.action_login_to_remember)
-                                    })
+                                    //loading.hideLoading()
+                                    binding.buttonSecond.isClickable = true
+                                    showMaterialDialog("Error",
+                                        "Ha ocurrido algún error, inténtelo de nuevo más tarde.")
                                     usertexto.text = ""
                                     passtexto.text = ""
                                 }
                                 //viewLogModel.myResponse.removeObservers(viewLifecycleOwner)
-                            } else {
-                                //loading.hideLoading()
-                                binding.buttonSecond.isClickable = true
-                                showMaterialDialog("Error", "Ha ocurrido algún error, inténtelo de nuevo más tarde.")
-                                usertexto.text = ""
-                                passtexto.text = ""
-                            }
-                            //viewLogModel.myResponse.removeObservers(viewLifecycleOwner)
-                        })
+                            })
 
-                }else{
+                    } else {
+                        binding.buttonSecond.isClickable = true
+                        //loading.hideLoading()
+                    }
+                } else {
                     binding.buttonSecond.isClickable = true
                     //loading.hideLoading()
+                    showMaterialDialog("Error", "El usuario y contraseña son requeridos.")
                 }
-           }else{
-               binding.buttonSecond.isClickable = true
-               //loading.hideLoading()
-               showMaterialDialog("Error", "El usuario y contraseña son requeridos.")
-           }
+            }catch(e:Exception){
+                Log.d("exeption","exeption")
+            }finally{
+               Log.d("final","final")
 
+           }
         }
     }
 
