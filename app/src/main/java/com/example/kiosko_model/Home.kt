@@ -95,9 +95,6 @@ class Home : AppCompatActivity() {
 
         // menu de navegacion lateral
 
-        val navView: NavigationView = binding.navigationView
-        //control de navegación ligado a los fragments
-        navView.setupWithNavController(navController)
 
 
         val navBar = binding.navigationBotommm
@@ -125,30 +122,6 @@ class Home : AppCompatActivity() {
             }
         }*/
 
-        val toolbar: Toolbar = binding.toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        //supportActionBar?.hide()
-        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        toggle = ActionBarDrawerToggle(this, drawerLayout,toolbar, R.string.open, R.string.close)
-        toggle.isDrawerIndicatorEnabled = true
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        val header: View = navView.getHeaderView(0)
-        val nombre_empleado = header.findViewById<TextView>(R.id.user_name)
-        val cuenta_empleado = header.findViewById<TextView>(R.id.user_account)
-
-//        menu.add(grupo, id, orden, titulo)
-//        menu.add(1, 1, 1, "Inicio")
-//        menu.add(2, 124, 3, "Title2")
-//        menu.add(3, 123, 2, "Title3")
-//
-//        val subMenu = menu.addSubMenu(3,3,2,"Sub menu title")
-//        subMenu.addSubMenu(5,3,3,"TITLEEE")
-
 
         val sharedPref = getSharedPreferences("UsD", Context.MODE_PRIVATE)
         val nEmpleado = sharedPref.getString("userName","defaultName")
@@ -156,8 +129,7 @@ class Home : AppCompatActivity() {
         val i = sharedPref.getString("id","defaultName")
 
         val id = Id(sharedPref.getString("id","defaultName")!!.toInt())
-        nombre_empleado.text = nEmpleado
-        cuenta_empleado.text = cEmpleado
+
 
         val viewModelFactory = ComponentsViewModelFactory(repository)
         viewModel = ViewModelProvider(this,viewModelFactory)[ComponentesViewModel::class.java]
@@ -272,18 +244,18 @@ class Home : AppCompatActivity() {
 
 
 
-    fun notifications(){
+    fun notifications(titulo: String, contenido: String ){
 // pending intent para acceder directamente a el fragmento de notififcaciones
         val pendingIntent: PendingIntent = NavDeepLinkBuilder(this)
             .setComponentName(Home::class.java)
             .setGraph(R.navigation.nav_home)
-            .setDestination(R.id.notificacionesFragment)
+            .setDestination(R.id.guiasFragment)
             .createPendingIntent()
 // builder de la notificacion
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.notification)
-            .setContentTitle("Titulo de la notify")
-            .setContentText("contenido de la notify")
+            .setContentTitle(titulo)
+            .setContentText(contenido)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             // define el intent al que accederea el usuario al clickear la notificacion
             .setContentIntent(pendingIntent)

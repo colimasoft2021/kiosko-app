@@ -182,41 +182,47 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
                     when(it.tipoGuia){
                         "control-interno" -> {
 
-//                            Log.d("responseTest", it.toString())
-                            responseControlInterno?.add(it)
-                            FondoresponseControlInterno?.add(it.urlFondo)
-                            ColorFondoresponseControlInterno?.add(it.backgroundColor.toString())
-
-
-
+                            Log.d("control-interno", it.toString())
+                            if (it.componentes.isNullOrEmpty() == false) {
+                                responseControlInterno?.add(it)
+                                FondoresponseControlInterno?.add(it.urlFondo)
+                                ColorFondoresponseControlInterno?.add(it.backgroundColor.toString())
+                            }
                         }
                         "ejecucion" -> {
-
-                            responseEjecucion?.add(it)
-                            FondoresponseEjecucion?.add(it.urlFondo)
-                            ColorFondoresponseEjecucion?.add(it.backgroundColor.toString())
-
+                            Log.d("ejecucion", it.toString())
+                            if (it.componentes.isNullOrEmpty() == false) {
+                                responseEjecucion?.add(it)
+                                FondoresponseEjecucion?.add(it.urlFondo)
+                                ColorFondoresponseEjecucion?.add(it.backgroundColor.toString())
+                            }
                         }
                         "abastecimiento-e-inventario" -> {
+                            Log.d("abastecimiento-", it.toString())
+                            if (it.componentes.isNullOrEmpty() == false) {
 
-                            responseAbastecimiento?.add(it)
-                            FondoresponseAbastecimiento?.add(it.urlFondo)
-                            ColorFondoresponseAbastecimiento?.add(it.backgroundColor.toString())
-
+                                responseAbastecimiento?.add(it)
+                                FondoresponseAbastecimiento?.add(it.urlFondo)
+                                ColorFondoresponseAbastecimiento?.add(it.backgroundColor.toString())
+                            }
                         }
                         "seguridad" -> {
+                            Log.d("seguridad", it.toString())
+                            if (it.componentes.isNullOrEmpty() == false) {
 
-                            responseSeguridad?.add(it)
-                            FondoresponseSeguridad?.add(it.urlFondo)
-                            ColorFondoresponseSeguridad?.add(it.backgroundColor.toString())
-
+                                responseSeguridad?.add(it)
+                                FondoresponseSeguridad?.add(it.urlFondo)
+                                ColorFondoresponseSeguridad?.add(it.backgroundColor.toString())
+                            }
                         }
                         "servicio" -> {
+                            Log.d("servicio", it.toString())
+                            if (it.componentes.isNullOrEmpty() == false) {
 
-                            responseServicio?.add(it)
-                            FondoresponseServicio?.add(it.urlFondo)
-                            ColorFondoresponseServicio?.add(it.backgroundColor.toString())
-
+                                responseServicio?.add(it)
+                                FondoresponseServicio?.add(it.urlFondo)
+                                ColorFondoresponseServicio?.add(it.backgroundColor.toString())
+                            }
                         }
                     }
                 }
@@ -336,15 +342,17 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
     override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         Log.d("p0", p0?.id.toString())
+        Log.d("p0", p0.toString())
+        Log.d("p0", p0.toString())
         Log.d("p1", p1?.id.toString())
         Log.d("p2", p2.toString())
         Log.d("p3", p3.toString())
 
-        val controlInterno = 2131361802
-        val ejecucion = 2131361803
-        val abastecimiento = 2131361801
-        val seguridad = 2131361804
-        val servicio = 2131361805
+        val controlInterno = 2131361800
+        val ejecucion = 2131361801
+        val abastecimiento = 2131361799
+        val seguridad = 2131361802
+        val servicio = 2131361803
 
 
         when(p0?.id){
@@ -355,7 +363,6 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
                 viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
-
             }
             ejecucion->{
 
@@ -364,7 +371,6 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
                 viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
-
             }
             abastecimiento->{
 
@@ -373,7 +379,6 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
                 viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
-
             }
             seguridad->{
 
@@ -382,7 +387,6 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
                 viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
-
             }
             servicio->{
 

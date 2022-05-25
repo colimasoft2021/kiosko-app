@@ -8,7 +8,7 @@
     tools:context=".Remember">
 
         <TextView
-            android:id="@+id/welcome"
+            android:id="@+id/TitleRemember"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/gotham_bold"
@@ -41,7 +41,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/welcome" />
+            app:layout_constraintTop_toBottomOf="@+id/TitleRemember" />
 
         <ImageView
             android:id="@+id/red_leydi"

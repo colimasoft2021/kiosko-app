@@ -68,7 +68,6 @@ class Contenido : Fragment() {
 
     override fun onStop() {
         super.onStop()
-        binding.llContenedor.removeAllViews()
 
     }
     override fun onCreateView(
@@ -206,7 +205,7 @@ class Contenido : Fragment() {
                                    tituloW.typeface = Typeface.DEFAULT_BOLD
                                    tituloW.textSize = 30F
                                    tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                   tituloW.setTextColor(Color.BLACK)
+                                   tituloW.setTextColor(Color.WHITE)
                                    tituloW.gravity = Gravity.CENTER
                                    tituloW.background = gradientDrawable
 
@@ -214,7 +213,7 @@ class Contenido : Fragment() {
                                    val textoW = TextView(context)
                                    textoW.text = Html.fromHtml(it.descripcion)
                                    textoW.textSize = 16F
-                                   textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
                                    textoW.setTextColor(Color.BLACK)
                                    textoW.gravity = Gravity.CENTER
 
@@ -252,7 +251,7 @@ class Contenido : Fragment() {
                                    val textoW = TextView(context)
                                    textoW.text = Html.fromHtml(it.descripcion)
                                    textoW.textSize = 16F
-                                   textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
                                    textoW.setTextColor(Color.BLACK)
                                    textoW.gravity = Gravity.CENTER
 
@@ -929,7 +928,10 @@ class Contenido : Fragment() {
                                    gradientDrawable.setStroke(strokeWidth, color)
 
                                    val Contenedor = LinearLayout(context)
-                                   Contenedor.background = gradientDrawable
+
+                                   if(it.agregarFondo == 1){
+                                       Contenedor.background = gradientDrawable
+                                   }
                                    Contenedor.orientation = LinearLayout.VERTICAL
                                    Contenedor.addView(listView)
                                    Contenedor.addView(textoW, lpTexto)

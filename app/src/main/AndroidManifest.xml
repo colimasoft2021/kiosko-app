@@ -4,6 +4,7 @@
     package="com.example.kiosko_model">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_kiosko_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kiosko_Model"
+        android:name=".ApplicationClass"
         tools:targetApi="n">
         <activity
             android:name=".PopUps.popUpComponenteVideo"
