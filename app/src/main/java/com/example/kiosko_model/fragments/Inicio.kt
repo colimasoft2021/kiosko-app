@@ -38,11 +38,9 @@ class Inicio : Fragment() {
     private val viewModel2: CompuestosViewModel by viewModels({requireParentFragment()})
     private val viewModel3: CompuestosViewModel2 by viewModels({requireParentFragment()})
     private val viewModelLocal: ComponentesViewModel2 by viewModels({requireParentFragment()})
-    private val viewModelprimerVez: primerVezVM by viewModels({requireParentFragment()})
     private val porcentajeViewModel: PorcentajeViewModel by viewModels({requireParentFragment()})
     private lateinit var avisoViewModel: MensajeInicialViewModel
 
-    private val pv: primerVezVM by viewModels({requireParentFragment()})
 
 
     private val buttonRowAdapter by lazy { ButtonRowAdapter()}
@@ -75,10 +73,14 @@ class Inicio : Fragment() {
         val repository = Repository()
         val viewModelFactory = ComponentsViewModelFactory(repository)
 
-        try{
+
 
             val sharedPref = this.requireActivity()
                 .getSharedPreferences("UsD", Context.MODE_PRIVATE)
+
+            val pv = sharedPref.getBoolean("primer", false)
+
+        try{
 
             val id = Id(sharedPref.getString("id","defaultName")!!.toInt())
             viewModel = ViewModelProvider(this, viewModelFactory)[ComponentesViewModel::class.java]
@@ -253,7 +255,7 @@ class Inicio : Fragment() {
 
                                     botoneraHorizontal.background=grD
 //                                    botoneraHorizontal.setBackgroundColor(Color.parseColor(colorBotonFondo))
-                                    
+
                                     botoneraHorizontal.setOnClickListener {
                                         porcentajeViewModel.setCantidadModulos(hijos)
                                         porcentajeViewModel.setIdModulo(idModulo)
@@ -366,8 +368,6 @@ class Inicio : Fragment() {
                         //checar compatibilidad con tablets menores de 600 px
                         val scrollLP = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height/3 )
                         scrollLP.setMargins(10,10,20,20)
-                        Log.d("HEIGTHHHHHHHHH",height.toString())
-                        Log.d("widthhhhhhhhhhhhhh", width.toString())
 
                         val scrollLPContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
                         scrollLPContenedor.setMargins(15,10,20,50)
@@ -402,8 +402,9 @@ class Inicio : Fragment() {
         avisoViewModel =  ViewModelProvider(this, viewModelFactoryAviso)[MensajeInicialViewModel::class.java]
         avisoViewModel.getAvisoInicial()
 
-        Log.d("PV", pv.primerVez.value.toString())
-        if(pv.primerVez.value==true){
+
+        Log.d("PV", pv.toString())
+        if(pv){
 
             try {
                 avisoViewModel.AvisoResponse.observe(viewLifecycleOwner) { response ->
@@ -420,14 +421,26 @@ class Inicio : Fragment() {
                 }
             } catch (e: Error) {
 
+            } finally {
+
+                val sp = this.requireActivity()
+                    .getSharedPreferences("UsD",
+                        Context.MODE_PRIVATE)
+                val editor = sp.edit()
+                editor.putBoolean("primer", false)
+//                val editor = sharedPref.edit()
+//                editor.putString("primerVez", "no")
+                editor.apply()
+
             }
         }
+        Log.d("PV", pv.toString())
+
     }
 
     override fun onPause() {
         super.onPause()
-        binding.llBotoneraConProgreso.removeAllViews()
-        binding.llBotonera.removeAllViews()
+
     }
 
 

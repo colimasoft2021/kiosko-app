@@ -29,6 +29,9 @@ class Repository {
     suspend fun pushPostRegistro(registro: PostRegistro): Response<LoginResponseR>{
         return RetrofitLoginRegistroInstance.apiRegistro.pushPostRegistro(registro)
     }
+    suspend fun pushPostNotificaciones(id: Id): Response<Notificaciones>{
+        return RetrofitNotificacionesInstance.apiRegistro.pushPostNotificaciones(id)
+    }
     suspend fun updateProgress(registro: PostProgreso): Response<ProgresoR>{
         return RetrofitProgresoInstance.api.updateProgress(registro)
     }

@@ -177,7 +177,7 @@ class Contenido2 : Fragment() {
 
                         when (it!!.tipoComponente) {
 
-                            "titulo-desc" -> {
+                            "titulo-descripción" -> {
 
                                 val color = colorModulo
                                 val radius = 15
@@ -222,7 +222,7 @@ class Contenido2 : Fragment() {
 
                                 llContenedor.addView(contenedorTitulo, lp)
                             }
-                            "subtitulo-desc" -> {
+                            "subtitulo-descripción" -> {
 
                                 val contenedorTitulo = LinearLayout(context)
                                 contenedorTitulo.orientation = LinearLayout.VERTICAL
@@ -490,7 +490,7 @@ class Contenido2 : Fragment() {
 
                             }
 
-                            "imagen-titulo-desc" -> {
+                            "imagen-titulo-descripción" -> {
 
                                 val imagenW = ImageView(context)
                                 val titulo = TextView(context)
@@ -693,7 +693,7 @@ class Contenido2 : Fragment() {
                                 llContenedor.addView(listView,lpcontenedor)
 
                             }
-                            "video-guia"-> {
+                            "video-guía"-> {
 
                                 val textoW = TextView(context)
                                 textoW.text = Html.fromHtml(it.descripcion)

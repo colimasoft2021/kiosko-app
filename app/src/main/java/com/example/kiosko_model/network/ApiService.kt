@@ -39,6 +39,12 @@ interface ApiService {
         @Body postRegistro: PostRegistro
     ): Response<LoginResponseR>
 
+    @POST("SendAlertasLocales")
+    suspend fun pushPostNotificaciones(
+        @Body id: Id
+    ): Response<Notificaciones>
+
+
     @POST("GetModulosAndComponentsForApp")
     suspend fun getComponentes(
         @Body id: Id

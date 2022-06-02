@@ -1,17 +1,26 @@
 package com.example.kiosko_model
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.example.kiosko_model.PopUps.Loading
 import com.example.kiosko_model.databinding.ActivityMainBinding
-import com.example.kiosko_model.models.primerVezVM
+import com.google.android.material.progressindicator.CircularProgressIndicator
+
 
 class   MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val pv: primerVezVM by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,10 +30,8 @@ class   MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
         hideSystemUI()
-        pv.posicion(true)
 
 //                WindowCompat.setDecorFitsSystemWindows(false)
-
 
 
 
@@ -33,6 +40,7 @@ class   MainActivity : AppCompatActivity() {
         editor.putString("userName", "" )
         editor.putString("userID", "" )
         editor.apply()
+
 
     }
 
@@ -59,6 +67,11 @@ class   MainActivity : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
 
+    fun isNetDisponible(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val actNetInfo = connectivityManager.activeNetworkInfo
+        return actNetInfo != null && actNetInfo.isConnected
+    }
 
     fun isOnlineNet(): Boolean? {
         try {
@@ -70,6 +83,75 @@ class   MainActivity : AppCompatActivity() {
             e.printStackTrace()
         }
         return false
+    }
+
+    fun checkConnectivity() {
+        val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = manager.activeNetworkInfo
+
+        if (null == activeNetwork) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val intent = Intent(this, MainActivity::class.java)
+            // set message of alert dialog
+            dialogBuilder.setMessage("Confirme su conexión a internet, e intente de nuevo")
+                // if the dialog is cancelable
+                .setCancelable(false)
+                // positive button text and action
+                .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+                    a()
+                    recreate()
+//                    finish()
+                })
+                // negative button text and action
+//                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+//                    finish()
+//                })
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("Wi-FI desactivado ")
+            alert.setIcon(R.mipmap.ic_launcher)
+            // show alert dialog
+            alert.show()
+        }
+    }
+
+    fun a(){
+        // Declaring Wi-Fi manager
+        val wifi = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager
+
+        // On button Click
+
+            // wifi.isWifiEnabled is a boolean, is Wi-Fi is ON,
+            // it switches down and vice-versa
+            wifi.isWifiEnabled = true
+    //            = !wifi.isWifiEnabled
+//
+//            // For displaying Wi-fi status in TextView
+//            if (!wifi.isWifiEnabled) {
+//                //wifi
+//            } else {
+////                no wifi
+//            }
+    }
+    fun PopUpLoading(loading:Boolean){
+
+        val load  = findViewById<CircularProgressIndicator>(R.id.load)
+        if(!loading){
+            load.visibility = View.GONE
+            load.isClickable = true
+
+
+        }
+        else{
+            load.visibility = View.VISIBLE
+            load.isClickable = false
+
+        }
+
+
+
     }
 
 }

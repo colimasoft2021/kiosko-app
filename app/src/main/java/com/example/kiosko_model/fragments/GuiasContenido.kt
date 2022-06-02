@@ -131,7 +131,7 @@ class GuiasContenido : Fragment() {
 
                         when(it!!.tipoComponente){
 
-                            "titulo-desc" -> {
+                            "titulo-descripción" -> {
 
                                 val color = Color.parseColor(colorModulo)
                                 val radius = 15
@@ -176,7 +176,7 @@ class GuiasContenido : Fragment() {
 
                                 GuiasRapidasContenido.addView(contenedorTitulo, lp)
                             }
-                            "subtitulo-desc" -> {
+                            "subtitulo-descripción" -> {
 
                                 val contenedorTitulo = LinearLayout(context)
                                 contenedorTitulo.orientation = LinearLayout.VERTICAL
@@ -441,7 +441,7 @@ class GuiasContenido : Fragment() {
 
                             }
 
-                            "imagen-titulo-desc" -> {
+                            "imagen-titulo-descripción" -> {
 
                                 val imagenW = ImageView(context)
                                 val titulo = TextView(context)
@@ -644,7 +644,7 @@ class GuiasContenido : Fragment() {
                                 GuiasRapidasContenido.addView(listView,lpcontenedor)
 
                             }
-                            "video-guia"-> {
+                            "video-guía"-> {
 
                                 val textoW = TextView(context)
                                 textoW.text = Html.fromHtml(it.descripcion)
