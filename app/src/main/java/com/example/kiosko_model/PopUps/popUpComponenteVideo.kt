@@ -50,7 +50,17 @@ class popUpComponenteVideo : AppCompatActivity() {
             mediaController.setAnchorView(contenedor)
             mediaController.setPadding(0,0,width/10+width/20,height/3)
 
+            video.requestFocus()
+            // starting the video
+            video.start()
 
+                    // display a toast message if any
+                    // error occurs while playing the video
+            video.setOnErrorListener { mp, what, extra ->
+                        Toast.makeText(applicationContext, "An Error Occured " +
+                                "While Playing Video !!!", Toast.LENGTH_LONG).show()
+                        false
+            }
 
 
 

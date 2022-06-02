@@ -1,40 +1,27 @@
 package com.example.kiosko_model
 
-import android.app.Dialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkBuilder
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.kiosko_model.PopUps.Popup1
-import com.example.kiosko_model.PopUps.Popup2
+import com.example.kiosko_model.PopUps.Loading
 import com.example.kiosko_model.PopUps.popUpComponente
 import com.example.kiosko_model.PopUps.popUpComponenteVideo
 import com.example.kiosko_model.databinding.ActivityHomeBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
-import com.google.android.material.navigation.NavigationView
-import java.util.concurrent.TimeoutException
 
 
 class Home : AppCompatActivity() {
@@ -50,7 +37,6 @@ class Home : AppCompatActivity() {
     // menu de navegacion bottom
     private lateinit var viewModel: ComponentesViewModel
     private val viewModel2: CompuestosViewModel by viewModels()
-    private val pv: primerVezVM by viewModels()
     private lateinit var avisoViewModel: MensajeInicialViewModel
 
 
@@ -186,16 +172,13 @@ class Home : AppCompatActivity() {
     }
 
 
-    fun intentPopUp(){
-//        startActivity(Intent(this, Popup2::class.java))
-        startActivity(Intent(this, Popup1::class.java))
+    fun PopUpLoading(){
+        startActivity(Intent(this, Loading::class.java))
     }
     fun PopUp(descripcion:String,url:String){
         val intent = Intent(this, Popup1::class.java)
         intent.putExtra("texto", descripcion)
         intent.putExtra("url", url)
-
-        pv.posicion(false)
 
         startActivity(intent)
     }
