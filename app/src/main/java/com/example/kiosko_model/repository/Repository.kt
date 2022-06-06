@@ -26,6 +26,7 @@ class Repository {
     suspend fun pushPost(post: Post): Response<List<LoginR>>{
         return RetrofitLoginInstance.api.pushPost(post)
     }
+
     suspend fun pushPostRegistro(registro: PostRegistro): Response<LoginResponseR>{
         return RetrofitLoginRegistroInstance.apiRegistro.pushPostRegistro(registro)
     }

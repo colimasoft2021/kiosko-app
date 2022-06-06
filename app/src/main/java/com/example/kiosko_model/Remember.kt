@@ -5,17 +5,23 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkBuilder
+import androidx.navigation.fragment.findNavController
 import com.example.kiosko_model.databinding.ActivityRememberBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
@@ -27,6 +33,7 @@ class Remember : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        createNotificationChannel()
 
         binding = ActivityRememberBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -37,6 +44,8 @@ class Remember : AppCompatActivity() {
 
         val name = sharedPref.getString("userName","defaultName") ?: "NOMBRE"
         val id = Id(sharedPref.getString("idKiosko","defaultName")!!.toInt())
+
+        val continuar = binding.start
 
         val repository = Repository()
         val viewModelFactory = NotificacionesViewModelFactory(repository)
@@ -83,11 +92,81 @@ class Remember : AppCompatActivity() {
         binding.TitleRemember.text = "¡RECUERDA! $name"
 
 
-        binding.start.setOnClickListener {
-            val intent = Intent(this, Home::class.java)
-            startActivity(intent)
+
+        continuar.setOnClickListener {
+
+            if (isNetDisponible()){
+                when (isOnlineNet()){
+                    true -> {
+//                        continuar.isEnabled = true
+                        checkConnectivity()
+
+                        val intent = Intent(this, Home::class.java)
+                        startActivity(intent)
+                    }
+                    false -> {
+//                        continuar.isEnabled = false
+                        checkConnectivity()
+                    }
+
+                    else -> {
+//                        continuar.isEnabled = false
+                        checkConnectivity()
+                    }
+
+                }
+            }else{
+                checkConnectivity()
+//                continuar.isEnabled = false
+
+            }
+
         }
 
+    }
+
+    fun isNetDisponible(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val actNetInfo = connectivityManager.activeNetworkInfo
+        return actNetInfo != null && actNetInfo.isConnected
+    }
+
+    fun isOnlineNet(): Boolean? {
+        try {
+            val p = Runtime.getRuntime().exec("ping -c 1 www.google.es")
+            val `val` = p.waitFor()
+            return `val` == 0
+        } catch (e: Exception) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+        }
+        return false
+    }
+
+    fun checkConnectivity() {
+        val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = manager.activeNetworkInfo
+
+        if (null == activeNetwork) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            // set message of alert dialog
+            dialogBuilder.setMessage("Confirme su conexión a internet, e intente de nuevo")
+                // if the dialog is cancelable
+                .setCancelable(false)
+                // positive button text and action
+                .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+                    recreate()
+//                    finish()
+                })
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("Wi-FI desactivado ")
+            alert.setIcon(R.mipmap.ic_launcher)
+            // show alert dialog
+            alert.show()
+        }
     }
 
     fun hideSystemUI() {
@@ -114,41 +193,49 @@ class Remember : AppCompatActivity() {
 
     }
     fun notifications(titulo: String, contenido: String, modulo: String, id : Int ){
-        val channelId = "chanel"
+
+        val channelId = "ChannelKioskoApp"
         val notificationId = id
-        // Create an Intent for the activity you want to start
-        val resultIntent = Intent(this, Home::class.java)
-        // Create the TaskStackBuilder
-        val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-            // Add the intent, which inflates the back stack
-            addNextIntentWithParentStack(resultIntent)
-            // Get the PendingIntent containing the entire back stack
-            getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
-        }// pending intent para acceder directamente a el fragmento de notififcaciones
-//        val pendingIntent: PendingIntent = NavDeepLinkBuilder(this)
-//            .setComponentName(Home::class.java)
-//            .setGraph(R.navigation.nav_home)
-//            .setDestination(R.id.inicioFragment)
-//            .createPendingIntent()
 
-// builder de la notificacion
-        val builder = NotificationCompat.Builder(this, channelId).apply {
-            setSmallIcon(R.drawable.notification)
-            setContentTitle(titulo)
-            setContentText(modulo)
-//            .setLargeIcon(R.drawable.ic_launcher_kiosko)
-            .setStyle(NotificationCompat.BigTextStyle()
-                .bigText(contenido))
-            setPriority(NotificationCompat.PRIORITY_HIGH)
-            // define el intent al que accederea el usuario al clickear la notificacion
-            setContentIntent(resultPendingIntent)
-
-//            .setAutoCancel(true)
+        val intent = Intent(this, Home::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-        //este with maneja la creacion de las notificaciones crea la notificacion
+        val pendingIntent: PendingIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
+        val builder = NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.notification)
+                .setContentTitle(titulo)
+                .setContentText(modulo)
+                .setStyle(NotificationCompat.BigTextStyle()
+                .bigText(contenido))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+
         with(NotificationManagerCompat.from(this)) {
             // notificationId is a unique int for each notification that you must define
             notify(notificationId, builder.build())
+        }
+
+
+    }
+
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val descriptionText = getString(R.string.channel_description)
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val CHANNEL_ID = "ChannelKioskoApp"
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
         }
     }
 

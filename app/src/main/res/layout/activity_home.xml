@@ -11,7 +11,6 @@
     android:fitsSystemWindows="false">
 
 
-
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigationBotommm"
         android:layout_width="match_parent"
@@ -31,13 +30,25 @@
         android:fitsSystemWindows="false"
         tools:openDrawer="start">
 
+            <include layout="@layout/content_home" />
 
-        <include layout="@layout/content_home" />
-
-
-    </androidx.drawerlayout.widget.DrawerLayout>
+        </androidx.drawerlayout.widget.DrawerLayout>
 
 
-
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackColor="#FC4C02"
+        app:indicatorSize="100dp"
+        app:trackThickness="15dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

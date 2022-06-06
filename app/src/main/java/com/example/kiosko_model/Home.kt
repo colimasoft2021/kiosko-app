@@ -2,12 +2,15 @@ package com.example.kiosko_model
 
 import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -22,6 +25,7 @@ import com.example.kiosko_model.PopUps.popUpComponenteVideo
 import com.example.kiosko_model.databinding.ActivityHomeBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
+import com.google.android.material.progressindicator.CircularProgressIndicator
 
 
 class Home : AppCompatActivity() {
@@ -48,7 +52,6 @@ class Home : AppCompatActivity() {
 
         hideSystemUI()
 
-        val main = binding.main
         val repository = Repository()
 
         val viewModelFactoryAviso = MensajeInicialViewModelFactory(repository)
@@ -147,20 +150,6 @@ class Home : AppCompatActivity() {
 
     }
 
-//
-//    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-//        return when(item.itemId){
-//            R.id.inicio -> {
-//                Log.d("ResponseOfComponentes", Id.toString())
-//            true
-//            }
-//
-//            else -> {
-//                true
-//            }
-//        }
-//    }
-
     override fun onResume() {
         super.onResume()
         val btnPerfil = findViewById<ImageButton>(R.id.perfilFoto)
@@ -172,9 +161,6 @@ class Home : AppCompatActivity() {
     }
 
 
-    fun PopUpLoading(){
-        startActivity(Intent(this, Loading::class.java))
-    }
     fun PopUp(descripcion:String,url:String){
         val intent = Intent(this, Popup1::class.java)
         intent.putExtra("texto", descripcion)
@@ -213,21 +199,25 @@ class Home : AppCompatActivity() {
         toast.show()
 
     }
-// asi sera el load con esta funcion
-//    private fun showDialog() {
-//        // custom dialog
-//        val dialog = Dialog(this)
-//        dialog.setContentView(R.layout.activity_popup1)
-//
-//        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.show()
-//    }
-//    showDialog()
+
+    fun PopUpLoading(loading:Boolean) {
+
+        val load = findViewById<CircularProgressIndicator>(R.id.load)
+        if (!loading) {
+            load.visibility = View.GONE
+            load.isClickable = true
+
+
+        } else {
+            load.visibility = View.VISIBLE
+            load.isClickable = false
+
+        }
+    }
 
 
 
-
-    fun notifications(titulo: String, contenido: String ){
+        fun notifications(titulo: String, contenido: String ){
 // pending intent para acceder directamente a el fragmento de notififcaciones
         val pendingIntent: PendingIntent = NavDeepLinkBuilder(this)
             .setComponentName(Home::class.java)
@@ -271,5 +261,57 @@ class Home : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
+
+
+    fun isNetDisponible(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val actNetInfo = connectivityManager.activeNetworkInfo
+        return actNetInfo != null && actNetInfo.isConnected
+    }
+
+    fun isOnlineNet(): Boolean? {
+        try {
+            val p = Runtime.getRuntime().exec("ping -c 1 www.google.es")
+            val `val` = p.waitFor()
+            return `val` == 0
+        } catch (e: Exception) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+        }
+        return false
+    }
+
+    fun checkConnectivity() {
+        val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = manager.activeNetworkInfo
+
+        if (null == activeNetwork) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val intent = Intent(this, MainActivity::class.java)
+            // set message of alert dialog
+            dialogBuilder.setMessage("Confirme su conexión a internet, e intente de nuevo")
+                // if the dialog is cancelable
+                .setCancelable(false)
+                // positive button text and action
+                .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+                    recreate()
+//                    finish()
+                })
+            // negative button text and action
+//                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+//                    finish()
+//                })
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("Wi-FI desactivado ")
+            alert.setIcon(R.mipmap.ic_launcher)
+            // show alert dialog
+            alert.show()
+        }
+    }
+
+
 
 }
