@@ -217,6 +217,8 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         } catch (e: TimeoutException) {
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
 
+        }finally {
+
         }
 
 
