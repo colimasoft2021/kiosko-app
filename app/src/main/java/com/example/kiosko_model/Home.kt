@@ -88,28 +88,32 @@ class Home : AppCompatActivity() {
 
         val navBar = binding.navigationBotommm
         //control de navegación ligado a los fragments
-        navBar.setupWithNavController(navController)
-        /*
+//        navBar.setupWithNavController(navController)
+
         navBar.setOnItemSelectedListener () {
             when(it.itemId){
-                R.id.inicioFragment -> {
+                R.id.inicio -> {
                     val intent = Intent(this, Home::class.java)
-                    startActivity(intent)
-                    Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show()
+
+                    if (isOnlineNet() == true){ startActivity(intent) }
+
                     true
+
                 }
 
-                R.id.accesoDirectoFragment -> {
-                    findNavController(R.id.nav_host_fragment_content_home).navigate(R.id.accesoDirectoFragment)
-                    Toast.makeText(this, "Accesos directos", Toast.LENGTH_SHORT).show()
-                    true
+                R.id.accesoDirecto -> {
+
+                    if (isOnlineNet() == true){
+                        findNavController(R.id.nav_host_fragment_content_home).navigate(R.id.accesoDirectoFragment)
+                    }
+                        true
                 }
 
                 else -> {
                     true
                 }
             }
-        }*/
+        }
 
 
         val sharedPref = getSharedPreferences("UsD", Context.MODE_PRIVATE)
@@ -184,21 +188,21 @@ class Home : AppCompatActivity() {
 
     }
 
-    fun  setNotifications(numer : Int) {
-
-        val navBar = binding.navigationBotommm
-
-        val badge = navBar.getOrCreateBadge(R.id.notificacionesFragment)
-        if (numer != 0){
-            badge.isVisible = true
-            badge.number = numer
-        } else {
-            badge.isVisible = false
-        }
-        val toast = Toast.makeText(this, numer.toString(), Toast.LENGTH_SHORT)
-        toast.show()
-
-    }
+//    fun  setNotifications(numer : Int) {
+//
+//        val navBar = binding.navigationBotommm
+//
+//        val badge = navBar.getOrCreateBadge(R.id.notificacionesFragment)
+//        if (numer != 0){
+//            badge.isVisible = true
+//            badge.number = numer
+//        } else {
+//            badge.isVisible = false
+//        }
+//        val toast = Toast.makeText(this, numer.toString(), Toast.LENGTH_SHORT)
+//        toast.show()
+//
+//    }
 
     fun PopUpLoading(loading:Boolean) {
 

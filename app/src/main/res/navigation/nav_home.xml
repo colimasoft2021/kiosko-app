@@ -22,11 +22,7 @@
             android:id="@+id/action_contenido_to_contenido2"
             app:destination="@id/contenido2" />
     </fragment>
-    <fragment
-        android:id="@+id/notificacionesFragment"
-        android:name="com.example.kiosko_model.fragments.notificacionesFragment"
-        android:label="fragment_notificaciones"
-        tools:layout="@layout/fragment_notificaciones" />
+
     <fragment
         android:id="@+id/accesoDirectoFragment"
         android:name="com.example.kiosko_model.fragments.accesoDirectoFragment"

@@ -222,6 +222,7 @@ class Inicio : Fragment() {
 //
 
                                     botoneraHorizontalProgreso.setOnClickListener {
+
                                         porcentajeViewModel.setCantidadModulos(hijos)
                                         porcentajeViewModel.setIdModulo(idModulo)
                                         porcentajeViewModel.setProgresoPorModulo(100)
@@ -239,8 +240,9 @@ class Inicio : Fragment() {
                                         viewModelLocal.index(index)
                                         viewModelLocal.componentes2(submodulo)
 
-
-                                        findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                        if((activity as Home?)?.isOnlineNet() == true) {
+                                            findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                        }
                                     }
 
 
@@ -275,7 +277,10 @@ class Inicio : Fragment() {
                                         viewModelLocal.index(index)
                                         viewModelLocal.componentes2(submodulo)
 
-                                        findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                        if((activity as Home?)?.isOnlineNet() == true) {
+                                            findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                        }
+
                                     }
 
                                     val tituloBotoneraProgres = TextView(context)
@@ -403,6 +408,7 @@ class Inicio : Fragment() {
 
 
                 Log.d("PV", pv.toString())
+
                 if(pv){
 
                     try {
