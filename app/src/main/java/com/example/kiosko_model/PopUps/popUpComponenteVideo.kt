@@ -1,16 +1,23 @@
 package com.example.kiosko_model.PopUps
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.media.MediaPlayer.OnCompletionListener
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.example.kiosko_model.R
 import com.example.kiosko_model.databinding.ActivityPopUpComponenteVideoBinding
+import com.google.android.material.progressindicator.CircularProgressIndicator
 
 
 class popUpComponenteVideo : AppCompatActivity() {
@@ -52,7 +59,13 @@ class popUpComponenteVideo : AppCompatActivity() {
 
             video.requestFocus()
             // starting the video
-            video.start()
+
+            video.setOnPreparedListener {
+
+                video.start()
+                PopUpLoading(false)
+            }
+
 
                     // display a toast message if any
                     // error occurs while playing the video
@@ -62,7 +75,25 @@ class popUpComponenteVideo : AppCompatActivity() {
                         false
             }
 
+            if (isNetDisponible()){
+                when (isOnlineNet()){
+                    true -> {
+                        checkConnectivity()
 
+                    }
+                    false -> {
+                        checkConnectivity()
+                    }
+
+                    else -> {
+                        checkConnectivity()
+                    }
+
+                }
+            }else{
+                checkConnectivity()
+
+            }
 
             mediaController.setAnchorView(video)
             hideSystemUI()
@@ -130,6 +161,71 @@ class popUpComponenteVideo : AppCompatActivity() {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                     or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        }
+
+
+    fun isNetDisponible(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val actNetInfo = connectivityManager.activeNetworkInfo
+        return actNetInfo != null && actNetInfo.isConnected
+    }
+
+    fun isOnlineNet(): Boolean? {
+        try {
+            val p = Runtime.getRuntime().exec("ping -c 1 www.google.es")
+            val `val` = p.waitFor()
+            return `val` == 0
+        } catch (e: Exception) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+        }
+        return false
+    }
+
+    fun checkConnectivity() {
+        val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = manager.activeNetworkInfo
+
+        if (null == activeNetwork) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            // set message of alert dialog
+            dialogBuilder.setMessage("Confirme su conexión a internet, e intente de nuevo")
+                // if the dialog is cancelable
+                .setCancelable(false)
+                // positive button text and action
+                .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+                    recreate()
+//                    finish()
+                })
+            // negative button text and action
+//                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+//                    finish()
+//                })
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("Wi-FI desactivado ")
+            alert.setIcon(R.mipmap.ic_launcher)
+            // show alert dialog
+            alert.show()
+        }
+    }
+
+
+        fun PopUpLoading(loading:Boolean) {
+
+            val load = findViewById<CircularProgressIndicator>(R.id.loadComponenteVideo)
+            if (!loading) {
+                load.visibility = View.GONE
+                load.isClickable = true
+
+
+            } else {
+                load.visibility = View.VISIBLE
+                load.isClickable = false
+
+            }
         }
 
 

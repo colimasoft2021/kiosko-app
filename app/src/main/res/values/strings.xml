@@ -50,4 +50,6 @@
     <string name="dentro_de_t">Dentro de tienda, existen muchos procesos que con el tiempo irás perfeccionando en la ejecución, para ayudarte con el proceso de aprendizaje y práctica de los mismos, se diseñaron las siguientes guías que te llevarán de una manera sencilla y rápida a realizar correctamente los procedimientos con los que trabajamos en Kiosko.</string>
     <string name="procedimientos_a_ejecutar">Para facilitar tú proceso de aprendizaje de los procesos que se llevan a cabo en tienda, en esta sección encontrarás videotutoriales de los procedimientos a ejecutar.</string>
     <string name="gu_as_r_pidas">Guías rápidas</string>
+    <string name="channel_name">kioskoNotify</string>
+    <string name="channel_description">Notificaciones del empleado del kiosko referentes al curso</string>
 </resources>

@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,6 @@ import com.example.kiosko_model.databinding.LoginBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputLayout
 
 
@@ -46,7 +44,6 @@ class Login : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        (activity as MainActivity?)?.PopUpLoading(false)
 
         _binding = LoginBinding.inflate(inflater, container, false)
         return binding.root
@@ -65,6 +62,7 @@ class Login : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        (activity as MainActivity?)?.PopUpLoading(false)
 
         clickReady()
 
@@ -109,6 +107,7 @@ class Login : Fragment() {
 
         logIn.setOnClickListener {
 
+            wifi( )
             clickWait()
             (activity as MainActivity?)?.PopUpLoading(true)
 
@@ -214,6 +213,7 @@ class Login : Fragment() {
             }
 
         }
+
     }
 
     fun clickWait() {
@@ -246,6 +246,26 @@ class Login : Fragment() {
         pass.isEnabled=true
 
     }
+
+     fun wifi() {
+        val continuar: Button = requireView().findViewById<View>(R.id.buttonSecond) as Button
+
+
+            if ((activity as MainActivity?)?.isNetDisponible() == true){
+                if((activity as MainActivity?)?.isOnlineNet() == true){
+                        continuar.isEnabled = true
+                        (activity as MainActivity?)?.checkConnectivity()
+
+
+                }
+            }else{
+                continuar.isEnabled = false
+                (activity as MainActivity?)?.checkConnectivity()
+
+            }
+
+    }
+
 
 
 

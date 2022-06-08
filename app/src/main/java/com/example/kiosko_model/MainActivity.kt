@@ -98,7 +98,6 @@ class   MainActivity : AppCompatActivity() {
                 .setCancelable(false)
                 // positive button text and action
                 .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
-                    a()
                     recreate()
 //                    finish()
                 })

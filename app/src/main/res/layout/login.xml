@@ -12,10 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/kioskoheader_login"
-
     tools:context=".fragments.Login">
-
-
 
     <TextView
         android:id="@+id/iniciar_sesion"
@@ -105,6 +102,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
+
     <Button
         android:id="@+id/buttonSecond"
         android:layout_width="match_parent"

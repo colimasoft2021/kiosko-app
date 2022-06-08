@@ -70,8 +70,6 @@ class Inicio : Fragment() {
         val llBotonera = binding.llBotonera
         binding.llBotonera.removeAllViews()
 
-        val repository = Repository()
-        val viewModelFactory = ComponentsViewModelFactory(repository)
 
 
 
@@ -80,24 +78,27 @@ class Inicio : Fragment() {
 
             val pv = sharedPref.getBoolean("primer", false)
 
-        try{
-
             val id = Id(sharedPref.getString("id","defaultName")!!.toInt())
-            viewModel = ViewModelProvider(this, viewModelFactory)[ComponentesViewModel::class.java]
-            viewModel.getComponentes(id)
+
 
             porcentajeViewModel.reset()
 
             Log.d("response ID MODULO", porcentajeViewModel.idModulo.value.toString())
             Log.d("response PORCENTAJE", porcentajeViewModel.porcentaje.value.toString())
             Log.d("RESPONSE CANTIDADMOD", porcentajeViewModel.cantidadModulos.value.toString())
-            porcentajeViewModel.setId(sharedPref.getString("id","defaultName")!!.toInt())
 
 
             try {
+
+                val repository = Repository()
+                val viewModelFactory = ComponentsViewModelFactory(repository)
+
+                porcentajeViewModel.setId(sharedPref.getString("id","defaultName")!!.toInt())
+                viewModel = ViewModelProvider(this, viewModelFactory)[ComponentesViewModel::class.java]
+                viewModel.getComponentes(id)
                 viewModel.datos.observe(viewLifecycleOwner) { response ->
 
-                    if (response.isSuccessful) {
+                    if (response.isSuccessful ) {
                         binding.llBotoneraConProgreso.removeAllViews()
                         binding.llBotonera.removeAllViews()
 
@@ -221,6 +222,7 @@ class Inicio : Fragment() {
 //
 
                                     botoneraHorizontalProgreso.setOnClickListener {
+
                                         porcentajeViewModel.setCantidadModulos(hijos)
                                         porcentajeViewModel.setIdModulo(idModulo)
                                         porcentajeViewModel.setProgresoPorModulo(100)
@@ -238,8 +240,9 @@ class Inicio : Fragment() {
                                         viewModelLocal.index(index)
                                         viewModelLocal.componentes2(submodulo)
 
-
-                                        findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                        if((activity as Home?)?.isOnlineNet() == true) {
+                                            findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                        }
                                     }
 
 
@@ -274,7 +277,10 @@ class Inicio : Fragment() {
                                         viewModelLocal.index(index)
                                         viewModelLocal.componentes2(submodulo)
 
-                                        findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                        if((activity as Home?)?.isOnlineNet() == true) {
+                                            findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                        }
+
                                     }
 
                                     val tituloBotoneraProgres = TextView(context)
@@ -367,6 +373,7 @@ class Inicio : Fragment() {
                         llBotonera.addView(lltextHardCoded)
                         //checar compatibilidad con tablets menores de 600 px
                         val scrollLP = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height/3 )
+
                         scrollLP.setMargins(10,10,20,20)
 
                         val scrollLPContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
@@ -385,56 +392,59 @@ class Inicio : Fragment() {
                     }
 
                 }
-            } catch (e: TimeoutException) {
+            } catch (e: Exception) {
                 Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-
-            }
-        } catch (e: CertPathValidatorException) {
-            Toast.makeText(context, "Falta certificado SSL  $e", Toast.LENGTH_SHORT)
-                .show()
-            Log.d("Falta certificado SSL", e.toString())
-        }
-
-
-        val repo = Repository()
-        val viewModelFactoryAviso = MensajeInicialViewModelFactory(repo)
-
-        avisoViewModel =  ViewModelProvider(this, viewModelFactoryAviso)[MensajeInicialViewModel::class.java]
-        avisoViewModel.getAvisoInicial()
-
-
-        Log.d("PV", pv.toString())
-        if(pv){
-
-            try {
-                avisoViewModel.AvisoResponse.observe(viewLifecycleOwner) { response ->
-
-                    val size = response.body()!!.size
-                    var index = 0
-
-                    response.body()?.forEach {
-                        index++
-                        (activity as Home?)?.PopUp(it.descripcion, it.url)
-                    }
-
-
-                }
-            } catch (e: Error) {
 
             } finally {
 
-                val sp = this.requireActivity()
-                    .getSharedPreferences("UsD",
-                        Context.MODE_PRIVATE)
-                val editor = sp.edit()
-                editor.putBoolean("primer", false)
+                Toast.makeText(context, "terminado", Toast.LENGTH_SHORT).show()
+
+
+                val repo = Repository()
+                val viewModelFactoryAviso = MensajeInicialViewModelFactory(repo)
+
+                avisoViewModel =  ViewModelProvider(this, viewModelFactoryAviso)[MensajeInicialViewModel::class.java]
+                avisoViewModel.getAvisoInicial()
+
+
+                Log.d("PV", pv.toString())
+
+                if(pv){
+
+                    try {
+                        avisoViewModel.AvisoResponse.observe(viewLifecycleOwner) { response ->
+
+                            val size = response.body()!!.size
+                            var index = 0
+
+                            response.body()?.forEach {
+                                index++
+                                (activity as Home?)?.PopUp(it.descripcion, it.url)
+                            }
+
+
+                        }
+                    } catch (e: Error) {
+
+                    } finally {
+
+                        val sp = this.requireActivity()
+                            .getSharedPreferences("UsD",
+                                Context.MODE_PRIVATE)
+                        val editor = sp.edit()
+                        editor.putBoolean("primer", false)
 //                val editor = sharedPref.edit()
 //                editor.putString("primerVez", "no")
-                editor.apply()
+                        editor.apply()
 
+                    }
+                }
+                Log.d("PV", pv.toString())
             }
-        }
-        Log.d("PV", pv.toString())
+
+
+
+
 
     }
 
@@ -446,7 +456,6 @@ class Inicio : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
 
     }
 

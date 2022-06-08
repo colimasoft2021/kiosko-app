@@ -34,10 +34,10 @@
         android:text="@string/gu_as"
         android:textColor="@color/white"
         android:textSize="30dp"
-        app:layout_constraintBottom_toBottomOf="@+id/guias_borde"
-        app:layout_constraintEnd_toEndOf="@+id/guias_borde"
-        app:layout_constraintStart_toStartOf="@+id/guias_borde"
-        app:layout_constraintTop_toTopOf="@+id/guias_borde" />
+        app:layout_constraintBottom_toBottomOf="@+id/guiasb"
+        app:layout_constraintEnd_toEndOf="@+id/guiasb"
+        app:layout_constraintStart_toStartOf="@+id/guiasb"
+        app:layout_constraintTop_toTopOf="@+id/guiasb" />
 
     <Button
         android:id="@+id/videos"
@@ -47,13 +47,13 @@
         android:textSize="30dp"
         android:text="@string/videos"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="@+id/videos_borde"
-        app:layout_constraintEnd_toEndOf="@+id/videos_borde"
-        app:layout_constraintStart_toStartOf="@+id/videos_borde"
-        app:layout_constraintTop_toTopOf="@+id/videos_borde" />
+        app:layout_constraintBottom_toBottomOf="@+id/videosb"
+        app:layout_constraintEnd_toEndOf="@+id/videosb"
+        app:layout_constraintStart_toStartOf="@+id/videosb"
+        app:layout_constraintTop_toTopOf="@+id/videosb" />
 
     <Button
-        android:id="@+id/videos_borde"
+        android:id="@+id/videosb"
         style="@style/AppTheme.strokeVideoButtons"
         android:layout_width="180dp"
         android:layout_height="180dp"
@@ -61,19 +61,19 @@
         android:text="\n VIDEOSSSSS \n"
         android:textColor="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/guias_borde"
+        app:layout_constraintStart_toEndOf="@id/guiasb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_container" />
 
     <Button
-        android:id="@+id/guias_borde"
+        android:id="@+id/guiasb"
         style="@style/AppTheme.strokeGuiaButtons"
         android:layout_width="180dp"
         android:layout_height="180dp"
         android:layout_marginBottom="124dp"
         android:text="\n GUIASSSSS \n"
         android:textColor="@color/transparent"
-        app:layout_constraintEnd_toStartOf="@id/videos_borde"
+        app:layout_constraintEnd_toStartOf="@id/videosb"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_container" />

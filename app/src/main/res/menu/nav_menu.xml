@@ -5,11 +5,11 @@
 <!--    tools:showIn="navigation_view"-->
 
     <item
-        android:id="@+id/inicioFragment"
+        android:id="@+id/inicio"
         android:icon="@drawable/inicio"
         android:title="" />
     <item
-        android:id="@+id/accesoDirectoFragment"
+        android:id="@+id/accesoDirecto"
         android:icon="@drawable/acceso_d"
         android:title="" />
 
