@@ -74,8 +74,9 @@ class   MainActivity : AppCompatActivity() {
     fun isOnlineNet(): Boolean? {
         try {
             val p = Runtime.getRuntime().exec("ping -c 1 www.google.es")
-            val `val` = p.waitFor()
-            return `val` == 0
+            val valor = p.waitFor()
+            Log.d("woooooorkkkkk", valor.toString() )
+            return valor == 0
         } catch (e: Exception) {
             // TODO Auto-generated catch block
             e.printStackTrace()
