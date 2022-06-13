@@ -213,7 +213,7 @@ class Login : Fragment() {
                 showMaterialDialog("Error", "EL servidor tardo demaciado en responder, verifique su conexion e intente de nuevo.")
                 clickClear()
 
-            }, 10000)
+            }, 20000)
 
 
         }

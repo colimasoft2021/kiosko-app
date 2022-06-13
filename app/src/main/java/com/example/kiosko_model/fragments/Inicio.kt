@@ -378,11 +378,12 @@ class Inicio : Fragment() {
 
                         Log.d("height",height.toString())
                         Log.d("width",width.toString())
+
                         if (height > 1000 && width>600 ){
 
                             if (height > 1400  && width>1000 ){
                                 val height2 = 1300
-                                 scrollLP = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height2/3 )
+                                 scrollLP = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height/3 )
 
 
                             }else{
