@@ -6,16 +6,14 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.example.kiosko_model.PopUps.Loading
 import com.example.kiosko_model.databinding.ActivityMainBinding
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import java.util.*
 
 
 class   MainActivity : AppCompatActivity() {
@@ -134,18 +132,34 @@ class   MainActivity : AppCompatActivity() {
 ////                no wifi
 //            }
     }
+
+    fun cronometro() {
+
+
+
+
+    }
     fun PopUpLoading(loading:Boolean){
 
         val load  = findViewById<CircularProgressIndicator>(R.id.load)
         if(!loading){
             load.visibility = View.GONE
-            load.isClickable = true
+            load.isClickable = false
 
 
         }
         else{
             load.visibility = View.VISIBLE
             load.isClickable = false
+
+//            val timer = Timer()
+//            timer.schedule(object : TimerTask() {
+//                override fun run() {
+//                    Log.d("400000","funciona")
+//                    load.visibility = View.GONE
+//
+//                }
+//            }, 4000)
 
         }
 

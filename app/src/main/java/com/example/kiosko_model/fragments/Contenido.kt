@@ -326,7 +326,7 @@ class Contenido : Fragment() {
                                    buttonW.setTextColor(Color.WHITE)
                                    buttonW.isAllCaps = false
                                    buttonW.setBackgroundColor(Color.parseColor(it.backgroundColor))
-                                   buttonW.gravity = Gravity.CENTER
+                                    buttonW.gravity = Gravity.CENTER
                                    buttonW.setPadding(20,20,20,20)
                                    llContenedor.addView(buttonW,lp)
                                }

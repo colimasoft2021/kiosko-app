@@ -372,17 +372,42 @@ class Inicio : Fragment() {
                         lltextHardCoded.addView(scroll)
                         llBotonera.addView(lltextHardCoded)
                         //checar compatibilidad con tablets menores de 600 px
-                        val scrollLP = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height/3 )
+
+                        var scrollLP : LinearLayout.LayoutParams
+
+
+                        Log.d("height",height.toString())
+                        Log.d("width",width.toString())
+                        if (height > 1000 && width>600 ){
+
+                            if (height > 1400  && width>1000 ){
+                                val height2 = 1300
+                                 scrollLP = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height2/3 )
+
+
+                            }else{
+                                val height2 = 1100
+                                 scrollLP = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height/4 )
+                            }
+
+                        }
+                        else{
+                            val height2 = 650
+                             scrollLP = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, height/2 )
+                        }
 
                         scrollLP.setMargins(10,10,20,20)
 
+                        //                            margen erroneo, no visible progreso completo
                         val scrollLPContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
-                        scrollLPContenedor.setMargins(15,10,20,50)
+                        scrollLPContenedor.setMargins(15,10,20,0)
 
 //                                scrollPorcentaje.layoutParams = contenedorProgresoScroll.layoutParams
                         scrollPorcentaje.addView(contenedorProgresoScroll )
 
                         lltextHardCodedProgress.addView(scrollPorcentaje, scrollLP)
+
+//                            margen erroneo, no visible progreso completo
 
                         llBotoneraConProgreso.addView(lltextHardCodedProgress,scrollLPContenedor)
 
@@ -397,7 +422,7 @@ class Inicio : Fragment() {
 
             } finally {
 
-                Toast.makeText(context, "terminado", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context, "terminado", Toast.LENGTH_SHORT).show()
 
 
                 val repo = Repository()
