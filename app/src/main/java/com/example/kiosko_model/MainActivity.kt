@@ -75,7 +75,7 @@ class   MainActivity : AppCompatActivity() {
         try {
             val p = Runtime.getRuntime().exec("ping -c 1 www.google.es")
             val `val` = p.waitFor()
-            return `val` == 0
+            return `val` == 1
         } catch (e: Exception) {
             // TODO Auto-generated catch block
             e.printStackTrace()
