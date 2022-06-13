@@ -2,6 +2,7 @@ package com.example.kiosko_model.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
+import java.util.*
 
 
 class Login : Fragment() {
@@ -107,6 +109,7 @@ class Login : Fragment() {
 
         logIn.setOnClickListener {
 
+
             wifi( )
             clickWait()
             (activity as MainActivity?)?.PopUpLoading(true)
@@ -184,16 +187,8 @@ class Login : Fragment() {
                             //viewLogModel.myResponse.removeObservers(viewLifecycleOwner)
                         }
 
-                    } else {
-
-                        clickReady()
-                        "Usuario y/o contraseña incorrectos."
-                        (activity as MainActivity?)?.PopUpLoading(false)
-                        showMaterialDialog("Error",
-                            "Usuario y/o contraseña incorrectos.")
-
-
                     }
+
                 }
                 //El usuario y contraseña son requeridos mensaje
                 else {
@@ -204,7 +199,7 @@ class Login : Fragment() {
                     showMaterialDialog("Error", "El usuario y contraseña son requeridos.")
                 }
             }catch(e:Exception){
-                Log.d("exeption","exeption")
+                Log.d("exeption",e.toString())
             }finally{
                Log.d("final","final")
 //                loadingOFF(loading,vista)
@@ -212,11 +207,20 @@ class Login : Fragment() {
 
             }
 
+            Handler().postDelayed( {
+                clickReady()
+                (activity as MainActivity?)?.PopUpLoading(false)
+                showMaterialDialog("Error", "EL servidor tardo demaciado en responder, verifique su conexion e intente de nuevo.")
+                clickClear()
+
+            }, 10000)
+
+
         }
 
     }
 
-    fun clickWait() {
+        fun clickWait() {
         val  usertexto: TextView = binding.usuariotxt
         val  passtexto: TextView = binding.contrasenatxt
         val  usuariooo: TextInputLayout = binding.usuario
@@ -229,6 +233,22 @@ class Login : Fragment() {
         boton.isEnabled=false
         usuariooo.isEnabled=false
         pass.isEnabled=false
+    }
+    fun clickClear() {
+
+        val  usertexto: TextView = binding.usuariotxt
+        val  passtexto: TextView = binding.contrasenatxt
+
+
+
+
+        usertexto.text = ""
+        passtexto.text = ""
+
+
+
+
+
     }
     fun clickReady() {
 

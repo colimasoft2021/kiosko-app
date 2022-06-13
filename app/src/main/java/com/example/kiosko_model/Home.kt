@@ -96,7 +96,9 @@ class Home : AppCompatActivity() {
                     val intent = Intent(this, Home::class.java)
 
                     if (isOnlineNet() == true){ startActivity(intent) }
-
+                    else {
+                        checkConnectivity()
+                    }
                     true
 
                 }
@@ -106,6 +108,10 @@ class Home : AppCompatActivity() {
                     if (isOnlineNet() == true){
                         findNavController(R.id.nav_host_fragment_content_home).navigate(R.id.accesoDirectoFragment)
                     }
+                    else {
+                        checkConnectivity()
+                    }
+
                         true
                 }
 
@@ -298,7 +304,8 @@ class Home : AppCompatActivity() {
                 .setCancelable(false)
                 // positive button text and action
                 .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
-                    recreate()
+
+//                    recreate()
 //                    finish()
                 })
             // negative button text and action
