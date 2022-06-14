@@ -88,6 +88,27 @@ class Inicio : Fragment() {
             Log.d("RESPONSE CANTIDADMOD", porcentajeViewModel.cantidadModulos.value.toString())
 
 
+            val TextHardCodedTitle = TextView(context)
+            TextHardCodedTitle.text = "Inicia tu capacitación"
+            TextHardCodedTitle.setTextColor(Color.BLACK)
+            TextHardCodedTitle.textSize = 24F
+            TextHardCodedTitle.gravity = Gravity.LEFT
+            TextHardCodedTitle.typeface = Typeface.DEFAULT_BOLD
+
+
+            val TextHardCodedSubTitle = TextView(context)
+            TextHardCodedSubTitle.text = "Elige el apartado con el que quieres comenzar"
+            TextHardCodedSubTitle.setTextColor(Color.BLACK)
+            TextHardCodedSubTitle.textSize = 16F
+            TextHardCodedSubTitle.gravity = Gravity.LEFT
+
+            val TextHardCodedProgres = TextView(context)
+            TextHardCodedProgres.text = "Continuar con tu progreso actual"
+            TextHardCodedProgres.setTextColor(Color.BLACK)
+            TextHardCodedProgres.textSize = 24F
+            TextHardCodedProgres.gravity = Gravity.LEFT
+            TextHardCodedProgres.typeface = Typeface.DEFAULT_BOLD
+
             try {
 
                 val repository = Repository()
@@ -106,22 +127,12 @@ class Inicio : Fragment() {
                         lltextHardCoded.orientation = LinearLayout.VERTICAL
                         lltextHardCoded.gravity = Gravity.CENTER_VERTICAL
 
-                        val TextHardCodedTitle = TextView(context)
-                        TextHardCodedTitle.text = "Inicia tu capacitación"
-                        TextHardCodedTitle.setTextColor(Color.BLACK)
-                        TextHardCodedTitle.textSize = 24F
-                        TextHardCodedTitle.gravity = Gravity.LEFT
-                        TextHardCodedTitle.typeface = Typeface.DEFAULT_BOLD
 
                         val lpTextHardCodedTitle = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                         lpTextHardCodedTitle.setMargins(0,15,0,5)
 
 
-                        val TextHardCodedSubTitle = TextView(context)
-                        TextHardCodedSubTitle.text = "Elige el apartado con el que quieres comenzar"
-                        TextHardCodedSubTitle.setTextColor(Color.BLACK)
-                        TextHardCodedSubTitle.textSize = 16F
-                        TextHardCodedSubTitle.gravity = Gravity.LEFT
+
 
                         val lpTextHardCodedSubTitle = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                         lpTextHardCodedSubTitle.setMargins(0,10,0,15)
@@ -133,12 +144,6 @@ class Inicio : Fragment() {
                         lltextHardCodedProgress.orientation = LinearLayout.VERTICAL
                         lltextHardCodedProgress.gravity = Gravity.CENTER_VERTICAL
 
-                        val TextHardCodedProgres = TextView(context)
-                        TextHardCodedProgres.text = "Continuar con tu progreso actual"
-                        TextHardCodedProgres.setTextColor(Color.BLACK)
-                        TextHardCodedProgres.textSize = 24F
-                        TextHardCodedProgres.gravity = Gravity.LEFT
-                        TextHardCodedProgres.typeface = Typeface.DEFAULT_BOLD
 
                         val lpTextHardCodedProgres = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
                         lpTextHardCodedProgres.setMargins(0,15,0,30)
