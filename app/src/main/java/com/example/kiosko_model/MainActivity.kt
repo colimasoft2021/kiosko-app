@@ -115,6 +115,32 @@ class   MainActivity : AppCompatActivity() {
         }
     }
 
+    fun mensaje(title:String,mensaje:String){
+
+        val dialogBuilder = AlertDialog.Builder(this)
+        // set message of alert dialog
+        dialogBuilder.setMessage(mensaje)
+            // if the dialog is cancelable
+            .setCancelable(false)
+            // positive button text and action
+            .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+                recreate()
+//                    finish()
+            })
+        // negative button text and action
+//                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+//                    finish()
+//                })
+
+        // create dialog box
+        val alert = dialogBuilder.create()
+        // set title for alert dialog box
+        alert.setTitle(title)
+        alert.setIcon(R.mipmap.ic_launcher)
+        // show alert dialog
+        alert.show()
+    }
+
     fun a(){
         // Declaring Wi-Fi manager
         val wifi = applicationContext.getSystemService(WIFI_SERVICE) as WifiManager

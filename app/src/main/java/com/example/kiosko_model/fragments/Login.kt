@@ -1,6 +1,8 @@
 package com.example.kiosko_model.fragments
 
 import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -10,10 +12,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.kiosko_model.Home
 import com.example.kiosko_model.MainActivity
 import com.example.kiosko_model.R
 import com.example.kiosko_model.databinding.LoginBinding
@@ -21,7 +23,6 @@ import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
-import java.util.*
 
 
 class Login : Fragment() {
@@ -210,8 +211,36 @@ class Login : Fragment() {
             Handler().postDelayed( {
                 clickReady()
                 (activity as MainActivity?)?.PopUpLoading(false)
-                showMaterialDialog("Error", "EL servidor tardo demaciado en responder, verifique su conexion e intente de nuevo.")
+//                showMaterialDialog("Error", "EL servidor tardo demaciado en responder, verifique su conexion e intente de nuevo.")
+
+                val dialogBuilder = AlertDialog.Builder(requireContext())
+                // set message of alert dialog
+                dialogBuilder.setMessage("EL servidor tardo demaciado en responder, verifique su conexion e intente de nuevo")
+                    // if the dialog is cancelable
+                    .setCancelable(false)
+                    // positive button text and action
+                    .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+
+                        val intent = Intent(activity, MainActivity::class.java)
+                        startActivity(intent)
+                    //                    finish()
+                    })
+                // negative button text and action
+//                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+//                    finish()
+//                })
+
+                // create dialog box
+                val alert = dialogBuilder.create()
+                // set title for alert dialog box
+                alert.setTitle("Error ")
+                alert.setIcon(R.mipmap.ic_launcher)
+                // show alert dialog
+                alert.show()
+
                 clickClear()
+
+
 
             }, 20000)
 
