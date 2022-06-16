@@ -156,12 +156,18 @@ class Contenido2 : Fragment() {
                         buttonBack.setTextColor(Color.WHITE)
                         buttonBack.background = gD
                         buttonBack.setOnClickListener {
-                            binding.llContenedor.removeAllViews()
 
-                            val intento =
-                                Intent(context, Home::class.java)
-                            context?.startActivity(intento)
-                            binding.llContenedor.removeAllViews()
+                            if((activity as Home?) ?.isOnlineNet() == true){
+
+                                binding.llContenedor.removeAllViews()
+
+                                val intento = Intent(context, Home::class.java)
+                                context?.startActivity(intento)
+                                binding.llContenedor.removeAllViews()
+                            }
+                            else{
+                                (activity as Home?) ?.checkConnectivity()
+                            }
 
 
                         }
@@ -990,11 +996,17 @@ class Contenido2 : Fragment() {
                                                buttonExit.background = g
 
                                                buttonExit.setOnClickListener {
-                                                   val intento =
-                                                       Intent(context,
-                                                           Home::class.java)
-                                                   context?.startActivity(
-                                                       intento)
+                                                   if((activity as Home?) ?.isOnlineNet() == true){
+
+                                                       binding.llContenedor.removeAllViews()
+
+                                                       val intento = Intent(context, Home::class.java)
+                                                       context?.startActivity(intento)
+                                                       binding.llContenedor.removeAllViews()
+                                                   }
+                                                   else{
+                                                       (activity as Home?) ?.checkConnectivity()
+                                                   }
                                                }
 
                                                val LayoutBotonNext =
@@ -1035,12 +1047,28 @@ class Contenido2 : Fragment() {
                                                buttonNext.setTextColor(Color.WHITE)
                                                buttonNext.background =gDBotonNext
                                                buttonNext.setOnClickListener {
-                                                   viewModelLocal.index(index!!+1)
-                                                   viewModel3.componentes(submodulo!![index]!!.componentes)
-                                                   viewModel3.colorModulo(colorModulo)
-                                                   findNavController().navigate(R.id.action_contenido2_to_contenido)
-                                                   binding.llContenedor.removeAllViews()
-                                                   listView.removeAllViews()
+
+
+                                                   if((activity as Home?) ?.isOnlineNet() == true){
+
+                                                       viewModelLocal.index(index!!+1)
+                                                       viewModel3.componentes(submodulo!![index]!!.componentes)
+                                                       viewModel3.colorModulo(colorModulo)
+                                                       findNavController().navigate(R.id.action_contenido2_to_contenido)
+                                                       binding.llContenedor.removeAllViews()
+                                                       listView.removeAllViews()
+
+                                                   }
+                                                   else{
+                                                       (activity as Home?) ?.checkConnectivity()
+                                                   }
+
+//                                                   viewModelLocal.index(index!!+1)
+//                                                   viewModel3.componentes(submodulo!![index]!!.componentes)
+//                                                   viewModel3.colorModulo(colorModulo)
+//                                                   findNavController().navigate(R.id.action_contenido2_to_contenido)
+//                                                   binding.llContenedor.removeAllViews()
+//                                                   listView.removeAllViews()
 
 
                                                }

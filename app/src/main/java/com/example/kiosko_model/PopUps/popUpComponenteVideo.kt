@@ -29,6 +29,7 @@ class popUpComponenteVideo : AppCompatActivity() {
             _binding = ActivityPopUpComponenteVideoBinding.inflate(layoutInflater)
             setContentView(binding.root)
 
+
             val displaymetrics = DisplayMetrics()
             this.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
             val height = displaymetrics.heightPixels
@@ -70,30 +71,33 @@ class popUpComponenteVideo : AppCompatActivity() {
                     // display a toast message if any
                     // error occurs while playing the video
             video.setOnErrorListener { mp, what, extra ->
-                        Toast.makeText(applicationContext, "An Error Occured " +
-                                "While Playing Video !!!", Toast.LENGTH_LONG).show()
+
+                if (isNetDisponible()){
+                    when (isOnlineNet()){
+                        true -> {
+                            checkConnectivity()
+
+                        }
+                        false -> {
+                            checkConnectivity()
+                        }
+
+                        else -> {
+                            checkConnectivity()
+                        }
+
+                    }
+                }else{
+                    checkConnectivity()
+
+                }
+//
+//                Toast.makeText(applicationContext, "An Error Occured " +
+//                                "While Playing Video !!!", Toast.LENGTH_LONG).show()
                         false
             }
 
-            if (isNetDisponible()){
-                when (isOnlineNet()){
-                    true -> {
-                        checkConnectivity()
 
-                    }
-                    false -> {
-                        checkConnectivity()
-                    }
-
-                    else -> {
-                        checkConnectivity()
-                    }
-
-                }
-            }else{
-                checkConnectivity()
-
-            }
 
             mediaController.setAnchorView(video)
             hideSystemUI()
