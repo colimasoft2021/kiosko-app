@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
@@ -80,7 +81,9 @@ class Home : AppCompatActivity() {
         // Pop Up
 
         //define el control de navegacion de los fragmentos a un val para ligarlo a su menu correspondiente
-        val navController = findNavController(R.id.nav_host_fragment_content_home)
+//        val a = R.id.nav_host_fragment_content_home
+//        Log.d("idvalorInt", a.toString())
+//        val navController = findNavController(R.id.nav_host_fragment_content_home)
 
         // menu de navegacion lateral
 
