@@ -1,5 +1,6 @@
 package com.example.kiosko_model.PopUps
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -15,9 +16,17 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.kiosko_model.R
 import com.example.kiosko_model.databinding.ActivityPopUpComponenteVideoBinding
+import com.google.android.exoplayer2.offline.DownloadService.start
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.common.collect.ComparisonChain.start
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable.start
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class popUpComponenteVideo : AppCompatActivity() {
@@ -37,7 +46,7 @@ class popUpComponenteVideo : AppCompatActivity() {
             val texto = intent.extras!!.getString("texto")
             val url2 = intent.extras!!.getString("url")
             val mensajeIncial = intent.extras!!.getBoolean("MensajeInicial")
-//
+
 //        val sharedPref = this
 //            .getSharedPreferences("AvisoInicial", Context.MODE_PRIVATE)
 //
@@ -75,25 +84,7 @@ class popUpComponenteVideo : AppCompatActivity() {
                         false
             }
 
-            if (isNetDisponible()){
-                when (isOnlineNet()){
-                    true -> {
-                        checkConnectivity()
 
-                    }
-                    false -> {
-                        checkConnectivity()
-                    }
-
-                    else -> {
-                        checkConnectivity()
-                    }
-
-                }
-            }else{
-                checkConnectivity()
-
-            }
 
             mediaController.setAnchorView(video)
             hideSystemUI()
@@ -227,7 +218,38 @@ class popUpComponenteVideo : AppCompatActivity() {
 
             }
         }
+     fun verificacionInternet(){
+        while(true){
+            Thread.sleep(1000)
+            Log.d(TAG,"ENTRO AL HILO SECUNDARIO")
+            if (isNetDisponible()){
+                Log.d(TAG,"ENTRO AL IF")
+                when (isOnlineNet()){
 
+                    true -> {
+                        checkConnectivity()
+                        Log.d(TAG,"PRIMERA OPCION DEL WHEN")
+                    }
+                    false -> {
+                        checkConnectivity()
+                        Log.d(TAG,"SEGUNDA OPCION DEL WHEN")
+                    }
+
+                    else -> {
+                        checkConnectivity()
+                        Log.d(TAG,"TERCERA OPCION DEL WHEN")
+                    }
+
+                }
+            }else{
+                checkConnectivity()
+                Log.d(TAG,"ULTIMO ELSE DEL WHEN")
+
+            }
+
+        }
+    }
 
     }
+
 

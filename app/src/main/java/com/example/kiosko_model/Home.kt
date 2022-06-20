@@ -1,11 +1,14 @@
 package com.example.kiosko_model
 
 import android.app.PendingIntent
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
@@ -14,6 +17,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.findNavController
@@ -28,7 +32,7 @@ import com.example.kiosko_model.repository.Repository
 import com.google.android.material.progressindicator.CircularProgressIndicator
 
 
-class Home : AppCompatActivity() {
+class Home () : AppCompatActivity() {
 
     private  var _binding: ActivityHomeBinding? = null
     private  val binding get() = _binding!!
@@ -167,9 +171,26 @@ class Home : AppCompatActivity() {
             val intent = Intent(this, Perfil::class.java)
             startActivity(intent)
         }
-
+        Log.d(TAG,"entre al Resume")
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG,"entre al Pause")
+    }
+    override fun onStop() {
+        super.onPause()
+        Log.d(TAG,"entre al Stop")
+    }
+    override fun onDestroy() {
+        super.onPause()
+        Log.d(TAG,"entre al Destroy")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+
+    }
 
     fun PopUp(descripcion:String,url:String){
         val intent = Intent(this, Popup1::class.java)
