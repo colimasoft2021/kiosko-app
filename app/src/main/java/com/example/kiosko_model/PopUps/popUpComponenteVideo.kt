@@ -1,12 +1,15 @@
 package com.example.kiosko_model.PopUps
 
+import android.app.Service
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.media.MediaPlayer
 import android.media.MediaPlayer.OnCompletionListener
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
@@ -69,13 +72,13 @@ class popUpComponenteVideo : AppCompatActivity() {
 
                     // display a toast message if any
                     // error occurs while playing the video
-            video.setOnErrorListener { mp, what, extra ->
+/*            video.setOnErrorListener { mp, what, extra ->
                         Toast.makeText(applicationContext, "An Error Occured " +
                                 "While Playing Video !!!", Toast.LENGTH_LONG).show()
                         false
-            }
+            }*/
 
-            if (isNetDisponible()){
+/*            if (isNetDisponible()){
                 when (isOnlineNet()){
                     true -> {
                         checkConnectivity()
@@ -93,7 +96,7 @@ class popUpComponenteVideo : AppCompatActivity() {
             }else{
                 checkConnectivity()
 
-            }
+            }*/
 
             mediaController.setAnchorView(video)
             hideSystemUI()
@@ -230,4 +233,22 @@ class popUpComponenteVideo : AppCompatActivity() {
 
 
     }
+/*class MyService : Service(), MediaPlayer.OnErrorListener {
+
+    private var mediaPlayer: MediaPlayer? = null
+
+    fun initMediaPlayer() {
+        // ...initialize the MediaPlayer here...
+        mediaPlayer?.setOnErrorListener(this)
+    }
+
+    override fun onError(mp: MediaPlayer, what: Int, extra: Int): Boolean {
+        // ... react appropriately ...
+        // The MediaPlayer has moved to the Error state, must be reset!
+    }
+
+    override fun onBind(p0: Intent?): IBinder? {
+        TODO("Not yet implemented")
+    }
+}*/
 
