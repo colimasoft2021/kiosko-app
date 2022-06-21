@@ -70,7 +70,7 @@ class popUpComponenteVideo : AppCompatActivity() {
 
                     // display a toast message if any
                     // error occurs while playing the video
-            video.setOnErrorListener { mp, what, extra ->
+/*            video.setOnErrorListener { mp, what, extra ->
 
                 if (isNetDisponible()){
                     when (isOnlineNet()){
@@ -95,7 +95,7 @@ class popUpComponenteVideo : AppCompatActivity() {
 //                Toast.makeText(applicationContext, "An Error Occured " +
 //                                "While Playing Video !!!", Toast.LENGTH_LONG).show()
                         false
-            }
+            }*/
 
 
 
