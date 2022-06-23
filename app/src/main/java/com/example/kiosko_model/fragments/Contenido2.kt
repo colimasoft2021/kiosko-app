@@ -744,7 +744,12 @@ class Contenido2 : Fragment() {
                                 listView.addView(relativeLayout)
                                 llContenedor.addView(listView)
 
+                                Log.d("Contenido2","SE CREO VIDEO")
+                                video.setOnPreparedListener {
 
+                                    video.start()
+
+                                }
                             }
                             "pop-up" -> {
 
