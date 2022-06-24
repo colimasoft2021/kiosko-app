@@ -1,20 +1,15 @@
 package com.example.kiosko_model.fragments
 
-import android.R.attr.button
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.text.LineBreaker
-import android.media.SubtitleData
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
-import android.text.Layout
-import android.text.Layout.JUSTIFICATION_MODE_INTER_WORD
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
@@ -23,25 +18,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.marginStart
-import androidx.core.view.marginTop
-import androidx.core.view.setMargins
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.kiosko_model.Home
-import com.example.kiosko_model.PopUps.popUpComponente
-import com.example.kiosko_model.PopUps.popUpComponenteVideo
 import com.example.kiosko_model.R
 import com.example.kiosko_model.adapter.ContentRowAdapter
 import com.example.kiosko_model.databinding.FragmentContenidoBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.modelslite.ProgresoViewModel
 import com.example.kiosko_model.repository.Repository
-import org.w3c.dom.Text
 import java.security.cert.CertPathValidatorException
 import java.util.concurrent.TimeoutException
 
@@ -51,6 +40,7 @@ class Contenido : Fragment() {
     private val viewModel3:CompuestosViewModel2 by viewModels({requireParentFragment()})
     private val porcentajeViewModel: PorcentajeViewModel by viewModels({requireParentFragment()})
     private val viewModelLocal: ComponentesViewModel2 by viewModels({requireParentFragment()})
+
 
 
     private lateinit var progreso: ProgresoViewModel
@@ -66,16 +56,18 @@ class Contenido : Fragment() {
 //        FragmentContenidoBinding.inflate(layoutInflater)
 //    }
 
-    override fun onStop() {
-        super.onStop()
-
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ) : View? {
         _binding = FragmentContenidoBinding.inflate(inflater,container,false)
         binding.llContenedor.removeAllViews()
+
+
+
+
+
+
 
         return binding.root
     }
@@ -94,7 +86,6 @@ class Contenido : Fragment() {
         val p = porcentajeViewModel.porcentaje.value!!
 
         val colorModulo = viewModel.colorModulo.value!!
-
 
         val progresoPost = PostProgreso(idU,idM,p.toDouble())
         progreso.pushProgresoRegistro(progresoPost)
@@ -219,7 +210,7 @@ class Contenido : Fragment() {
                                    val textoW = TextView(context)
                                    textoW.text = Html.fromHtml(it.descripcion)
                                    textoW.textSize = 16F
-                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
+                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
                                    textoW.setTextColor(Color.BLACK)
                                    textoW.gravity = Gravity.CENTER
 
@@ -257,7 +248,7 @@ class Contenido : Fragment() {
                                    val textoW = TextView(context)
                                    textoW.text = Html.fromHtml(it.descripcion)
                                    textoW.textSize = 16F
-                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
+                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
                                    textoW.setTextColor(Color.BLACK)
                                    textoW.gravity = Gravity.CENTER
 
@@ -378,7 +369,7 @@ class Contenido : Fragment() {
                                    textoW.text = Html.fromHtml(it.descripcion)
                                    textoW.textSize = 16F
                                    //textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
-                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
+                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 
                                    textoW.setTextColor(Color.BLACK)
                                    textoW.gravity = Gravity.CENTER
@@ -496,7 +487,7 @@ class Contenido : Fragment() {
                                    texto.text = Html.fromHtml(it.descripcion)
                                    texto.textSize = 16F
                                    texto.setTextColor(Color.BLACK)
-                                   texto.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
+                                   texto.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 
                                    val lpT =
                                        LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -725,14 +716,13 @@ class Contenido : Fragment() {
 
                                    val uri = Uri.parse(it.url)
                                    val video = VideoView(context)
-                                   val mediaController = MediaController(context)
                                    val listView = LinearLayout(context)
                                    listView.orientation= LinearLayout.HORIZONTAL
                                    listView.gravity = Gravity.CENTER_HORIZONTAL
                                    val relativeLayout = RelativeLayout(context)
                                    val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                                        1000)
-
+                                   val mediaController = MediaController(context)
                                    video.setVideoURI(uri)
                                    video.setMediaController(mediaController)
                                    video.layoutParams = FrameLayout.LayoutParams(lp)
@@ -744,7 +734,6 @@ class Contenido : Fragment() {
 
                                }
                                "video"-> {
-
                                    val uri = Uri.parse(it.url)
                                    val video = VideoView(context)
                                    val mediaController = MediaController(context)
@@ -758,15 +747,22 @@ class Contenido : Fragment() {
                                    video.setMediaController(mediaController)
                                    video.layoutParams = FrameLayout.LayoutParams(lp)
                                    mediaController.setAnchorView(video)
+                                   mediaController.hide()
                                    relativeLayout.addView(video)
                                    listView.addView(relativeLayout)
                                    llContenedor.addView(listView)
 
+                                   val scroll = binding.View
+                                   var cambio = scroll.onScroll(mediaController)
+                                   Log.d("valor cambio",cambio.toString())
+                                   if(cambio == 1) {
+                                        Log.d("entre al if", "entro al cambio")
+                                   }else{
+                                       Log.d("no entre al if", " no entro al cambio")
+                                   }
                                    Log.d("Contenido","SE CREO VIDEO")
                                    video.setOnPreparedListener {
-
                                        video.start()
-
                                    }
                                }
                                "pop-up" -> {
@@ -816,7 +812,7 @@ class Contenido : Fragment() {
                                    listView.addView(subtituloW)
 
                                    textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
+                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
                                    textoW.setTextColor(Color.BLACK)
                                    textoW.textSize = 16F
 
@@ -900,7 +896,7 @@ class Contenido : Fragment() {
                                    listView.addView(subtituloW,lpSubtitulo)
 
                                    textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.setJustificationMode(LineBreaker.JUSTIFICATION_MODE_INTER_WORD)
+                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
                                    textoW.setTextColor(Color.BLACK)
                                    textoW.textSize = 16F
 
@@ -1070,8 +1066,8 @@ class Contenido : Fragment() {
 
                                                     if((activity as Home?) ?.isOnlineNet() == true){
 
-                                                        viewModelLocal.index(index!!+1)
-                                                        viewModel3.componentes(submodulo!![index!!]!!.componentes)
+                                                        viewModelLocal.index(index +1)
+                                                        viewModel3.componentes(submodulo[index]!!.componentes)
                                                         viewModel3.colorModulo(colorModulo)
                                                         findNavController().navigate(R.id.action_contenido_to_contenido2)
                                                         binding.llContenedor.removeAllViews()
@@ -1131,16 +1127,35 @@ class Contenido : Fragment() {
 
 
     }
+    //FUNCION QUE SIRVE PARA DETECTAR EL SCROLL EN EL EJE "Y" EN EL FRAGMENTO DE CONTENIDO
+    fun View?.onScroll(mediaController : MediaController) : Int{
+        var oldY = 0
+        var estado = 1
+        this?.viewTreeObserver?.addOnScrollChangedListener {
+            if (oldY != scrollY) {
+                oldY = scrollY
+                Log.d("Contenido", "Se ha cambiado el scroll")
+                mediaController.hide()
 
+                estado = 1
+            }else{
+                estado = 0
+            }
+        }
+        Log.d("retorna",estado.toString())
+        return estado
+    }
     private fun setupRecyclerview(){
 //        binding.recyclerViewContenido.adapter = contentRowAdapter
 //        binding.recyclerViewContenido.layoutManager = LinearLayoutManager(context)
     }
 
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }
 
 
