@@ -740,15 +740,22 @@ class Contenido2 : Fragment() {
                                 video.setMediaController(mediaController)
                                 video.layoutParams = FrameLayout.LayoutParams(lp)
                                 mediaController.setAnchorView(video)
+                                mediaController.hide()
                                 relativeLayout.addView(video)
                                 listView.addView(relativeLayout)
                                 llContenedor.addView(listView)
 
-                                Log.d("Contenido2","SE CREO VIDEO")
+                                val scroll = binding.View
+                                var cambio = scroll.onScroll(mediaController)
+                                Log.d("valor cambio",cambio.toString())
+                                if(cambio == 1) {
+                                    Log.d("entre al if", "entro al cambio")
+                                }else{
+                                    Log.d("no entre al if", " no entro al cambio")
+                                }
+                                Log.d("Contenido","SE CREO VIDEO")
                                 video.setOnPreparedListener {
-
                                     video.start()
-
                                 }
                             }
                             "pop-up" -> {
@@ -1118,7 +1125,23 @@ class Contenido2 : Fragment() {
 
 
     }
+    fun View?.onScroll(mediaController : MediaController) : Int{
+        var oldY = 0
+        var estado = 1
+        this?.viewTreeObserver?.addOnScrollChangedListener {
+            if (oldY != scrollY) {
+                oldY = scrollY
+                Log.d("Contenido", "Se ha cambiado el scroll")
+                mediaController.hide()
 
+                estado = 1
+            }else{
+                estado = 0
+            }
+        }
+        Log.d("retorna",estado.toString())
+        return estado
+    }
     private fun setupRecyclerview(){
 //        binding.recyclerViewContenido.adapter = contentRowAdapter
 //        binding.recyclerViewContenido.layoutManager = LinearLayoutManager(context)
