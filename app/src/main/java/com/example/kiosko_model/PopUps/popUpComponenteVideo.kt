@@ -115,23 +115,25 @@ class popUpComponenteVideo : AppCompatActivity() {
             val btnCerar = binding.closeV
             video.setOnPreparedListener {
                 mediaController.setAnchorView(video)
-                video.start()
                 PopUpLoading(false)
-                btnCerar.setVisibility(View.GONE)
+                video.start()
+
+               // btnCerar.setVisibility(View.GONE)
             }
             video.setOnErrorListener { mp, what, extra ->
+                PopUpLoading(true)
                 Log.d("Entra error","primera parte")
                 btnCerar.setVisibility(View.VISIBLE)
-                binding.closeV.setOnClickListener {
+                checkConnectivity2()
+                btnCerar.setOnClickListener {
                     Log.d("Entra listener error","segunda parte")
                     finish()
                 }
-                video.setOnPreparedListener {
-                    PopUpLoading(true)
-                    Log.d("Entra a preparar despues del error","primera parte")
-                    video.start()
-                }
-                checkConnectivity2()
+//                video.setOnPreparedListener {
+//                    Log.d("Entra a preparar despues del error","primera parte")
+//                    video.start()
+//                }
+
                 true
             }
             hideSystemUI()

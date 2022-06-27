@@ -62,13 +62,6 @@ class Contenido : Fragment() {
     ) : View? {
         _binding = FragmentContenidoBinding.inflate(inflater,container,false)
         binding.llContenedor.removeAllViews()
-
-
-
-
-
-
-
         return binding.root
     }
     @RequiresApi(Build.VERSION_CODES.O)
