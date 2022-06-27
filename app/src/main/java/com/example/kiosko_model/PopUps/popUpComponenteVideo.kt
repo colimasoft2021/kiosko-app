@@ -54,32 +54,7 @@ class popUpComponenteVideo : AppCompatActivity() {
 
                     // display a toast message if any
                     // error occurs while playing the video
-/*            video.setOnErrorListener { mp, what, extra ->
 
-                if (isNetDisponible()){
-                    when (isOnlineNet()){
-                        true -> {
-                            checkConnectivity()
-
-                        }
-                        false -> {
-                            checkConnectivity()
-                        }
-
-                        else -> {
-                            checkConnectivity()
-                        }
-
-                    }
-                }else{
-                    checkConnectivity()
-
-                }
-//
-//                Toast.makeText(applicationContext, "An Error Occured " +
-//                                "While Playing Video !!!", Toast.LENGTH_LONG).show()
-                        false
-            }*/
 
 
 
@@ -141,6 +116,10 @@ class popUpComponenteVideo : AppCompatActivity() {
                 video.start()
                 PopUpLoading(false)
                 btnCerar.setVisibility(View.GONE)
+            }
+            video.setOnErrorListener { mp, what, extra ->
+                checkConnectivity2()
+                true
             }
             hideSystemUI()
         val params =  WindowManager.LayoutParams()
@@ -235,6 +214,31 @@ class popUpComponenteVideo : AppCompatActivity() {
             // show alert dialog
             alert.show()
         }
+    }
+    fun checkConnectivity2() {
+            val dialogBuilder = AlertDialog.Builder(this)
+            // set message of alert dialog
+            dialogBuilder.setMessage("Confirme su conexión a internet, e intente de nuevo")
+                // if the dialog is cancelable
+                .setCancelable(false)
+                // positive button text and action
+                .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+                    recreate()
+//                    finish()
+                })
+            // negative button text and action
+//                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+//                    finish()
+//                })
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("Error de reproduccion")
+            alert.setIcon(R.mipmap.ic_launcher)
+            // show alert dialog
+            alert.show()
+
     }
 
 
