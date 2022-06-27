@@ -34,6 +34,8 @@ class popUpComponenteVideo : AppCompatActivity() {
             this.windowManager?.defaultDisplay?.getMetrics(displaymetrics)
             val height = displaymetrics.heightPixels
             val width = displaymetrics.widthPixels
+            val heightM = displaymetrics.heightPixels
+            val widthM = displaymetrics.widthPixels
 
             val texto = intent.extras!!.getString("texto")
             val url2 = intent.extras!!.getString("url")
@@ -47,25 +49,7 @@ class popUpComponenteVideo : AppCompatActivity() {
 //        val size = sharedPref.getString("size","")
             binding.titlepopV.text = texto
 
-            val video = binding.messageV
 
-            val uri = Uri.parse(url2)
-            val contenedor = binding.contentPopVideo
-
-            val mediaController = MediaController(this)
-            video.setVideoURI(uri)
-            video.setMediaController(mediaController)
-            mediaController.setAnchorView(contenedor)
-            mediaController.setPadding(0,0,width/10+width/20,height/3)
-
-            video.requestFocus()
-            // starting the video
-
-            video.setOnPreparedListener {
-
-                video.start()
-                PopUpLoading(false)
-            }
 
 
                     // display a toast message if any
@@ -99,8 +83,7 @@ class popUpComponenteVideo : AppCompatActivity() {
 
 
 
-            mediaController.setAnchorView(video)
-            hideSystemUI()
+
 //
             if (height > 1000 && width>600 ){
 
@@ -122,7 +105,44 @@ class popUpComponenteVideo : AppCompatActivity() {
                 val height2 = 650
                 window.setLayout(width2, height2)
             }
+            val video = binding.messageV
 
+            val uri = Uri.parse(url2)
+            val contenedor = binding.contentPopVideo
+
+            val mediaController = MediaController(this)
+            video.setVideoURI(uri)
+            video.setMediaController(mediaController)
+
+            if (heightM > 1000 && widthM>600 ){
+
+                if (heightM > 1400  && widthM>1000 ){
+                    val width2 = 1000
+                    val height2 = 1300
+                    mediaController.setPadding(0,0,width2/10+width2/20,height2/3)
+                }else{
+                    val width2 = 700
+                    val height2 = 1100
+                    mediaController.setPadding(0,0,width2/10+width2/20,height2/3)
+                }
+
+            }
+            else{
+                val width2 = 550
+                val height2 = 650
+                mediaController.setPadding(0,0,50,185)
+            }
+
+            video.requestFocus()
+            // starting the video
+            val btnCerar = binding.closeV
+            video.setOnPreparedListener {
+                mediaController.setAnchorView(video)
+                video.start()
+                PopUpLoading(false)
+                btnCerar.setVisibility(View.GONE)
+            }
+            hideSystemUI()
         val params =  WindowManager.LayoutParams()
             params.gravity= Gravity.CENTER
             params.x = 0
@@ -135,6 +155,7 @@ class popUpComponenteVideo : AppCompatActivity() {
                     binding.closeV.setOnClickListener {
                         finish()
                     }
+                    btnCerar.setVisibility(View.VISIBLE)
                 }
             }else{
                 binding.closeV.setOnClickListener {
