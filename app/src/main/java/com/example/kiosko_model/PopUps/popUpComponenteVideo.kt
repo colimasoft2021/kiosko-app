@@ -120,6 +120,17 @@ class popUpComponenteVideo : AppCompatActivity() {
                 btnCerar.setVisibility(View.GONE)
             }
             video.setOnErrorListener { mp, what, extra ->
+                Log.d("Entra error","primera parte")
+                btnCerar.setVisibility(View.VISIBLE)
+                binding.closeV.setOnClickListener {
+                    Log.d("Entra listener error","segunda parte")
+                    finish()
+                }
+                video.setOnPreparedListener {
+                    PopUpLoading(true)
+                    Log.d("Entra a preparar despues del error","primera parte")
+                    video.start()
+                }
                 checkConnectivity2()
                 true
             }
@@ -133,12 +144,14 @@ class popUpComponenteVideo : AppCompatActivity() {
             if(mensajeIncial==true){
                 video.setOnCompletionListener { //Termina reproduccion,
                     //Realiza Intent.
+                    btnCerar.setVisibility(View.VISIBLE)
                     binding.closeV.setOnClickListener {
                         finish()
                     }
-                    btnCerar.setVisibility(View.VISIBLE)
+
                 }
             }else{
+                btnCerar.setVisibility(View.VISIBLE)
                 binding.closeV.setOnClickListener {
                     finish()
                 }
