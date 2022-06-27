@@ -11,6 +11,8 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -65,20 +67,20 @@ class popUpComponenteVideo : AppCompatActivity() {
                 if (height > 1400  && width>1000 ){
                     val width2 = 1000
                     val height2 = 1300
-                    window.setLayout(width2, height2)
+                    window.setLayout(width2,WRAP_CONTENT )
 
 
                 }else{
                     val width2 = 700
                     val height2 = 1100
-                    window.setLayout(width2, height2)
+                    window.setLayout(width2,WRAP_CONTENT )
                 }
 
             }
             else{
                 val width2 = 550
                 val height2 = 650
-                window.setLayout(width2, height2)
+                window.setLayout(width2, WRAP_CONTENT )
             }
             val video = binding.messageV
 
