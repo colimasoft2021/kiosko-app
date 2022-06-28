@@ -2,8 +2,6 @@ package com.example.kiosko_model.PopUps
 
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
-import android.media.MediaPlayer.OnCompletionListener
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
@@ -11,7 +9,6 @@ import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.WindowManager
 import android.widget.*
@@ -120,14 +117,21 @@ class popUpComponenteVideo : AppCompatActivity() {
                        btnCerar.setVisibility(View.GONE)
                     }
 
-
                     video.setOnErrorListener { mp, what, extra ->
                      btnCerar.setVisibility(View.VISIBLE)
-                        mp.setOnPreparedListener{
-                            mp.reset()
+                        video.setOnPreparedListener{
+                            Log.d("PreparedListener","ENTRE")
+                            try {
+//                                video.stopPlayback()
+//                                video.reset()
+//                                video.release()
+                            } catch (e: IllegalStateException) {
+                                Log.w("TAG", "stopPlay fail, IllegalStateException: " + e.message)
+                            }
                         }
                   false
                  }
+
 
 
             hideSystemUI()
