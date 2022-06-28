@@ -113,41 +113,21 @@ class popUpComponenteVideo : AppCompatActivity() {
             video.requestFocus()
             // starting the video
             val btnCerar = binding.closeV
-            video.setOnPreparedListener {
-                mediaController.setAnchorView(video)
-                video.start()
-                PopUpLoading(false)
-               // btnCerar.setVisibility(View.GONE)
-            }
-            video.setOnErrorListener { mp, what, extra ->
-//                PopUpLoading(true)
-//                Log.d("Entra error","primera parte")
-//                btnCerar.setVisibility(View.VISIBLE)
-//                checkConnectivity2()
-//                btnCerar.setOnClickListener {
-//                    Log.d("Entra listener error","segunda parte")
-//                    finish()
-//                }
-//                video.setOnPreparedListener {
-//                    Log.d("Entra a preparar despues del error","primera parte")
-//                    video.start()
-//                }
-
-                if (!mp.isPlaying){
-                    checkConnectivity2()
-                    binding.closeV.setOnClickListener {
-                        finish()
+                    video.setOnPreparedListener {
+                        mediaController.setAnchorView(video)
+                        video.start()
+                        PopUpLoading(false)
+                       btnCerar.setVisibility(View.GONE)
                     }
-                }
-                video.setOnPreparedListener {
-
-                    mp.start()
-                    PopUpLoading(false)
-               }
 
 
-                true
-            }
+                    video.setOnErrorListener { mp, what, extra ->
+                     btnCerar.setVisibility(View.VISIBLE)
+                        mp.setOnPreparedListener{
+                            mp.reset()
+                        }
+                  false
+                 }
 
 
             hideSystemUI()
@@ -155,7 +135,7 @@ class popUpComponenteVideo : AppCompatActivity() {
             params.gravity= Gravity.CENTER
             params.x = 0
             params.y = - 20
-//
+
 
             if(mensajeIncial==true){
                 video.setOnCompletionListener { //Termina reproduccion,
@@ -164,7 +144,7 @@ class popUpComponenteVideo : AppCompatActivity() {
                     binding.closeV.setOnClickListener {
                         finish()
                     }
-
+                    btnCerar.setVisibility(View.VISIBLE)
                 }
             }else{
                 btnCerar.setVisibility(View.VISIBLE)
