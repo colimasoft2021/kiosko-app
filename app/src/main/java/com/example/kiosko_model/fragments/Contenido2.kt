@@ -57,7 +57,8 @@ class Contenido2 : Fragment() {
 
     private var _binding: FragmentContenido2Binding? = null
     private val binding get() = _binding!!
-
+    private var contadorVideos : Int = 0
+    var mutableList: MutableList<VideoView> = mutableListOf<VideoView>()
 
 //    private val viewBinding by lazy(LazyThreadSafetyMode.NONE) {
 //        FragmentContenidoBinding.inflate(layoutInflater)
@@ -726,7 +727,6 @@ class Contenido2 : Fragment() {
 
                             }
                             "video"-> {
-
                                 val uri = Uri.parse(it.url)
                                 val video = VideoView(context)
                                 val mediaController = MediaController(context)
@@ -740,22 +740,150 @@ class Contenido2 : Fragment() {
                                 video.setMediaController(mediaController)
                                 video.layoutParams = FrameLayout.LayoutParams(lp)
                                 mediaController.setAnchorView(video)
-                                mediaController.hide()
                                 relativeLayout.addView(video)
+
                                 listView.addView(relativeLayout)
                                 llContenedor.addView(listView)
 
                                 val scroll = binding.View
-                                var cambio = scroll.onScroll(mediaController)
-                                Log.d("valor cambio",cambio.toString())
-                                if(cambio == 1) {
-                                    Log.d("entre al if", "entro al cambio")
-                                }else{
-                                    Log.d("no entre al if", " no entro al cambio")
+                                scroll.onScroll(mediaController)
+
+                                if (contadorVideos == 0){
+
+
+
+                                    Log.d("Contenido","SE CREO VIDEO")
+                                    video.setOnPreparedListener { it->
+                                        it.start()
+                                    }
+
+
+                                    contadorVideos++
+                                    video.setOnCompletionListener {
+
+                                        mutableList[0].start()
+
+                                        mutableList[0].setOnCompletionListener{
+
+                                            mutableList[1].start()
+                                            mutableList[1].setOnCompletionListener{
+
+                                                mutableList[2].start()
+                                                mutableList[2].setOnCompletionListener{
+
+                                                    mutableList[3].start()
+                                                    mutableList[3].setOnCompletionListener{
+
+                                                        mutableList[4].start()
+                                                        mutableList[4].setOnCompletionListener{
+
+                                                            mutableList[5].start()
+                                                            mutableList[5].setOnCompletionListener{
+
+                                                                mutableList[6].start()
+                                                                mutableList[6].setOnCompletionListener {
+
+                                                                    mutableList[7].start()
+                                                                    mutableList[7].setOnCompletionListener{
+
+                                                                        mutableList[8].start()
+                                                                        mutableList[8].setOnCompletionListener{
+
+                                                                            mutableList[9].start()
+                                                                            mutableList[9].setOnCompletionListener{
+
+                                                                                mutableList[10].start()
+                                                                                mutableList[10].setOnCompletionListener{
+
+                                                                                    mutableList[11].start()
+                                                                                    mutableList[11].setOnCompletionListener{
+
+                                                                                        mutableList[12].start()
+                                                                                        mutableList[12].setOnCompletionListener{
+
+                                                                                            mutableList[13].start()
+                                                                                            mutableList[13].setOnCompletionListener{
+
+                                                                                                mutableList[14].start()
+                                                                                                mutableList[14].setOnCompletionListener{
+
+                                                                                                    mutableList[15].start()
+                                                                                                    mutableList[15].setOnCompletionListener{
+
+                                                                                                        mutableList[16].start()
+                                                                                                        mutableList[16].setOnCompletionListener{
+
+                                                                                                            mutableList[17].start()
+                                                                                                            mutableList[17].setOnCompletionListener{
+
+                                                                                                                mutableList[18].start()
+                                                                                                                mutableList[18].setOnCompletionListener{
+
+                                                                                                                    mutableList[19].start()
+                                                                                                                    mutableList[19].setOnCompletionListener{
+
+                                                                                                                        mutableList[20].start()
+                                                                                                                        mutableList[20].setOnCompletionListener{
+
+                                                                                                                            mutableList[21].start()
+                                                                                                                            mutableList[21].setOnCompletionListener{
+
+                                                                                                                                mutableList[22].start()
+                                                                                                                                mutableList[22].setOnCompletionListener{
+
+                                                                                                                                    mutableList[23].start()
+                                                                                                                                    mutableList[23].setOnCompletionListener{
+
+                                                                                                                                        mutableList[24].start()
+                                                                                                                                        mutableList[24].setOnCompletionListener{
+
+                                                                                                                                            mutableList[25].start()
+                                                                                                                                            mutableList[25].setOnCompletionListener{
+
+
+
+                                                                                                                                            }
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        mutableList[0].setOnErrorListener { mp, what, extra ->
+                                            mp.setOnPreparedListener {
+                                                mp.reset()
+                                            }
+
+                                            false
+                                        }
+
+
+
+                                    }
+
                                 }
-                                Log.d("Contenido","SE CREO VIDEO")
-                                video.setOnPreparedListener {
-                                    video.start()
+                                else{
+                                    mutableList.add(video)
+                                    contadorVideos++
                                 }
                             }
                             "pop-up" -> {
