@@ -21,12 +21,12 @@
 
     <style name="AppTheme.ShorCutsVideoButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/transparent</item>
-        <item name="backgroundTint">@color/red</item>
+        <item name="backgroundTint">#DA291C</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.SmallComponent</item>
         <item name="rippleColor">@color/black</item>
     </style>
     <style name="AppTheme.strokeVideoButtons" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="strokeColor">@color/red</item>
+        <item name="strokeColor">#DA291C</item>
         <!--        <item name="backgroundTint">@color/turquesa</item>-->
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.SmallComponent</item>
         <item name="rippleColor">@color/transparent</item>
@@ -34,23 +34,30 @@
     </style>
     <style name="AppTheme.ShorCutsGuiaButtons" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/transparent</item>
-        <item name="backgroundTint">@color/turquesa</item>
+        <item name="backgroundTint">#008BCE</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.SmallComponent</item>
         <item name="rippleColor">@color/black</item>
 
     </style>
     <style name="AppTheme.strokeGuiaButtons" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="strokeColor">@color/turquesa</item>
+        <item name="strokeColor">#008BCE</item>
         <!--        <item name="backgroundTint">@color/turquesa</item>-->
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.SmallComponent</item>
         <item name="rippleColor">@color/transparent</item>
 
     </style>
-    <style name="AppTheme.BottonNav" parent="Widget.Design.BottomNavigationView">
-        <item name="android:textSize">50sp</item>
+    <style name="AppTheme.BottonNav">
         <item name="android:textColor">#07577F</item>
         <item name="android:textAllCaps">false</item>
 
+    </style>
+    <style name="Theme.Transparent" parent="android:Theme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
 </resources>

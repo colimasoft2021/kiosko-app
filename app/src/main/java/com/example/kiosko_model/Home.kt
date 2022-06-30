@@ -1,38 +1,32 @@
 package com.example.kiosko_model
 
-import android.app.Dialog
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.os.Build
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.kiosko_model.PopUps.Popup1
-import com.example.kiosko_model.PopUps.Popup2
+import com.example.kiosko_model.PopUps.Loading
 import com.example.kiosko_model.PopUps.popUpComponente
+import com.example.kiosko_model.PopUps.popUpComponenteVideo
 import com.example.kiosko_model.databinding.ActivityHomeBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
-import com.google.android.material.navigation.NavigationView
-import java.util.concurrent.TimeoutException
+import com.google.android.material.progressindicator.CircularProgressIndicator
 
 
 class Home : AppCompatActivity() {
@@ -59,7 +53,6 @@ class Home : AppCompatActivity() {
 
         hideSystemUI()
 
-        val main = binding.main
         val repository = Repository()
 
         val viewModelFactoryAviso = MensajeInicialViewModelFactory(repository)
@@ -67,63 +60,69 @@ class Home : AppCompatActivity() {
         avisoViewModel =  ViewModelProvider(this, viewModelFactoryAviso)[MensajeInicialViewModel::class.java]
         avisoViewModel.getAvisoInicial()
 
-        try{
-            avisoViewModel.AvisoResponse.observe(this) { response ->
-//            Log.d("response Avisos", response.body().toString())
-                val size = response.body()!!.size
-                var index = 0
-
-                response.body()?.forEach {
-                    index++
-
-                    PopUp(index.toString(),it.url)
-
-//                    intentPopUp()
-                }
-            }
-        }catch (e: Error) {
-
-        }
+//        try{
+//            avisoViewModel.AvisoResponse.observe(this) { response ->
+////            Log.d("response Avisos", response.body().toString())
+//                val size = response.body()!!.size
+//                var index = 0
+//
+//                response.body()?.forEach {
+//                    index++
+//
+//                    PopUp(it.descripcion,it.url)
+//
+////                    intentPopUp()
+//                }
+//            }
+//        }catch (e: Error) {
+//
+//        }
 
         // Pop Up
 
         //define el control de navegacion de los fragmentos a un val para ligarlo a su menu correspondiente
-        val navController = findNavController(R.id.nav_host_fragment_content_home)
+//        val a = R.id.nav_host_fragment_content_home
+//        Log.d("idvalorInt", a.toString())
+//        val navController = findNavController(R.id.nav_host_fragment_content_home)
 
         // menu de navegacion lateral
 
-        val navView: NavigationView = binding.navigationView
-        //control de navegación ligado a los fragments
-        navView.setupWithNavController(navController)
 
 
         val navBar = binding.navigationBotommm
         //control de navegación ligado a los fragments
-        navBar.setupWithNavController(navController)
+//        navBar.setupWithNavController(navController)
 
-        val toolbar: Toolbar = binding.toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        //supportActionBar?.hide()
-        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        navBar.setOnItemSelectedListener () {
+            when(it.itemId){
+                R.id.inicio -> {
+                    val intent = Intent(this, Home::class.java)
 
-        val drawerLayout: DrawerLayout = binding.drawerLayout
-        toggle = ActionBarDrawerToggle(this, drawerLayout,toolbar, R.string.open, R.string.close)
-        toggle.isDrawerIndicatorEnabled = true
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
+                    if (isOnlineNet() == true){ startActivity(intent) }
+                    else {
+                        checkConnectivity()
+                    }
+                    true
 
-        val header: View = navView.getHeaderView(0)
-        val nombre_empleado = header.findViewById<TextView>(R.id.user_name)
-        val cuenta_empleado = header.findViewById<TextView>(R.id.user_account)
+                }
 
-//        menu.add(grupo, id, orden, titulo)
-//        menu.add(1, 1, 1, "Inicio")
-//        menu.add(2, 124, 3, "Title2")
-//        menu.add(3, 123, 2, "Title3")
-//
-//        val subMenu = menu.addSubMenu(3,3,2,"Sub menu title")
-//        subMenu.addSubMenu(5,3,3,"TITLEEE")
+                R.id.accesoDirecto -> {
+
+                    if (isOnlineNet() == true){
+                        findNavController(R.id.nav_host_fragment_content_home).navigate(R.id.accesoDirectoFragment)
+                    }
+                    else {
+                        checkConnectivity()
+                    }
+
+                        true
+                }
+
+                else -> {
+                    true
+                }
+            }
+        }
 
 
         val sharedPref = getSharedPreferences("UsD", Context.MODE_PRIVATE)
@@ -132,8 +131,7 @@ class Home : AppCompatActivity() {
         val i = sharedPref.getString("id","defaultName")
 
         val id = Id(sharedPref.getString("id","defaultName")!!.toInt())
-        nombre_empleado.text = nEmpleado
-        cuenta_empleado.text = cEmpleado
+
 
         val viewModelFactory = ComponentsViewModelFactory(repository)
         viewModel = ViewModelProvider(this,viewModelFactory)[ComponentesViewModel::class.java]
@@ -165,20 +163,6 @@ class Home : AppCompatActivity() {
 
     }
 
-//
-//    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-//        return when(item.itemId){
-//            R.id.inicio -> {
-//                Log.d("ResponseOfComponentes", Id.toString())
-//            true
-//            }
-//
-//            else -> {
-//                true
-//            }
-//        }
-//    }
-
     override fun onResume() {
         super.onResume()
         val btnPerfil = findViewById<ImageButton>(R.id.perfilFoto)
@@ -190,10 +174,6 @@ class Home : AppCompatActivity() {
     }
 
 
-    fun intentPopUp(){
-//        startActivity(Intent(this, Popup2::class.java))
-        startActivity(Intent(this, Popup1::class.java))
-    }
     fun PopUp(descripcion:String,url:String){
         val intent = Intent(this, Popup1::class.java)
         intent.putExtra("texto", descripcion)
@@ -201,48 +181,67 @@ class Home : AppCompatActivity() {
 
         startActivity(intent)
     }
+    fun PopUpComponente(descripcion:String?,url:String?){
+        val intent = Intent(this, popUpComponente::class.java)
+        intent.putExtra("texto", descripcion)
+        intent.putExtra("url", url)
 
-    fun  setNotifications(numer : Int) {
-
-        val navBar = binding.navigationBotommm
-
-        val badge = navBar.getOrCreateBadge(R.id.notificacionesFragment)
-        if (numer != 0){
-            badge.isVisible = true
-            badge.number = numer
-        } else {
-            badge.isVisible = false
-        }
-        val toast = Toast.makeText(this, numer.toString(), Toast.LENGTH_SHORT)
-        toast.show()
+        startActivity(intent)
+    }
+    fun PopUpComponenteVideo(descripcion:String?,url:String?,mensajeInicial:Boolean){
+            val intent = Intent(this, popUpComponenteVideo::class.java)
+            intent.putExtra("texto", descripcion)
+            intent.putExtra("url", url)
+            intent.putExtra("MensajeInicial", mensajeInicial)
+            startActivity(intent)
 
     }
-// asi sera el load con esta funcion
-//    private fun showDialog() {
-//        // custom dialog
-//        val dialog = Dialog(this)
-//        dialog.setContentView(R.layout.activity_popup1)
+
+//    fun  setNotifications(numer : Int) {
 //
-//        dialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//        dialog.show()
+//        val navBar = binding.navigationBotommm
+//
+//        val badge = navBar.getOrCreateBadge(R.id.notificacionesFragment)
+//        if (numer != 0){
+//            badge.isVisible = true
+//            badge.number = numer
+//        } else {
+//            badge.isVisible = false
+//        }
+//        val toast = Toast.makeText(this, numer.toString(), Toast.LENGTH_SHORT)
+//        toast.show()
+//
 //    }
-//    showDialog()
+
+    fun PopUpLoading(loading:Boolean) {
+
+        val load = findViewById<CircularProgressIndicator>(R.id.load)
+        if (!loading) {
+            load.visibility = View.GONE
+            load.isClickable = true
+
+
+        } else {
+            load.visibility = View.VISIBLE
+            load.isClickable = false
+
+        }
+    }
 
 
 
-
-    fun notifications(){
+        fun notifications(titulo: String, contenido: String ){
 // pending intent para acceder directamente a el fragmento de notififcaciones
         val pendingIntent: PendingIntent = NavDeepLinkBuilder(this)
             .setComponentName(Home::class.java)
             .setGraph(R.navigation.nav_home)
-            .setDestination(R.id.notificacionesFragment)
+            .setDestination(R.id.guiasFragment)
             .createPendingIntent()
 // builder de la notificacion
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.notification)
-            .setContentTitle("Titulo de la notify")
-            .setContentText("contenido de la notify")
+            .setContentTitle(titulo)
+            .setContentText(contenido)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             // define el intent al que accederea el usuario al clickear la notificacion
             .setContentIntent(pendingIntent)
@@ -275,5 +274,58 @@ class Home : AppCompatActivity() {
                 or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     }
+
+
+    fun isNetDisponible(): Boolean {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        val actNetInfo = connectivityManager.activeNetworkInfo
+        return actNetInfo != null && actNetInfo.isConnected
+    }
+
+    fun isOnlineNet(): Boolean? {
+        try {
+            val p = Runtime.getRuntime().exec("ping -c 1 www.google.es")
+            val `val` = p.waitFor()
+            return `val` == 0
+        } catch (e: Exception) {
+            // TODO Auto-generated catch block
+            e.printStackTrace()
+        }
+        return false
+    }
+
+    fun checkConnectivity() {
+        val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = manager.activeNetworkInfo
+
+        if (null == activeNetwork) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val intent = Intent(this, MainActivity::class.java)
+            // set message of alert dialog
+            dialogBuilder.setMessage("Confirme su conexión a internet, e intente de nuevo")
+                // if the dialog is cancelable
+                .setCancelable(false)
+                // positive button text and action
+                .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+
+//                    recreate()
+//                    finish()
+                })
+            // negative button text and action
+//                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
+//                    finish()
+//                })
+
+            // create dialog box
+            val alert = dialogBuilder.create()
+            // set title for alert dialog box
+            alert.setTitle("Wi-FI desactivado ")
+            alert.setIcon(R.mipmap.ic_launcher)
+            // show alert dialog
+            alert.show()
+        }
+    }
+
+
 
 }

@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="guias_title_color">#FC4C02</color>
+    <color name="videos_title_color">#D9027D</color>
     <color name="less_white">#F1EFE4</color>
     <color name="Naranja">#FF4340</color>
     <color name="azul">#19AA80</color>
@@ -18,5 +20,13 @@
     <color name="semi_transparent">#66000000</color>
     <color name="transparent">#0000ffff</color>
     <color name="turquesa">#47D2FE</color>
+    <color name="orange">#FC4C02</color>
+    <color name="blue">#008BCE</color>
+
+    <integer-array name="progress_colors">
+        <item>@color/orange</item>
+        <item>@color/yellow</item>
+        <item>@color/white</item>
+    </integer-array>
 
 </resources>

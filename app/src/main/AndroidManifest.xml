@@ -4,6 +4,10 @@
     package="com.example.kiosko_model">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_kiosko_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kiosko_Model"
+        android:name=".ApplicationClass"
         tools:targetApi="n">
         <activity
             android:name=".PopUps.popUpComponenteVideo"
@@ -23,12 +28,13 @@
             android:exported="false" />
         <activity
             android:name=".PopUps.Load"
+            android:theme="@style/Theme.Transparent"
             android:exported="false" />
         <activity
             android:name=".Perfil"
             android:exported="false" />
         <activity
-            android:name=".PopUps.Popup2"
+            android:name=".PopUps.Loading"
             android:exported="false"
             android:theme="@style/AppTheme.PopMe" />
         <activity

@@ -12,8 +12,13 @@ interface ApiService {
 
 
 //    @GET("posts/1")
-    @GET("Aleex-A")
-    suspend fun getPost(): Response<Post>
+
+
+    @GET("GetAllComponentesPopUpVideo")
+    suspend fun getVideos(): Response<List<Videos>>
+
+    @GET("GetModulosGuiasRapidas")
+    suspend fun getGuias(): Response<List<Guias>>
 
     @GET("MessagesInitialsForApp")
     suspend fun getAvisoIniciales(): Response<List<avisoInicialResponse>>
@@ -33,6 +38,12 @@ interface ApiService {
     suspend fun pushPostRegistro(
         @Body postRegistro: PostRegistro
     ): Response<LoginResponseR>
+
+    @POST("SendAlertasLocales")
+    suspend fun pushPostNotificaciones(
+        @Body id: Id
+    ): Response<Notificaciones>
+
 
     @POST("GetModulosAndComponentsForApp")
     suspend fun getComponentes(
