@@ -412,7 +412,7 @@ class Contenido : Fragment() {
                                        gradientDrawable.setStroke(strokeWidth, color)
 
                                        val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                       layoutParams.setMargins(20, 20, 20 , 20)
+                                       layoutParams.setMargins(20, 5, 20 , 5)
                                        val contenedor = LinearLayout(context)
                                        contenedor.orientation= LinearLayout.VERTICAL
                                        contenedor.gravity = Gravity.CENTER
@@ -435,7 +435,7 @@ class Contenido : Fragment() {
                                        tituloImagenDesplazanteW.setTextColor(Color.WHITE)
                                        tituloImagenDesplazanteW.textSize = 20F
                                        contenedor.addView(tituloImagenDesplazanteW, layoutParams)
-
+                                       Log.d("contenido",des.texto.toString())
                                        textoImagenDesplazanteW.text = Html.fromHtml(des.texto)
                                        textoImagenDesplazanteW.gravity = Gravity.CENTER
                                        textoImagenDesplazanteW.setTextColor(Color.WHITE)
