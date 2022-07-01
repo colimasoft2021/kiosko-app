@@ -52,12 +52,12 @@
 
             <Button
                 android:id="@+id/controlInterno"
-                android:backgroundTint="#008BCE"
                 android:layout_width="120dp"
                 android:layout_height="60dp"
-                android:text="Control Interno"
                 android:layout_marginStart="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="2"
+                android:backgroundTint="#008BCE"
+                android:text="Control Interno" />
 
             <Button
                 android:id="@+id/ejecucion"
@@ -70,13 +70,13 @@
 
             <Button
                 android:id="@+id/abastecimiento"
-                android:backgroundTint="#43B02A"
                 android:layout_width="120dp"
                 android:layout_height="60dp"
-                android:text="Abastecimiento"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="2"
+                android:backgroundTint="#43B02A"
+                android:text="Abastecimiento" />
 
         </LinearLayout>
 
