@@ -2,6 +2,8 @@ package com.example.kiosko_model.PopUps
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
+import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
@@ -14,7 +16,12 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.example.kiosko_model.Home
+import com.example.kiosko_model.MainActivity
 import com.example.kiosko_model.R
+import com.example.kiosko_model.Remember
 import com.example.kiosko_model.databinding.ActivityPopUpComponenteVideoBinding
 import com.google.android.material.progressindicator.CircularProgressIndicator
 
@@ -111,26 +118,31 @@ class popUpComponenteVideo : AppCompatActivity() {
             // starting the video
             val btnCerar = binding.closeV
                     video.setOnPreparedListener {
+                        Log.d("PopUp","setOnPreparedListener")
                         mediaController.setAnchorView(video)
                         video.start()
                         PopUpLoading(false)
                        btnCerar.setVisibility(View.GONE)
+
                     }
 
-                    video.setOnErrorListener { mp, what, extra ->
-                     btnCerar.setVisibility(View.VISIBLE)
-                        video.setOnPreparedListener{
-                            Log.d("PreparedListener","ENTRE")
-                            try {
-//                                video.stopPlayback()
-//                                video.reset()
-//                                video.release()
-                            } catch (e: IllegalStateException) {
-                                Log.w("TAG", "stopPlay fail, IllegalStateException: " + e.message)
-                            }
-                        }
-                  false
-                 }
+//                    video.setOnErrorListener { mp, what, extra ->
+//
+//                     btnCerar.setVisibility(View.VISIBLE)
+//                        mp.setOnPreparedListener{
+//                            Log.d("PopUp2","setOnPreparedListener")
+//                            mp.start()
+//                        }
+//                  false
+//                 }
+            video!!.setOnErrorListener(MediaPlayer.OnErrorListener {
+                    mediaPlayer, i, i2 ->
+                btnCerar.setVisibility(View.VISIBLE)
+
+                checkConnectivity2()
+                true
+                // how to restart the player here?!
+            })
 
 
 
@@ -143,6 +155,7 @@ class popUpComponenteVideo : AppCompatActivity() {
 
             if(mensajeIncial==true){
                 video.setOnCompletionListener { //Termina reproduccion,
+                    Log.d("PopUp","setOnCompetitionListener")
                     //Realiza Intent.
                     btnCerar.setVisibility(View.VISIBLE)
                     binding.closeV.setOnClickListener {
@@ -151,6 +164,7 @@ class popUpComponenteVideo : AppCompatActivity() {
                     btnCerar.setVisibility(View.VISIBLE)
                 }
             }else{
+                Log.d("PopUp","Else del setoncompletitionListener")
                 btnCerar.setVisibility(View.VISIBLE)
                 binding.closeV.setOnClickListener {
                     finish()
@@ -237,10 +251,16 @@ class popUpComponenteVideo : AppCompatActivity() {
                 // if the dialog is cancelable
                 .setCancelable(false)
                 // positive button text and action
-                .setPositiveButton("Salir", DialogInterface.OnClickListener { dialog, id ->
+
+                .setPositiveButton("Esperar", DialogInterface.OnClickListener { dialog, id ->
                     recreate()
-//                    finish()
+
                 })
+
+                .setNegativeButton("Cerrar el video",
+                    DialogInterface.OnClickListener { dialog, id ->
+                        finish()
+                    })
             // negative button text and action
 //                .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
 //                    finish()
