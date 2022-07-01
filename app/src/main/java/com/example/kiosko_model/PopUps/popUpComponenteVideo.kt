@@ -116,13 +116,13 @@ class popUpComponenteVideo : AppCompatActivity() {
 
             video.requestFocus()
             // starting the video
-            val btnCerar = binding.closeV
+
                     video.setOnPreparedListener {
                         Log.d("PopUp","setOnPreparedListener")
                         mediaController.setAnchorView(video)
                         video.start()
                         PopUpLoading(false)
-                       btnCerar.setVisibility(View.GONE)
+                        binding.closeV.visibility = View.GONE
 
                     }
 
@@ -137,7 +137,7 @@ class popUpComponenteVideo : AppCompatActivity() {
 //                 }
             video!!.setOnErrorListener(MediaPlayer.OnErrorListener {
                     mediaPlayer, i, i2 ->
-                btnCerar.setVisibility(View.VISIBLE)
+                binding.closeV.visibility = View.VISIBLE
 
                 checkConnectivity2()
                 true
@@ -157,17 +157,22 @@ class popUpComponenteVideo : AppCompatActivity() {
                 video.setOnCompletionListener { //Termina reproduccion,
                     Log.d("PopUp","setOnCompetitionListener")
                     //Realiza Intent.
-                    btnCerar.setVisibility(View.VISIBLE)
+                    binding.closeV.visibility = View.VISIBLE
                     binding.closeV.setOnClickListener {
                         finish()
                     }
-                    btnCerar.setVisibility(View.VISIBLE)
+                    binding.closeV.visibility = View.VISIBLE
                 }
             }else{
                 Log.d("PopUp","Else del setoncompletitionListener")
-                btnCerar.setVisibility(View.VISIBLE)
-                binding.closeV.setOnClickListener {
-                    finish()
+                video.setOnCompletionListener { //Termina reproduccion,
+                    Log.d("PopUp","setOnCompetitionListener")
+                    //Realiza Intent.
+                    binding.closeV.visibility = View.VISIBLE
+                    binding.closeV.setOnClickListener {
+                        finish()
+                    }
+                    binding.closeV.visibility = View.VISIBLE
                 }
             }
 
