@@ -114,6 +114,7 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         llServicio.visibility = View.GONE
 
         val col = Color.parseColor("#000000")
+        Log.d("VideosFragment",col.toString())
         val rad = 20//radius will be 5px
         val strk = 5
         val gD = GradientDrawable()
@@ -122,7 +123,9 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         gD.setStroke(strk, col)
 
         val buton = Button(context)
+
         buton.background = gD
+        Log.d("VideosFragment",buton.background.toString())
         buton.setTextColor(Color.WHITE)
         buton.text =" Acceso directo "
         buton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back_button,0,0,0)
@@ -259,28 +262,44 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         var index = 0
 
         var arrayColors:ArrayList<String> = ArrayList()
-        arrayColors.add("#FC4C02")
-        arrayColors.add("#008BCE")
+        arrayColors.add("#FC4C02")//naranja, servicio
+        arrayColors.add("#008BCE")//azul, control interno
         arrayColors.add("#DA291C")
-        arrayColors.add("#43B02A")
-        arrayColors.add("#D9027D")
+        arrayColors.add("#43B02A")//verde, abastecimiento
+        arrayColors.add("#D9027D")//lila, ejecucion
         arrayColors.add("#003DA5")
         arrayColors.add("#FFFFFF")
 
 
 
         list?.forEach{
-
+            Log.d("VideosFragment",it.tipoCategoria.toString())
             val color : String
 
-            if(index <= arrayColors.size ){
-                color = arrayColors.get(index)
-                index++
-            }else{
-                index = 0
-                color = arrayColors.get(index)
-            }
-            array.add(VideoItem(color,it.descripcion,it.url))
+
+                Log.d("VideosFragmentewe",arrayColors.size.toString())
+                Log.d("VideosFragment",index.toString())
+                    if(it.tipoCategoria.equals("control-interno")){
+                        color = arrayColors[1]
+                        array.add(VideoItem(color,it.descripcion,it.url))
+                    }else if(it.tipoCategoria.equals("ejecucion")){
+                        color = arrayColors[4]
+                        array.add(VideoItem(color,it.descripcion,it.url))
+
+                    }else if(it.tipoCategoria.equals("abastecimiento-e-inventario")){
+                        color = arrayColors[3]
+                        array.add(VideoItem(color,it.descripcion,it.url))
+
+                    }else if(it.tipoCategoria.equals("servicio")){
+                        color = arrayColors[0]
+                        array.add(VideoItem(color,it.descripcion,it.url))
+
+                    }else{
+                        color = arrayColors[2]
+                        array.add(VideoItem(color,it.descripcion,it.url))
+                    }
+
+            Log.d("VideosFragment",it.descripcion.toString())
         }
         return array
     }
