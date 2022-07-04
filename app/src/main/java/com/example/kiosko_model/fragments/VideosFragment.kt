@@ -264,7 +264,7 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         var arrayColors:ArrayList<String> = ArrayList()
         arrayColors.add("#FC4C02")//naranja, servicio
         arrayColors.add("#008BCE")//azul, control interno
-        arrayColors.add("#DA291C")
+        arrayColors.add("#DA291C")//rojo
         arrayColors.add("#43B02A")//verde, abastecimiento
         arrayColors.add("#D9027D")//lila, ejecucion
         arrayColors.add("#003DA5")

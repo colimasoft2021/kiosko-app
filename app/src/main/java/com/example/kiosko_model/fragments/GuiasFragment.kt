@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.kiosko_model.GuiasAdapter
 import com.example.kiosko_model.ItemDataGuias
 import com.example.kiosko_model.R
+import com.example.kiosko_model.VideoItem
 import com.example.kiosko_model.databinding.FragmentGuiasBinding
 import com.example.kiosko_model.models.*
 import com.example.kiosko_model.repository.Repository
@@ -328,14 +329,28 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
 
     list?.forEach{
-        var color = String()
-            if(it.backgroundColor.isNullOrEmpty()){
-                color =  "#008BCE"
-            } else {
-                color = it.backgroundColor
-            }
+        var color : String
 
-        array.add(ItemDataGuias(color,it.titulo,it.componentes))
+
+        if(it.tipoGuia.equals("control-interno")){
+            color = "#008BCE"
+            array.add(ItemDataGuias(color,it.titulo,it.componentes))
+        }else if(it.tipoGuia.equals("ejecucion")){
+            color = "#D9027D"
+            array.add(ItemDataGuias(color,it.titulo,it.componentes))
+
+        }else if(it.tipoGuia.equals("abastecimiento-e-inventario")){
+            color = "#43B02A"
+            array.add(ItemDataGuias(color,it.titulo,it.componentes))
+
+        }else if(it.tipoGuia.equals("servicio")){
+            color = "#FC4C02"
+            array.add(ItemDataGuias(color,it.titulo,it.componentes))
+
+        }else{
+            color = "#DA291C"
+            array.add(ItemDataGuias(color,it.titulo,it.componentes))
+        }
     }
     return array
 }
