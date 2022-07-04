@@ -311,10 +311,10 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         Log.d("p2", p2.toString())
         Log.d("p3", p3.toString())
 
-        val controlInterno = 2131361815
+        val controlInterno = 2131361818
         val ejecucion = 2131361819
         val abastecimiento = 2131361814
-        val servicio = 2131361817
+        val servicio = 2131361820
 
         when(p0?.id){
 
