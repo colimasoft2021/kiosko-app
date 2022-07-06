@@ -18,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.core.view.marginStart
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -42,11 +43,11 @@ class GuiasContenido : Fragment() {
     private val binding get() = _binding!!
 
 
-    override fun onStop() {
-        super.onStop()
-        binding.GuiasRapidasContenido.removeAllViews()
-
-    }
+//    override fun onStop() {
+//        super.onStop()
+//        binding.GuiasRapidasContenido.removeAllViews()
+//
+//    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -56,6 +57,7 @@ class GuiasContenido : Fragment() {
 
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -159,7 +161,9 @@ class GuiasContenido : Fragment() {
                                 val textoW = TextView(context)
                                 textoW.text = Html.fromHtml(it.descripcion)
                                 textoW.textSize = 16F
-                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+                                }
                                 textoW.setTextColor(Color.BLACK)
                                 textoW.gravity = Gravity.CENTER
 
@@ -197,7 +201,9 @@ class GuiasContenido : Fragment() {
                                 val textoW = TextView(context)
                                 textoW.text = Html.fromHtml(it.descripcion)
                                 textoW.textSize = 16F
-                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                    textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+                                }
                                 textoW.setTextColor(Color.BLACK)
                                 textoW.gravity = Gravity.CENTER
 
