@@ -165,12 +165,206 @@ class Inicio : Fragment() {
 
                         val lpBotonProgreso = LinearLayout.LayoutParams(150,100)
                         lpBotonProgreso.setMargins(20,20,20,20)
-
+                        //Log.d("Inicio", response.body()?.customModulos!![3].toString())
                         response.body()?.customModulos!!.forEach {
-                            if (it.componentes.isNullOrEmpty()&&it.submodulos.isNullOrEmpty()){
+                            if (it.desplegable==0 && it.padre==null){
+                                val listCompuestos = it.componentes
+                                val listCompuestos2 = it.submodulos
+                                val idModulo = it.id
 
+                                val colorBotonFondo = it.backgroundColor ?: "#F000000"
+
+                                val index = 1
+                                val imagenBoton = it.url
+
+                                val linearLayout = LinearLayout(context)
+                                linearLayout.orientation = LinearLayout.HORIZONTAL
+                                linearLayout.gravity = Gravity.CENTER_VERTICAL
+
+                                LinearHorizontalBotones.orientation = LinearLayout.HORIZONTAL
+                                LinearHorizontalBotones.gravity = Gravity.CENTER_VERTICAL
+
+                                val LinearHorizontalBotonera = LinearLayout(context)
+                                LinearHorizontalBotonera.orientation = LinearLayout.HORIZONTAL
+                                LinearHorizontalBotonera.gravity = Gravity.CENTER_VERTICAL
+
+                                val col = Color.WHITE
+                                val rad = 15//radius will be 5px
+                                val strk = 5
+                                val gD = GradientDrawable()
+                                gD.setColor(col)
+                                gD.cornerRadius = rad.toFloat()
+                                gD.setStroke(strk, col)
+
+                                val contenedorBotonProgreso = LinearLayout(context)
+                                contenedorBotonProgreso.orientation = LinearLayout.VERTICAL
+                                contenedorBotonProgreso.gravity = Gravity.CENTER
+                                contenedorBotonProgreso.background = gD
+
+
+                                val contenedorBotonera = LinearLayout(context)
+                                contenedorBotonera.orientation = LinearLayout.VERTICAL
+                                contenedorBotonera.gravity = Gravity.CENTER
+                                contenedorBotonera.background = gD
+
+                                val color = Color.parseColor(colorBotonFondo)
+                                val radius = 20//radius will be 5px
+                                val grD = GradientDrawable()
+                                grD.setColor(color)
+                                grD.cornerRadius = rad.toFloat()
+
+                                val botoneraHorizontalProgreso = Button(context)
+                                botoneraHorizontalProgreso.background=grD
+//                                    botoneraHorizontalProgreso.setBackgroundColor(Color.parseColor(colorBotonFondo))
+
+//
+                                botoneraHorizontalProgreso.setOnClickListener {
+
+                                    porcentajeViewModel.setIdModulo(idModulo)
+                                    porcentajeViewModel.setProgresoPorModulo(100)
+                                    val progresoPModulo = porcentajeViewModel.progresoPerModulo.value
+                                    val progreso = porcentajeViewModel.porcentaje.value
+                                    porcentajeViewModel.setPorcentaje(progreso!! + progresoPModulo!!)
+                                    llBotoneraConProgreso.removeAllViews()
+                                    llBotonera.removeAllViews()
+                                    viewModel2.colorModulo(color)
+                                    viewModelLocal.index(index)
+
+
+                                    if((activity as Home?)?.isOnlineNet() == true) {
+                                        findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                    }
+                                }
+
+
+
+                                val tituloBotonProgres = TextView(context)
+                                botoneraHorizontalProgreso.text = it.titulo
+                                botoneraHorizontalProgreso.setTextColor(Color.WHITE)
+                                botoneraHorizontalProgreso.textSize = 18F
+                                botoneraHorizontalProgreso.gravity = Gravity.CENTER
+                                botoneraHorizontalProgreso.isAllCaps = false
+
+                                val botoneraHorizontal = Button(context)
+
+                                botoneraHorizontal.background=grD
+//                                    botoneraHorizontal.setBackgroundColor(Color.parseColor(colorBotonFondo))
+
+                                botoneraHorizontal.setOnClickListener {
+                                    porcentajeViewModel.setCantidadModulos(1)
+                                    porcentajeViewModel.setIdModulo(idModulo)
+                                    porcentajeViewModel.setProgresoPorModulo(100)
+                                    val progresoPModulo = porcentajeViewModel.progresoPerModulo.value
+                                    val progreso = porcentajeViewModel.porcentaje.value
+                                    porcentajeViewModel.setPorcentaje(progreso!! + progresoPModulo!!)
+                                    llBotoneraConProgreso.removeAllViews()
+                                    llBotonera.removeAllViews()
+                                    llBotoneraConProgreso.removeAllViews()
+                                    llBotonera.removeAllViews()
+
+                                    viewModel2.componentes(listCompuestos)
+                                    viewModel2.id(idModulo)
+                                    viewModel2.colorModulo(color)
+                                    viewModelLocal.index(index)
+
+
+
+
+
+
+
+                                    Log.d("Inicio","ListenerbotoneraHorizontal")
+                                    if((activity as Home?)?.isOnlineNet() == true) {
+                                        Log.d("Inicio","ListenerbotoneraHorizontal2")
+                                        findNavController().navigate(R.id.action_inicioFragment_to_contenido)
+                                    }
+
+                                }
+
+                                val tituloBotoneraProgres = TextView(context)
+                                botoneraHorizontal.text = it.titulo
+                                botoneraHorizontal.setTextColor(Color.WHITE)
+                                botoneraHorizontal.textSize = 18F
+                                botoneraHorizontal.gravity = Gravity.CENTER
+                                botoneraHorizontal.isAllCaps = false
+
+                                val contenedorProgreso = LinearLayout(context)
+                                contenedorProgreso.orientation = LinearLayout.VERTICAL
+                                contenedorProgreso.gravity = Gravity.CENTER
+
+                                val progresoDEText = TextView(context)
+                                progresoDEText.text = "Llevas un progreso de:"
+                                progresoDEText.setTextColor(Color.BLACK)
+                                progresoDEText.textSize = 15F
+                                progresoDEText.gravity = Gravity.LEFT
+
+                                val porc = it.porcentaje.toString()
+                                val progreso = TextView(context)
+                                progreso.text = "$porc%"
+                                progreso.setTextColor(Color.BLACK)
+                                progreso.textSize = 15F
+                                progreso.gravity = Gravity.CENTER
+
+                                val progressBar =
+                                    LinearProgressIndicator(requireContext())
+//
+                                progressBar.max = 100
+                                progressBar.progress = it.porcentaje
+                                progressBar.trackThickness = 20
+                                progressBar.trackCornerRadius = 10
+                                progressBar.trackColor = Color.parseColor("#47D2FE")
+                                progressBar.setIndicatorColor( Color.parseColor("#014358"))
+
+                                val lpProgreso = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpProgreso.setMargins(20,0,20,0)
+
+                                val lpProgresoTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpProgresoTitulo.setMargins(30,10,40,15)
+
+                                val lpProgresoPorcentaje = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpProgresoPorcentaje.setMargins(30,10,40,10)
+
+                                val lpProgresoContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpProgresoContenedor.setMargins(20,20,30,50)
+
+                                val lpProgresoBotonContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,  LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpProgresoContenedor.setMargins(0,0,0,0)
+
+                                val lpContenedorBotonera = LinearLayout.LayoutParams(260, 230)
+                                lpContenedorBotonera.setMargins(15,30,20,20)
+
+                                val lpBotonProgreso = LinearLayout.LayoutParams(240,210)
+                                lpBotonProgreso.setMargins(20,20,20,20)
+
+                                val lpTituloBotonProgres = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                lpTituloBotonProgres.setMargins(0,10,0,20)
+
+
+
+
+
+                                contenedorBotonera.addView(botoneraHorizontal,lpBotonProgreso)
+//                                    contenedorBotonera.addView(tituloBotoneraProgres,lpProgresoBotonContenedor)
+                                LinearHorizontalBotones.addView(contenedorBotonera,lpContenedorBotonera)
+
+
+
+                                contenedorBotonProgreso.addView(botoneraHorizontalProgreso,lpBotonProgreso)
+//                                    contenedorBotonProgreso.addView(tituloBotonProgres,lpProgresoBotonContenedor)
+                                linearLayout.addView(contenedorBotonProgreso,lpContenedorBotonera)
+
+
+
+                                contenedorProgreso.addView(progresoDEText,lpProgresoTitulo)
+                                contenedorProgreso.addView(progreso,lpProgresoPorcentaje)
+                                contenedorProgreso.addView(progressBar,lpProgreso)
+                                linearLayout.addView(contenedorProgreso,lpProgresoContenedor)
+
+                                contenedorProgresoScroll.addView(linearLayout,lpTituloBotonProgres)
                             }else{
+
                                 if (it.submodulos!!.isNotEmpty()){
+                                //    Log.d("Inicio3", response.body()?.customModulos!!.toString())
                                     val idModulo = it.id
                                     val hijos = it.numeroHijos
 

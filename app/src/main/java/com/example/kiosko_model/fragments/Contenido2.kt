@@ -116,10 +116,10 @@ class Contenido2 : Fragment() {
 
         try{
             viewModel.componentes.observe(viewLifecycleOwner) { it ->
-
+                Log.d("Contenido","Observer")
                 if (it.isNotEmpty()) {
                     binding.llContenedor.removeAllViews()
-
+                    Log.d("Contenido","it.isnotempty")
                     imagenFondo.load(it[0]?.idModuloNavigation?.urlFondo){
 //                        placeholder(R.drawable.loading_animation)
 //                        kotlin.error(R.drawable.ic_broken_image)
