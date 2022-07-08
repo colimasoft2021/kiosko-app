@@ -207,7 +207,12 @@ class Inicio : Fragment() {
                                 contenedorBotonera.gravity = Gravity.CENTER
                                 contenedorBotonera.background = gD
 
-                                val color = Color.parseColor(colorBotonFondo)
+                                var color :Int
+                                try {
+                                    color = Color.parseColor(colorBotonFondo)
+                                }catch (e: IllegalArgumentException){
+                                    color = Color.parseColor("#E53935")
+                                }
                                 val radius = 20//radius will be 5px
                                 val grD = GradientDrawable()
                                 grD.setColor(color)
@@ -408,7 +413,12 @@ class Inicio : Fragment() {
                                     contenedorBotonera.gravity = Gravity.CENTER
                                     contenedorBotonera.background = gD
 
-                                    val color = Color.parseColor(colorBotonFondo)
+                                    var color :Int
+                                    try {
+                                        color = Color.parseColor(colorBotonFondo)
+                                    }catch (e: IllegalArgumentException){
+                                        color = Color.parseColor("#E53935")
+                                    }
                                     val radius = 20//radius will be 5px
                                     val grD = GradientDrawable()
                                     grD.setColor(color)
