@@ -135,7 +135,12 @@ class GuiasContenido : Fragment() {
 
                             "titulo-descripción" -> {
 
-                                val color = Color.parseColor(colorModulo)
+                                var color :Int
+                                try {
+                                    color = Color.parseColor(colorModulo)
+                                }catch (e: IllegalArgumentException){
+                                    color = Color.parseColor("#9b9b9b")
+                                }
                                 val radius = 15
                                 val gradientDrawable = GradientDrawable()
                                 gradientDrawable.setColor(color)
