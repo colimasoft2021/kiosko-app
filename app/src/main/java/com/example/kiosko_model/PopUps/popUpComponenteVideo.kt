@@ -7,6 +7,7 @@ import android.media.MediaPlayer
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
@@ -53,12 +54,11 @@ class popUpComponenteVideo : AppCompatActivity() {
 //        val title = sharedPref.getString("title","")
 //        val url = sharedPref.getString("url","")
 //        val size = sharedPref.getString("size","")
-            binding.titlepopV.text = texto
+            @Suppress("DEPRECATION")
+            binding.titlepopV.text = Html.fromHtml(texto)
 
 
-
-
-                    // display a toast message if any
+            // display a toast message if any
                     // error occurs while playing the video
 
 

@@ -3,6 +3,7 @@ package com.example.kiosko_model.fragments
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.Html
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -256,6 +257,7 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
     }
 
+    @Suppress("DEPRECATION")
     private fun setDataList(list: List<Videos>?) : ArrayList<VideoItem>{
 
         var array:ArrayList<VideoItem> = ArrayList()
@@ -281,22 +283,22 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
                 Log.d("VideosFragment",index.toString())
                     if(it.tipoCategoria.equals("control-interno")){
                         color = arrayColors[1]
-                        array.add(VideoItem(color,it.descripcion,it.url))
+                        array.add(VideoItem(color, Html.fromHtml(it.descripcion).toString(),it.url))
                     }else if(it.tipoCategoria.equals("ejecucion")){
                         color = arrayColors[4]
-                        array.add(VideoItem(color,it.descripcion,it.url))
+                        array.add(VideoItem(color,Html.fromHtml(it.descripcion).toString(),it.url))
 
                     }else if(it.tipoCategoria.equals("abastecimiento-e-inventario")){
                         color = arrayColors[3]
-                        array.add(VideoItem(color,it.descripcion,it.url))
+                        array.add(VideoItem(color,Html.fromHtml(it.descripcion).toString(),it.url))
 
                     }else if(it.tipoCategoria.equals("servicio")){
                         color = arrayColors[0]
-                        array.add(VideoItem(color,it.descripcion,it.url))
+                        array.add(VideoItem(color,Html.fromHtml(it.descripcion).toString(),it.url))
 
                     }else{
                         color = arrayColors[2]
-                        array.add(VideoItem(color,it.descripcion,it.url))
+                        array.add(VideoItem(color,Html.fromHtml(it.descripcion).toString(),it.url))
                     }
 
             Log.d("VideosFragment",it.descripcion.toString())

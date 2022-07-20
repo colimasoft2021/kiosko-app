@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Html
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.Gravity
@@ -67,7 +68,9 @@ class Popup1 : Activity() {
 //        val title = sharedPref.getString("title","")
 //        val url = sharedPref.getString("url","")
 //        val size = sharedPref.getString("size","")
-        binding.titlepop1.text = texto
+
+        @Suppress("DEPRECATION")
+        binding.titlepop1.text = Html.fromHtml(texto)
 
         val imagen = binding.message1
         imagen.load(url2) {

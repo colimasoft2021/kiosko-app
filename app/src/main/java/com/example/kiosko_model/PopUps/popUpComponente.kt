@@ -2,6 +2,7 @@ package com.example.kiosko_model.PopUps
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Html
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.View
@@ -32,7 +33,8 @@ class popUpComponente : Activity() {
 //        val title = sharedPref.getString("title","")
 //        val url = sharedPref.getString("url","")
 //        val size = sharedPref.getString("size","")
-        binding.titlepop.text = texto
+        @Suppress("DEPRECATION")
+        binding.titlepop.text = Html.fromHtml(texto)
 
         val imagen = binding.message
         imagen.load(url2) {
