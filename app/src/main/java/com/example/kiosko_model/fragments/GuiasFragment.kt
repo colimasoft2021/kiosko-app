@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Binder
 import android.os.Bundle
 import android.text.Layout
+import android.text.method.TextKeyListener.clear
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import coil.util.CoilUtils.clear
 import com.example.kiosko_model.GuiasAdapter
 import com.example.kiosko_model.ItemDataGuias
 import com.example.kiosko_model.R
@@ -37,13 +39,14 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
     private var gridViewListAbastecimiento:GridView? = null
     private var gridViewListSeguridad:GridView? = null
     private var gridViewListServicio:GridView? = null
-    private var gridView:GridView? = null
+    private var gridViewListInstructivos:GridView? = null
 
-    private var ListControlInterno: List<ItemDataGuias> ? = null
-    private var ListEjecucion: List<ItemDataGuias> ? = null
-    private var ListAbastecimiento: List<ItemDataGuias> ? = null
-    private var ListSeguridad: List<ItemDataGuias> ? = null
-    private var ListServicio: List<ItemDataGuias> ? = null
+    private var ListControlInterno: ArrayList<ItemDataGuias> ? = null
+    private var ListEjecucion: ArrayList<ItemDataGuias> ? = null
+    private var ListAbastecimiento: ArrayList<ItemDataGuias> ? = null
+    private var ListSeguridad: ArrayList<ItemDataGuias> ? = null
+    private var ListServicio: ArrayList<ItemDataGuias> ? = null
+    private var ListInstructivos: ArrayList<ItemDataGuias> ? = null
 
     private var List: List<ItemDataGuias> ? = null
 
@@ -53,24 +56,29 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
     private var ListAbastecimientoAdapter:  GuiasAdapter ? = null
     private var ListSeguridadAdapter:  GuiasAdapter ? = null
     private var ListServicioAdapter:  GuiasAdapter ? = null
+    private var ListInstrucAdapter:  GuiasAdapter ? = null
 
     private var responseControlInterno: MutableList<Guias>? = mutableListOf()
     private var responseEjecucion: MutableList<Guias>? = mutableListOf()
     private var responseAbastecimiento: MutableList<Guias>? = mutableListOf()
     private var responseSeguridad: MutableList<Guias>? = mutableListOf()
     private var responseServicio: MutableList<Guias>? = mutableListOf()
+    private var responseInstructivos: MutableList<Guias>? = mutableListOf()
 
     private var FondoresponseControlInterno: MutableList<String>? = mutableListOf()
     private var FondoresponseEjecucion: MutableList<String>? = mutableListOf()
     private var FondoresponseAbastecimiento: MutableList<String>? = mutableListOf()
     private var FondoresponseSeguridad: MutableList<String>? = mutableListOf()
     private var FondoresponseServicio: MutableList<String>? = mutableListOf()
+    private var FondoresponseInstructivos: MutableList<String>? = mutableListOf()
+
 
     private var ColorFondoresponseControlInterno: MutableList<String>? = mutableListOf()
     private var ColorFondoresponseEjecucion: MutableList<String>? = mutableListOf()
     private var ColorFondoresponseAbastecimiento: MutableList<String>? = mutableListOf()
     private var ColorFondoresponseSeguridad: MutableList<String>? = mutableListOf()
     private var ColorFondoresponseServicio: MutableList<String>? = mutableListOf()
+    private var ColorFondoresponseInstructivo: MutableList<String>? = mutableListOf()
 
 
 
@@ -140,6 +148,9 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
         val butonServicio = binding.servicio
         val llServicio = binding.llServicio
 
+        val butonInstructivo = binding.instructivos
+        val llIlustracion = binding.lIlustracion
+
 
 
         llControlInterno.visibility = View.GONE
@@ -147,6 +158,7 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
         llAbastecimiento.visibility = View.GONE
         llSeguridad.visibility = View.GONE
         llServicio.visibility = View.GONE
+        llIlustracion.visibility = View.GONE
 
         val col = Color.parseColor("#000000")
         val rad = 20//radius will be 5px
@@ -180,6 +192,7 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
 
 
                 response.body()!!.forEach {
+                    Log.d("tipoGuia", it.tipoGuia!!)
                     when(it.tipoGuia){
                         "control-interno" -> {
 
@@ -223,6 +236,14 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
                                 responseServicio?.add(it)
                                 FondoresponseServicio?.add(it.urlFondo)
                                 ColorFondoresponseServicio?.add(it.backgroundColor.toString())
+                            }
+                        }
+                        "instructivos" -> {
+                            Log.d("instructivos", it.toString())
+                            if (it.componentes.isNullOrEmpty() == false) {
+                                responseInstructivos?.add(it)
+                                FondoresponseInstructivos?.add(it.urlFondo)
+                                ColorFondoresponseInstructivo?.add(it.backgroundColor.toString())
                             }
                         }
                     }
@@ -275,6 +296,13 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
                 gridViewListServicio?.adapter = ListServicioAdapter
                 gridViewListServicio?.onItemClickListener = this
 
+                gridViewListInstructivos = binding.GuiasRapidasInstructor
+                ListInstructivos = ArrayList()
+                ListInstructivos =setDataList(responseInstructivos?.toList())
+                ListInstrucAdapter = GuiasAdapter(requireContext(), ListInstructivos as List<ItemDataGuias>)
+                gridViewListInstructivos?.adapter = ListInstrucAdapter
+                gridViewListInstructivos?.onItemClickListener = this
+
             }
         } catch (e: TimeoutException) {
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
@@ -288,9 +316,19 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
             llAbastecimiento.visibility = View.GONE
             llSeguridad.visibility = View.GONE
             llServicio.visibility = View.GONE
+            llIlustracion.visibility = View.GONE
+        }
+        butonInstructivo.setOnClickListener {
+            llIlustracion.visibility = View.VISIBLE
+            llControlInterno.visibility = View.GONE
+            llEjecucion.visibility = View.GONE
+            llAbastecimiento.visibility = View.GONE
+            llSeguridad.visibility = View.GONE
+            llServicio.visibility = View.GONE
         }
 
         butonEjecucion.setOnClickListener {
+            llIlustracion.visibility = View.GONE
             llControlInterno.visibility = View.GONE
             llEjecucion.visibility = View.VISIBLE
             llAbastecimiento.visibility = View.GONE
@@ -298,6 +336,7 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
             llServicio.visibility = View.GONE         }
 
         butonAbastecimiento.setOnClickListener {
+            llIlustracion.visibility = View.GONE
             llControlInterno.visibility = View.GONE
             llEjecucion.visibility = View.GONE
             llAbastecimiento.visibility = View.VISIBLE
@@ -305,6 +344,7 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
             llServicio.visibility = View.GONE         }
 
         butonSeguridad.setOnClickListener {
+            llIlustracion.visibility = View.GONE
             llControlInterno.visibility = View.GONE
             llEjecucion.visibility = View.GONE
             llAbastecimiento.visibility = View.GONE
@@ -312,6 +352,7 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
             llServicio.visibility = View.GONE         }
 
         butonServicio.setOnClickListener {
+            llIlustracion.visibility = View.GONE
             llControlInterno.visibility = View.GONE
             llEjecucion.visibility = View.GONE
             llAbastecimiento.visibility = View.GONE
@@ -326,6 +367,7 @@ class GuiasFragment : Fragment(), AdapterView.OnItemClickListener {
 private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
     val array:ArrayList<ItemDataGuias> = ArrayList()
+
 
 
     list?.forEach{
@@ -344,6 +386,10 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
             array.add(ItemDataGuias(color,it.titulo,it.componentes))
 
         }else if(it.tipoGuia.equals("servicio")){
+            color = "#FC4C02"
+            array.add(ItemDataGuias(color,it.titulo,it.componentes))
+
+        }else if(it.tipoGuia.equals("instructivos")){
             color = "#FC4C02"
             array.add(ItemDataGuias(color,it.titulo,it.componentes))
 
@@ -368,6 +414,7 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
         val abastecimiento = 2131361799
         val seguridad = 2131361802
         val servicio = 2131361803
+        val instructivos = 2131362493
 
 
         when(p0?.id){
@@ -407,10 +454,18 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
                 val item:ItemDataGuias = ListServicio?.get(p2)!!
                 viewModel2.urlFondo(FondoresponseServicio?.get(p2))
+                Log.d("colormoduloguias", ColorFondoresponseServicio?.get(p2).toString())
                 viewModel2.colorModuloGuias(ColorFondoresponseControlInterno?.get(p2))
                 viewModel2.componentes(item.componentes!!)
                 findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
 
+            }
+            instructivos ->{
+                val item:ItemDataGuias = ListInstructivos?.get(p2)!!
+                viewModel2.urlFondo(FondoresponseInstructivos?.get(p2))
+                viewModel2.colorModuloGuias(ColorFondoresponseInstructivo?.get(p2))
+                viewModel2.componentes(item.componentes!!)
+                findNavController().navigate(R.id.action_guiasFragment_to_guiasContenido)
             }
 
         }
@@ -421,3 +476,5 @@ private fun setDataList(list: List<Guias>?) : ArrayList<ItemDataGuias>{
 
 
 }
+
+
