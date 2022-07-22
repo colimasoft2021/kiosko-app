@@ -87,23 +87,33 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/seguridad"
-                android:backgroundTint="#DA291C"
-                android:layout_width="100dp"
+                android:id="@+id/instructivos"
+                android:layout_width="120dp"
                 android:layout_height="60dp"
-                android:text="Seguridad"
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_weight="1"/>
+                android:layout_weight="2"
+                android:text="Instructivos" />
+
+            <Button
+                android:id="@+id/seguridad"
+                android:layout_width="120dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:backgroundTint="#DA291C"
+                android:text="Seguridad" />
 
             <Button
                 android:id="@+id/servicio"
-                android:backgroundTint="#FC4C02"
-                android:layout_width="100dp"
+                android:layout_width="120dp"
                 android:layout_height="60dp"
-                android:text="Servicio"
-                android:layout_marginEnd="100dp"
-                android:layout_weight="1"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="2"
+                android:backgroundTint="#FC4C02"
+                android:text="Servicio" />
 
         </LinearLayout>
     </LinearLayout>
@@ -331,6 +341,33 @@
                     android:nestedScrollingEnabled="true"
                     android:numColumns="auto_fit"
                     android:verticalSpacing="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lIlustracion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <GridView
+                    android:id="@+id/GuiasRapidasInstructor"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:columnWidth="150dp"
+                    android:horizontalSpacing="0dp"
+                    android:nestedScrollingEnabled="true"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="10dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Instructivos" />
             </LinearLayout>
 
         </LinearLayout>

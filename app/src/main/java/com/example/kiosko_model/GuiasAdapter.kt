@@ -28,7 +28,7 @@ class GuiasAdapter(var context: Context, var arrayList: List<ItemDataGuias>) : B
     }
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-        var view:View = View.inflate(context, R.layout.card_item,null)
+        val view:View = View.inflate(context, R.layout.card_item,null)
 
 //        var icon: ImageView = view.findViewById(R.id.idCourse)
 //        var names: TextView = view.findViewById(R.id.TxtCourse)
@@ -37,7 +37,7 @@ class GuiasAdapter(var context: Context, var arrayList: List<ItemDataGuias>) : B
 
 
 
-        var guiasItems: ItemDataGuias = arrayList.get(p0)
+        val guiasItems: ItemDataGuias = arrayList[p0]
         val colorHEX = Color.parseColor(guiasItems.icons)
 
         val color = colorHEX
@@ -51,7 +51,6 @@ class GuiasAdapter(var context: Context, var arrayList: List<ItemDataGuias>) : B
 
         boton.background = gradientDrawable
         names.text = guiasItems.name
-
         return view
 
     }
