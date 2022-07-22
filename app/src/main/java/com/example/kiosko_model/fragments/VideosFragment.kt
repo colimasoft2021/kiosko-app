@@ -5,19 +5,23 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Html
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.kiosko_model.*
+import com.example.kiosko_model.Home
+import com.example.kiosko_model.R
+import com.example.kiosko_model.VideoItem
+import com.example.kiosko_model.VideosAdapter
 import com.example.kiosko_model.databinding.FragmentVideosBinding
-import com.example.kiosko_model.models.*
+import com.example.kiosko_model.models.Videos
+import com.example.kiosko_model.models.VideosViewModel
+import com.example.kiosko_model.models.VideosViewModelFactory
 import com.example.kiosko_model.repository.Repository
 import com.google.android.exoplayer2.util.Log
-import retrofit2.Response
 import java.util.concurrent.TimeoutException
 
 private lateinit var viewModel: VideosViewModel
@@ -25,10 +29,10 @@ private lateinit var viewModel: VideosViewModel
 class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
 
-    private var gridViewListControlInterno:GridView? = null
-    private var gridViewListEjecucion:GridView? = null
-    private var gridViewListAbastecimiento:GridView? = null
-    private var gridViewListServicio:GridView? = null
+    private var gridViewListControlInterno: GridView? = null
+    private var gridViewListEjecucion: GridView? = null
+    private var gridViewListAbastecimiento: GridView? = null
+    private var gridViewListServicio: GridView? = null
 
 
     private var responseControlInterno: MutableList<Videos>? = mutableListOf()
@@ -36,16 +40,16 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
     private var responseAbastecimiento: MutableList<Videos>? = mutableListOf()
     private var responseServicio: MutableList<Videos>? = mutableListOf()
 
-    private var ListControlInterno: List<VideoItem> ? = null
-    private var ListEjecucion: List<VideoItem> ? = null
-    private var ListAbastecimiento: List<VideoItem> ? = null
-    private var ListServicio: List<VideoItem> ? = null
+    private var ListControlInterno: List<VideoItem>? = null
+    private var ListEjecucion: List<VideoItem>? = null
+    private var ListAbastecimiento: List<VideoItem>? = null
+    private var ListServicio: List<VideoItem>? = null
 
 
-    private var ListControlInternoAdapter:  VideosAdapter ? = null
-    private var ListEjecucionAdapter:  VideosAdapter ? = null
-    private var ListAbastecimientoAdapter:  VideosAdapter ? = null
-    private var ListServicioAdapter:  VideosAdapter ? = null
+    private var ListControlInternoAdapter: VideosAdapter? = null
+    private var ListEjecucionAdapter: VideosAdapter? = null
+    private var ListAbastecimientoAdapter: VideosAdapter? = null
+    private var ListServicioAdapter: VideosAdapter? = null
 
 //    private var gridView:GridView? = null
 //    private var List: List<VideoItem> ? = null
@@ -63,6 +67,7 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -80,20 +85,26 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         titulo.background = graDient
         titulo.gravity = Gravity.CENTER_HORIZONTAL
         titulo.setTextColor(Color.WHITE)
-        val layoutTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-        layoutTitulo.setMargins(20,20,20,20)
+        val layoutTitulo = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        layoutTitulo.setMargins(20, 20, 20, 20)
 
-        vistaTitle.addView(titulo,layoutTitulo)
+        vistaTitle.addView(titulo, layoutTitulo)
 
         val texto = TextView(context)
         texto.text = getString(R.string.procedimientos_a_ejecutar)
         texto.textSize = 18f
         texto.textAlignment = TextView.TEXT_ALIGNMENT_TEXT_START
         texto.setTextColor(Color.BLACK)
-        val layoutTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-        layoutTexto.setMargins(20,5,20,20)
+        val layoutTexto = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        layoutTexto.setMargins(20, 5, 20, 20)
 
-        vistaTitle.addView(texto,layoutTexto)
+        vistaTitle.addView(texto, layoutTexto)
 
 
         val butonControlInterno = binding.controlInterno
@@ -115,7 +126,7 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         llServicio.visibility = View.GONE
 
         val col = Color.parseColor("#000000")
-        Log.d("VideosFragment",col.toString())
+        Log.d("VideosFragment", col.toString())
         val rad = 20//radius will be 5px
         val strk = 5
         val gD = GradientDrawable()
@@ -126,10 +137,10 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         val buton = Button(context)
 
         buton.background = gD
-        Log.d("VideosFragment",buton.background.toString())
+        Log.d("VideosFragment", buton.background.toString())
         buton.setTextColor(Color.WHITE)
-        buton.text =" Acceso directo "
-        buton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back_button,0,0,0)
+        buton.text = " Acceso directo "
+        buton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back_button, 0, 0, 0)
         buton.setOnClickListener {
 
             findNavController().navigate(R.id.action_videosFragment_to_accesoDirectoFragment)
@@ -150,14 +161,12 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
             viewModel.videosResponse.observe(viewLifecycleOwner) { response ->
 
 
-
                 response.body()!!.forEach {
-                    when(it.tipoCategoria){
+                    when (it.tipoCategoria) {
                         "control-interno" -> {
 
 //                            Log.d("responseTest", it.toString())
                             responseControlInterno?.add(it)
-
 
 
                         }
@@ -184,8 +193,9 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
                 gridViewListControlInterno = binding.VideoListaControlInterno
                 ListControlInterno = ArrayList()
-                ListControlInterno =setDataList(responseControlInterno?.toList())
-                ListControlInternoAdapter = VideosAdapter(requireContext(), ListControlInterno as List<VideoItem>)
+                ListControlInterno = setDataList(responseControlInterno?.toList())
+                ListControlInternoAdapter =
+                    VideosAdapter(requireContext(), ListControlInterno as List<VideoItem>)
                 gridViewListControlInterno?.adapter = ListControlInternoAdapter
                 Log.d("responseTest", ListControlInterno.toString())
 
@@ -194,8 +204,9 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
                 gridViewListEjecucion = binding.VideoListaEjecuciN
                 ListEjecucion = ArrayList()
-                ListEjecucion =setDataList(responseEjecucion?.toList())
-                ListEjecucionAdapter = VideosAdapter(requireContext(), ListEjecucion as List<VideoItem>)
+                ListEjecucion = setDataList(responseEjecucion?.toList())
+                ListEjecucionAdapter =
+                    VideosAdapter(requireContext(), ListEjecucion as List<VideoItem>)
                 gridViewListEjecucion?.adapter = ListEjecucionAdapter
                 gridViewListEjecucion?.onItemClickListener = this
 
@@ -203,16 +214,18 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
                 gridViewListAbastecimiento = binding.VideoListaAbastecimientoeInventario
                 ListAbastecimiento = ArrayList()
-                ListAbastecimiento =setDataList(responseAbastecimiento?.toList())
-                ListAbastecimientoAdapter = VideosAdapter(requireContext(), ListAbastecimiento as List<VideoItem>)
+                ListAbastecimiento = setDataList(responseAbastecimiento?.toList())
+                ListAbastecimientoAdapter =
+                    VideosAdapter(requireContext(), ListAbastecimiento as List<VideoItem>)
                 gridViewListAbastecimiento?.adapter = ListAbastecimientoAdapter
                 gridViewListAbastecimiento?.onItemClickListener = this
 
 
                 gridViewListServicio = binding.VideoListaServicio
                 ListServicio = ArrayList()
-                ListServicio =setDataList(responseServicio?.toList())
-                ListServicioAdapter = VideosAdapter(requireContext(), ListServicio as List<VideoItem>)
+                ListServicio = setDataList(responseServicio?.toList())
+                ListServicioAdapter =
+                    VideosAdapter(requireContext(), ListServicio as List<VideoItem>)
                 gridViewListServicio?.adapter = ListServicioAdapter
                 gridViewListServicio?.onItemClickListener = this
 
@@ -221,7 +234,7 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         } catch (e: TimeoutException) {
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
 
-        }finally {
+        } finally {
 
         }
 
@@ -239,31 +252,34 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
             llControlInterno.visibility = View.GONE
             llEjecucion.visibility = View.VISIBLE
             llAbastecimiento.visibility = View.GONE
-            llServicio.visibility = View.GONE         }
+            llServicio.visibility = View.GONE
+        }
 
         butonAbastecimiento.setOnClickListener {
             llControlInterno.visibility = View.GONE
             llEjecucion.visibility = View.GONE
             llAbastecimiento.visibility = View.VISIBLE
-            llServicio.visibility = View.GONE         }
+            llServicio.visibility = View.GONE
+        }
 
 
         butonServicio.setOnClickListener {
             llControlInterno.visibility = View.GONE
             llEjecucion.visibility = View.GONE
             llAbastecimiento.visibility = View.GONE
-            llServicio.visibility = View.VISIBLE         }
+            llServicio.visibility = View.VISIBLE
+        }
 
 
     }
 
     @Suppress("DEPRECATION")
-    private fun setDataList(list: List<Videos>?) : ArrayList<VideoItem>{
+    private fun setDataList(list: List<Videos>?): ArrayList<VideoItem> {
 
-        var array:ArrayList<VideoItem> = ArrayList()
+        var array: ArrayList<VideoItem> = ArrayList()
         var index = 0
 
-        var arrayColors:ArrayList<String> = ArrayList()
+        var arrayColors: ArrayList<String> = ArrayList()
         arrayColors.add("#FC4C02")//naranja, servicio
         arrayColors.add("#008BCE")//azul, control interno
         arrayColors.add("#DA291C")//rojo
@@ -274,34 +290,34 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
 
 
 
-        list?.forEach{
-            Log.d("VideosFragment",it.tipoCategoria.toString())
-            val color : String
+        list?.forEach {
+            Log.d("VideosFragment", it.tipoCategoria.toString())
+            val color: String
 
 
-                Log.d("VideosFragmentewe",arrayColors.size.toString())
-                Log.d("VideosFragment",index.toString())
-                    if(it.tipoCategoria.equals("control-interno")){
-                        color = arrayColors[1]
-                        array.add(VideoItem(color, Html.fromHtml(it.descripcion).toString(),it.url))
-                    }else if(it.tipoCategoria.equals("ejecucion")){
-                        color = arrayColors[4]
-                        array.add(VideoItem(color,Html.fromHtml(it.descripcion).toString(),it.url))
+            Log.d("VideosFragmentewe", arrayColors.size.toString())
+            Log.d("VideosFragment", index.toString())
+            if (it.tipoCategoria.equals("control-interno")) {
+                color = arrayColors[1]
+                array.add(VideoItem(color, Html.fromHtml(it.descripcion).toString(), it.url))
+            } else if (it.tipoCategoria.equals("ejecucion")) {
+                color = arrayColors[4]
+                array.add(VideoItem(color, Html.fromHtml(it.descripcion).toString(), it.url))
 
-                    }else if(it.tipoCategoria.equals("abastecimiento-e-inventario")){
-                        color = arrayColors[3]
-                        array.add(VideoItem(color,Html.fromHtml(it.descripcion).toString(),it.url))
+            } else if (it.tipoCategoria.equals("abastecimiento-e-inventario")) {
+                color = arrayColors[3]
+                array.add(VideoItem(color, Html.fromHtml(it.descripcion).toString(), it.url))
 
-                    }else if(it.tipoCategoria.equals("servicio")){
-                        color = arrayColors[0]
-                        array.add(VideoItem(color,Html.fromHtml(it.descripcion).toString(),it.url))
+            } else if (it.tipoCategoria.equals("servicio")) {
+                color = arrayColors[0]
+                array.add(VideoItem(color, Html.fromHtml(it.descripcion).toString(), it.url))
 
-                    }else{
-                        color = arrayColors[2]
-                        array.add(VideoItem(color,Html.fromHtml(it.descripcion).toString(),it.url))
-                    }
+            } else {
+                color = arrayColors[2]
+                array.add(VideoItem(color, Html.fromHtml(it.descripcion).toString(), it.url))
+            }
 
-            Log.d("VideosFragment",it.descripcion.toString())
+            Log.d("VideosFragment", it.descripcion.toString())
         }
         return array
     }
@@ -313,37 +329,53 @@ class VideosFragment : Fragment(), AdapterView.OnItemClickListener {
         Log.d("p2", p2.toString())
         Log.d("p3", p3.toString())
 
-        val controlInterno = 2131361818
-        val ejecucion = 2131361819
-        val abastecimiento = 2131361817
-        val servicio = 2131361820
+        val controlInterno = 2131361819
+        val ejecucion = 2131361820
+        val abastecimiento = 2131361818
+        val servicio = 2131361821
 
-        when(p0?.id){
+        when (p0?.id) {
 
-            controlInterno ->{
-                val item:VideoItem = ListControlInterno?.get(p2)!!
-                (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
-                Log.d("work??","work")
-
-            }
-            ejecucion->{
-
-                val item:VideoItem = ListEjecucion?.get(p2)!!
-                (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
-
+            controlInterno -> {
+                val item: VideoItem = ListControlInterno?.get(p2)!!
+                (activity as Home?)?.PopUpComponenteVideo(
+                    item.name,
+                    item.url,
+                    mensajeInicial = false
+                )
+                Log.d("work??", "work")
 
             }
-            abastecimiento->{
+            ejecucion -> {
 
-                val item:VideoItem = ListAbastecimiento?.get(p2)!!
-                (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
+                val item: VideoItem = ListEjecucion?.get(p2)!!
+                (activity as Home?)?.PopUpComponenteVideo(
+                    item.name,
+                    item.url,
+                    mensajeInicial = false
+                )
+
+
+            }
+            abastecimiento -> {
+
+                val item: VideoItem = ListAbastecimiento?.get(p2)!!
+                (activity as Home?)?.PopUpComponenteVideo(
+                    item.name,
+                    item.url,
+                    mensajeInicial = false
+                )
 
             }
 
-            servicio->{
+            servicio -> {
 
-                val item:VideoItem = ListServicio?.get(p2)!!
-                (activity as Home?) ?.PopUpComponenteVideo(item.name,item.url,mensajeInicial = false)
+                val item: VideoItem = ListServicio?.get(p2)!!
+                (activity as Home?)?.PopUpComponenteVideo(
+                    item.name,
+                    item.url,
+                    mensajeInicial = false
+                )
 
 
             }
