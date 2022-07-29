@@ -36,11 +36,10 @@ import java.util.concurrent.TimeoutException
 
 
 class Contenido : Fragment() {
-    private val viewModel:CompuestosViewModel by viewModels({requireParentFragment()})
-    private val viewModel3:CompuestosViewModel2 by viewModels({requireParentFragment()})
-    private val porcentajeViewModel: PorcentajeViewModel by viewModels({requireParentFragment()})
-    private val viewModelLocal: ComponentesViewModel2 by viewModels({requireParentFragment()})
-
+    private val viewModel: CompuestosViewModel by viewModels({ requireParentFragment() })
+    private val viewModel3: CompuestosViewModel2 by viewModels({ requireParentFragment() })
+    private val porcentajeViewModel: PorcentajeViewModel by viewModels({ requireParentFragment() })
+    private val viewModelLocal: ComponentesViewModel2 by viewModels({ requireParentFragment() })
 
 
     private lateinit var progreso: ProgresoViewModel
@@ -50,7 +49,7 @@ class Contenido : Fragment() {
 
     private var _binding: FragmentContenidoBinding? = null
     private val binding get() = _binding!!
-    private var contadorVideos : Int = 0
+    private var contadorVideos: Int = 0
     var mutableList: MutableList<VideoView> = mutableListOf<VideoView>()
 
 //    private val viewBinding by lazy(LazyThreadSafetyMode.NONE) {
@@ -60,11 +59,12 @@ class Contenido : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ) : View? {
-        _binding = FragmentContenidoBinding.inflate(inflater,container,false)
+    ): View? {
+        _binding = FragmentContenidoBinding.inflate(inflater, container, false)
         binding.llContenedor.removeAllViews()
         return binding.root
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,7 +81,7 @@ class Contenido : Fragment() {
 
         val colorModulo = viewModel.colorModulo.value!!
 
-        val progresoPost = PostProgreso(idU,idM,p.toDouble())
+        val progresoPost = PostProgreso(idU, idM, p.toDouble())
         progreso.pushProgresoRegistro(progresoPost)
 
         Log.d("response ID MODULO", porcentajeViewModel.idModulo.value.toString())
@@ -101,276 +101,315 @@ class Contenido : Fragment() {
         binding.llContenedor.removeAllViews()
         viewModel
 
-            try{
-                viewModel.componentes.observe(viewLifecycleOwner) { it ->
-                    Log.d("Contenido","Observer")
+        try {
+            viewModel.componentes.observe(viewLifecycleOwner) { it ->
+                Log.d("Contenido", "Observer")
 
 //                    imagenDesplazanteW.load(des.url) {
 //                        placeholder(R.drawable.loading_animation)
 //                        error(R.drawable.ic_broken_image)
 //                    }
-                    if (it.isNotEmpty()) {
-                       binding.llContenedor.removeAllViews()
-                        Log.d("Contenido","it.isnotempty")
-                        imagenFondo.load(it[0]?.idModuloNavigation?.urlFondo){
+                if (it.isNotEmpty()) {
+                    binding.llContenedor.removeAllViews()
+                    Log.d("Contenido", "it.isnotempty")
+                    imagenFondo.load(it[0]?.idModuloNavigation?.urlFondo) {
 //                            placeholder(R.drawable.loading_animation)
 //                            kotlin.error(R.drawable.ic_broken_image)
-                        }
-                        val listViewBackBoton = LinearLayout(context)
-                        val buttonBack = Button(context)
+                    }
+                    val listViewBackBoton = LinearLayout(context)
+                    val buttonBack = Button(context)
 
-                        val LayoutBotonBack = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                        LayoutBotonBack.setMargins(0,0,0,30)
-                        listViewBackBoton.orientation = LinearLayout.HORIZONTAL
+                    val LayoutBotonBack = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                    LayoutBotonBack.setMargins(0, 0, 0, 30)
+                    listViewBackBoton.orientation = LinearLayout.HORIZONTAL
 
-                        val submodulo = viewModelLocal.componentes2.value
-                        val index = viewModelLocal.index.value
+                    val submodulo = viewModelLocal.componentes2.value
+                    val index = viewModelLocal.index.value
 
 //                        if(index == 1){
+                    binding.llContenedor.removeAllViews()
+
+                    val col = Color.parseColor("#000000")
+                    val rad = 20//radius will be 5px
+                    val strk = 5
+                    val gD = GradientDrawable()
+                    gD.setColor(col)
+                    gD.cornerRadius = rad.toFloat()
+                    gD.setStroke(strk, col)
+                    Log.d("CONTENIDO2", index.toString())
+                    buttonBack.textSize = 18F
+                    buttonBack.text = "  Pagina Principal  "
+                    buttonBack.setCompoundDrawablesWithIntrinsicBounds(
+                        R.drawable.ic_back_button,
+                        0,
+                        0,
+                        0
+                    )
+                    buttonBack.marginStart
+                    buttonBack.gravity = Gravity.CENTER
+                    buttonBack.setTextColor(Color.WHITE)
+                    buttonBack.background = gD
+                    buttonBack.setOnClickListener {
+
+
+                        if ((activity as Home?)?.isOnlineNet() == true) {
+
                             binding.llContenedor.removeAllViews()
 
-                            val col = Color.parseColor("#000000")
-                            val rad = 20//radius will be 5px
-                            val strk = 5
-                            val gD = GradientDrawable()
-                            gD.setColor(col)
-                            gD.cornerRadius = rad.toFloat()
-                            gD.setStroke(strk, col)
-                            Log.d("CONTENIDO2",index.toString())
-                            buttonBack.textSize = 18F
-                            buttonBack.text = "  Pagina Principal  "
-                            buttonBack.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back_button,
-                                0,
-                                0,
-                                0)
-                            buttonBack.marginStart
-                            buttonBack.gravity = Gravity.CENTER
-                            buttonBack.setTextColor(Color.WHITE)
-                            buttonBack.background = gD
-                            buttonBack.setOnClickListener {
+                            val intento = Intent(context, Home::class.java)
+                            context?.startActivity(intento)
+                            binding.llContenedor.removeAllViews()
+                        } else {
+                            (activity as Home?)?.checkConnectivity()
+                        }
+
+                    }
+//
+                    val progresoPModulo = porcentajeViewModel.progresoPerModulo.value
+                    val progress = porcentajeViewModel.porcentaje.value
+                    porcentajeViewModel.setPorcentaje(progress!! + progresoPModulo!!)
+
+                    listViewBackBoton.addView(buttonBack, LayoutBotonBack)
+                    llContenedor.addView(listViewBackBoton)
+
+                    it.forEach {
+
+                        when (it!!.tipoComponente) {
 
 
-                               if((activity as Home?) ?.isOnlineNet() == true){
+                            "titulo-descripción" -> {
 
-                                    binding.llContenedor.removeAllViews()
+                                val color = colorModulo
+                                val radius = 15
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
 
-                                    val intento = Intent(context, Home::class.java)
-                                    context?.startActivity(intento)
-                                    binding.llContenedor.removeAllViews()
-                               }
-                                else{
-                                   (activity as Home?) ?.checkConnectivity()
+
+                                val contenedorTitulo = LinearLayout(context)
+                                contenedorTitulo.orientation = LinearLayout.VERTICAL
+                                contenedorTitulo.gravity = Gravity.CENTER
+                                contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
+
+                                val tituloW = Button(context)
+                                @Suppress("DEPRECATION")
+                                tituloW.text = Html.fromHtml(it.titulo)
+                                tituloW.typeface = Typeface.DEFAULT_BOLD
+                                tituloW.textSize = 30F
+                                tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                tituloW.setTextColor(Color.WHITE)
+                                tituloW.gravity = Gravity.CENTER
+                                tituloW.background = gradientDrawable
+
+
+                                val textoW = TextView(context)
+                                @Suppress("DEPRECATION")
+                                textoW.text = Html.fromHtml(it.descripcion)
+                                textoW.textSize = 16F
+                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+                                textoW.setTextColor(Color.BLACK)
+                                textoW.gravity = Gravity.CENTER
+
+                                val lpTitulo = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpTitulo.setMargins(60, 20, 60, 10)
+                                contenedorTitulo.addView(tituloW, lpTitulo)
+
+                                val lpTexto = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpTexto.setMargins(30, 10, 30, 15)
+                                contenedorTitulo.addView(textoW, lpTexto)
+
+                                val lp = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lp.setMargins(0, 15, 0, 20)
+
+                                llContenedor.addView(contenedorTitulo, lp)
+                                impresionDefinitiva("titulo-descripción", textoW.text.toString())
+                            }
+                            "subtitulo-descripción" -> {
+
+                                val contenedorTitulo = LinearLayout(context)
+                                contenedorTitulo.orientation = LinearLayout.VERTICAL
+                                contenedorTitulo.gravity = Gravity.CENTER
+
+                                if (it.agregarFondo == 1) {
+                                    contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
                                 }
 
+                                val tituloW = TextView(context)
+                                @Suppress("DEPRECATION")
+                                tituloW.text = Html.fromHtml(it.subtitulo)
+                                tituloW.textSize = 18F
+                                tituloW.typeface = Typeface.DEFAULT_BOLD
+                                tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                tituloW.setTextColor(Color.BLACK)
+                                tituloW.gravity = Gravity.CENTER
+
+                                val textoW = TextView(context)
+                                @Suppress("DEPRECATION")
+                                textoW.text = Html.fromHtml(it.descripcion)
+                                textoW.textSize = 16F
+                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+                                textoW.setTextColor(Color.BLACK)
+                                textoW.gravity = Gravity.CENTER
+
+
+                                val lpTitulo = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpTitulo.setMargins(60, 20, 60, 10)
+                                contenedorTitulo.addView(tituloW, lpTitulo)
+
+                                val lpTexto = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpTexto.setMargins(30, 10, 30, 15)
+                                contenedorTitulo.addView(textoW, lpTexto)
+
+                                val lp = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lp.setMargins(0, 15, 0, 20)
+
+                                llContenedor.addView(contenedorTitulo, lp)
+                                impresionDefinitiva("subtitulo-descripción", textoW.text.toString())
                             }
+
+
+                            "subtitulo" -> {
+                                //texto
+                                val contenedorTitulo = LinearLayout(context)
+                                contenedorTitulo.orientation = LinearLayout.VERTICAL
+                                contenedorTitulo.gravity = Gravity.CENTER
+                                contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
+                                /*
+                                val tituloW = TextView(context)
+                                tituloW.text = Html.fromHtml(it.subtitulo)
+                                tituloW.textSize = 30F
+                                tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                tituloW.setTextColor(Color.BLACK)
+                                tituloW.gravity = Gravity.CENTER
+
+
+                                val lpContenedorTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                                contenedorTitulo.addView(tituloW, lpContenedorTitulo)
+                                */
+
+                                val color = Color.parseColor("#FC4C02")
+                                val radius = 30
+                                val strokeWidth = 5
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color)
+                                //fondo redondo blanco
 //
-                        val progresoPModulo = porcentajeViewModel.progresoPerModulo.value
-                        val progress = porcentajeViewModel.porcentaje.value
-                        porcentajeViewModel.setPorcentaje(progress!! + progresoPModulo!!)
+                                val buttonW = Button(context)
+                                buttonW.textSize = 30F
+                                buttonW.isClickable = false
+                                @Suppress("DEPRECATION")
+                                buttonW.text = Html.fromHtml(it.subtitulo)
+                                //  buttonW.text = it.subtitulo
+                                buttonW.background = gradientDrawable
+                                buttonW.setTextColor(Color.BLACK)
+                                buttonW.gravity = Gravity.CENTER
 
-                        listViewBackBoton.addView(buttonBack, LayoutBotonBack)
-                        llContenedor.addView(listViewBackBoton)
+                                //buttonW.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liston_4,0,R.drawable.liston_4,0)
+                                buttonW.isEnabled = false
+                                //val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+                                //lp.setMargins(0,15,0,10)
+                                val lpContenedorTitulo = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                contenedorTitulo.addView(buttonW, lpContenedorTitulo)
+                                llContenedor.addView(contenedorTitulo, lpContenedorTitulo)
+                                impresionDefinitiva("subtitulo", buttonW.text.toString())
+                            }
 
-                       it.forEach {
+                            "banner-informativo" -> {
+                                val buttonW = Button(context)
+                                val lp = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lp.setMargins(20, 20, 20, 20)
+                                buttonW.textSize = 14F
+                                buttonW.isClickable = false
+                                @Suppress("DEPRECATION")
+                                buttonW.text = Html.fromHtml(it.descripcion)
+                                buttonW.setTextColor(Color.WHITE)
+                                buttonW.isAllCaps = false
+                                buttonW.setBackgroundColor(Color.parseColor(it.backgroundColor))
+                                buttonW.gravity = Gravity.CENTER
+                                buttonW.setPadding(20, 20, 20, 20)
+                                llContenedor.addView(buttonW, lp)
+                            }
 
-                           when(it!!.tipoComponente){
+                            "carrucel" -> {
 
+                                val horizontalScrollView = HorizontalScrollView(context)
+                                val listView = LinearLayout(context)
 
-                               "titulo-descripción" -> {
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_VERTICAL
 
-                                   val color = colorModulo
-                                   val radius = 15
-                                   val gradientDrawable = GradientDrawable()
-                                   gradientDrawable.setColor(color)
-                                   gradientDrawable.cornerRadius = radius.toFloat()
+                                it.desplazantes.forEach {
 
+                                    val layoutParams = LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                    )
 
+                                    layoutParams.setMargins(15, 0, 20, 0)
 
-                                   val contenedorTitulo = LinearLayout(context)
-                                   contenedorTitulo.orientation = LinearLayout.VERTICAL
-                                   contenedorTitulo.gravity = Gravity.CENTER
-                                   contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
+                                    val imagenDesplazanteW = ImageView(context)
+                                    imagenDesplazanteW.load(it.url) {
+                                        placeholder(R.drawable.loading_animation)
+                                        error(R.drawable.ic_broken_image)
+                                    }
+                                    imagenDesplazanteW.scaleType = ImageView.ScaleType.CENTER_CROP
+                                    listView.addView(imagenDesplazanteW, layoutParams)
+                                }
+                                horizontalScrollView.addView(listView)
+                                llContenedor.addView(horizontalScrollView)
+                                val param = listView.layoutParams as ViewGroup.MarginLayoutParams
+                                param.setMargins(0, 5, 0, 0)
+                                listView.layoutParams = param
 
-                                   val tituloW = Button(context)
-                                   tituloW.text = Html.fromHtml(it.titulo)
-                                   tituloW.typeface = Typeface.DEFAULT_BOLD
-                                   tituloW.textSize = 30F
-                                   tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                   tituloW.setTextColor(Color.WHITE)
-                                   tituloW.gravity = Gravity.CENTER
-                                   tituloW.background = gradientDrawable
+                            }
 
+                            "texto" -> {
 
-                                   val textoW = TextView(context)
-                                   textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.textSize = 16F
-                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-                                   textoW.setTextColor(Color.BLACK)
-                                   textoW.gravity = Gravity.CENTER
+                                val listView = LinearLayout(context)
+                                listView.orientation = LinearLayout.VERTICAL
+                                listView.gravity = Gravity.CENTER
+                                val textoW = TextView(context)
+                                @Suppress("DEPRECATION")
+                                textoW.text = Html.fromHtml(it.descripcion)
+                                textoW.textSize = 16F
+                                //textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
+                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 
-                                   val lpTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpTitulo.setMargins(60,20,60,10)
-                                   contenedorTitulo.addView(tituloW, lpTitulo)
+                                textoW.setTextColor(Color.BLACK)
+                                textoW.gravity = Gravity.CENTER
 
-                                   val lpTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpTexto.setMargins(30,10,30,15)
-                                   contenedorTitulo.addView(textoW, lpTexto)
-
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp.setMargins(0,15,0,20)
-
-                                   llContenedor.addView(contenedorTitulo, lp)
-                               }
-                               "subtitulo-descripción" -> {
-
-                                   val contenedorTitulo = LinearLayout(context)
-                                   contenedorTitulo.orientation = LinearLayout.VERTICAL
-                                   contenedorTitulo.gravity = Gravity.CENTER
-
-                                   if(it.agregarFondo == 1){
-                                       contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
-                                   }
-
-                                   val tituloW = TextView(context)
-                                   tituloW.text = Html.fromHtml(it.subtitulo)
-                                   tituloW.textSize = 18F
-                                   tituloW.typeface = Typeface.DEFAULT_BOLD
-                                   tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                   tituloW.setTextColor(Color.BLACK)
-                                   tituloW.gravity = Gravity.CENTER
-
-                                   val textoW = TextView(context)
-                                   textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.textSize = 16F
-                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-                                   textoW.setTextColor(Color.BLACK)
-                                   textoW.gravity = Gravity.CENTER
-
-
-                                   val lpTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpTitulo.setMargins(60,20,60,10)
-                                   contenedorTitulo.addView(tituloW, lpTitulo)
-
-                                   val lpTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpTexto.setMargins(30,10,30,15)
-                                   contenedorTitulo.addView(textoW, lpTexto)
-
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp.setMargins(0,15,0,20)
-
-                                   llContenedor.addView(contenedorTitulo, lp)
-                               }
-
-
-                               "subtitulo" -> {
-                                   //texto
-                                   val contenedorTitulo = LinearLayout(context)
-                                   contenedorTitulo.orientation = LinearLayout.VERTICAL
-                                   contenedorTitulo.gravity = Gravity.CENTER
-                                   contenedorTitulo.setBackgroundResource(R.drawable.round_corners_header)
-                                   /*
-                                   val tituloW = TextView(context)
-                                   tituloW.text = Html.fromHtml(it.subtitulo)
-                                   tituloW.textSize = 30F
-                                   tituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                   tituloW.setTextColor(Color.BLACK)
-                                   tituloW.gravity = Gravity.CENTER
-
-
-                                   val lpContenedorTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   contenedorTitulo.addView(tituloW, lpContenedorTitulo)
-                                   */
-
-                                   val color = Color.parseColor("#FC4C02")
-                                   val radius = 30
-                                   val strokeWidth = 5
-                                   val gradientDrawable = GradientDrawable()
-                                   gradientDrawable.setColor(color)
-                                   gradientDrawable.cornerRadius = radius.toFloat()
-                                   gradientDrawable.setStroke(strokeWidth, color)
-                                   //fondo redondo blanco
-//
-                                   val buttonW = Button(context)
-                                   buttonW.textSize = 30F
-                                   buttonW.isClickable= false
-                                   buttonW.text = it.subtitulo
-                                   buttonW.background = gradientDrawable
-                                   buttonW.setTextColor(Color.BLACK)
-                                   buttonW.gravity = Gravity.CENTER
-
-                                   //buttonW.setCompoundDrawablesWithIntrinsicBounds(R.drawable.liston_4,0,R.drawable.liston_4,0)
-                                   buttonW.isEnabled = false
-                                   //val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   //lp.setMargins(0,15,0,10)
-                                   val lpContenedorTitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   contenedorTitulo.addView(buttonW, lpContenedorTitulo)
-                                   llContenedor.addView(contenedorTitulo, lpContenedorTitulo)
-                               }
-
-                               "banner-informativo" -> {
-                                   val buttonW = Button(context)
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp.setMargins(20,20,20,20)
-                                   buttonW.textSize = 14F
-                                   buttonW.isClickable= false
-                                   buttonW.text = Html.fromHtml(it.descripcion)
-                                   buttonW.setTextColor(Color.WHITE)
-                                   buttonW.isAllCaps = false
-                                   buttonW.setBackgroundColor(Color.parseColor(it.backgroundColor))
-                                    buttonW.gravity = Gravity.CENTER
-                                   buttonW.setPadding(20,20,20,20)
-                                   llContenedor.addView(buttonW,lp)
-                               }
-
-                               "carrucel" -> {
-
-                                   val horizontalScrollView = HorizontalScrollView(context)
-                                   val listView = LinearLayout(context)
-
-                                   listView.orientation= LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_VERTICAL
-
-                                   it.desplazantes.forEach {
-
-                                       val layoutParams = LinearLayout.LayoutParams(
-                                           LinearLayout.LayoutParams.WRAP_CONTENT,
-                                           LinearLayout.LayoutParams.WRAP_CONTENT)
-
-                                       layoutParams.setMargins(15, 0, 20, 0)
-
-                                       val imagenDesplazanteW = ImageView(context)
-                                       imagenDesplazanteW.load(it.url) {
-                                           placeholder(R.drawable.loading_animation)
-                                           error(R.drawable.ic_broken_image)
-                                       }
-                                       imagenDesplazanteW.scaleType= ImageView.ScaleType.CENTER_CROP
-                                       listView.addView(imagenDesplazanteW,layoutParams)
-                                   }
-                                   horizontalScrollView.addView(listView)
-                                   llContenedor.addView(horizontalScrollView)
-                                   val param = listView.layoutParams as ViewGroup.MarginLayoutParams
-                                   param.setMargins(0,5,0,0)
-                                   listView.layoutParams = param
-
-                               }
-
-                               "texto" -> {
-
-                                   val listView = LinearLayout(context)
-                                   listView.orientation = LinearLayout.VERTICAL
-                                   listView.gravity = Gravity.CENTER
-                                   val textoW = TextView(context)
-                                   textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.textSize = 16F
-                                   //textoW.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
-                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-
-                                   textoW.setTextColor(Color.BLACK)
-                                   textoW.gravity = Gravity.CENTER
-
-                                   if(it.agregarFondo == 1){
-                                       listView.setBackgroundResource(R.drawable.round_corners_header)
-                                   }
+                                if (it.agregarFondo == 1) {
+                                    listView.setBackgroundResource(R.drawable.round_corners_header)
+                                }
 
 //                                fondo blanco
 //                                   val color = Color.WHITE
@@ -384,370 +423,435 @@ class Contenido : Fragment() {
 //                                   listView.background = gradientDrawable
 
 
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp.setMargins(30,20,15,15)
-                                   listView.addView(textoW,lp)
+                                val lp = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lp.setMargins(30, 20, 15, 15)
+                                listView.addView(textoW, lp)
 
-                                   val lp2 = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp2.setMargins(0,20,0,20)
-                                   llContenedor.addView(listView,lp2)
-                               }
+                                val lp2 = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lp2.setMargins(0, 20, 0, 20)
+                                llContenedor.addView(listView, lp2)
+                                impresionDefinitiva("texto", textoW.text.toString())
+                            }
 
-                               "desplazante-texto-imagen" -> {
+                            "desplazante-texto-imagen" -> {
 
 
-                                   val horizontalScrollView = HorizontalScrollView(context)
-                                   val listView = LinearLayout(context)
+                                val horizontalScrollView = HorizontalScrollView(context)
+                                val listView = LinearLayout(context)
 
-                                   listView.orientation= LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_VERTICAL
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_VERTICAL
 
-                                   it.desplazantes.forEach { des ->
-                                       val color =  Color.parseColor(des.backgroundColor)
-                                       val radius = 15
-                                       val strokeWidth = 5
-                                       val gradientDrawable = GradientDrawable()
-                                       gradientDrawable.setColor(color)
-                                       gradientDrawable.cornerRadius = radius.toFloat()
-                                       gradientDrawable.setStroke(strokeWidth, color)
+                                it.desplazantes.forEach { des ->
+                                    val color = Color.parseColor(des.backgroundColor)
+                                    val radius = 15
+                                    val strokeWidth = 5
+                                    val gradientDrawable = GradientDrawable()
+                                    gradientDrawable.setColor(color)
+                                    gradientDrawable.cornerRadius = radius.toFloat()
+                                    gradientDrawable.setStroke(strokeWidth, color)
 
-                                       val layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                       layoutParams.setMargins(20, 5, 20 , 5)
-                                       val contenedor = LinearLayout(context)
-                                       contenedor.orientation= LinearLayout.VERTICAL
-                                       contenedor.gravity = Gravity.CENTER
-                                       contenedor.background = gradientDrawable
+                                    val layoutParams = LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                    )
+                                    layoutParams.setMargins(20, 5, 20, 5)
+                                    val contenedor = LinearLayout(context)
+                                    contenedor.orientation = LinearLayout.VERTICAL
+                                    contenedor.gravity = Gravity.CENTER
+                                    contenedor.background = gradientDrawable
 
-                                       val tituloImagenDesplazanteW = TextView(context)
-                                       val textoImagenDesplazanteW = TextView(context)
-                                       val imagenDesplazanteW = ImageView(context)
+                                    val tituloImagenDesplazanteW = TextView(context)
+                                    val textoImagenDesplazanteW = TextView(context)
+                                    val imagenDesplazanteW = ImageView(context)
 
-                                       imagenDesplazanteW.load(des.url) {
-                                           placeholder(R.drawable.loading_animation)
-                                           error(R.drawable.ic_broken_image)
-                                       }
+                                    imagenDesplazanteW.load(des.url) {
+                                        placeholder(R.drawable.loading_animation)
+                                        error(R.drawable.ic_broken_image)
+                                    }
 
 //                                       imagenDesplazanteW.scaleType= ImageView.ScaleType.CENTER_CROP
-                                       contenedor.addView(imagenDesplazanteW, layoutParams)
+                                    contenedor.addView(imagenDesplazanteW, layoutParams)
 
-                                       tituloImagenDesplazanteW.text = Html.fromHtml(des.titulo)
-                                       tituloImagenDesplazanteW.gravity = Gravity.CENTER
-                                       tituloImagenDesplazanteW.setTextColor(Color.WHITE)
-                                       tituloImagenDesplazanteW.textSize = 20F
-                                       contenedor.addView(tituloImagenDesplazanteW, layoutParams)
-                                       Log.d("contenido",des.texto.toString())
-                                       textoImagenDesplazanteW.text = Html.fromHtml(des.texto)
-                                       textoImagenDesplazanteW.gravity = Gravity.CENTER
-                                       textoImagenDesplazanteW.setTextColor(Color.WHITE)
-                                       textoImagenDesplazanteW.textSize = 16F
-                                       contenedor.addView(textoImagenDesplazanteW, layoutParams)
+                                    @Suppress("DEPRECATION")
+                                    tituloImagenDesplazanteW.text = Html.fromHtml(des.titulo)
+                                    tituloImagenDesplazanteW.gravity = Gravity.CENTER
+                                    tituloImagenDesplazanteW.setTextColor(Color.WHITE)
+                                    tituloImagenDesplazanteW.textSize = 20F
+                                    contenedor.addView(tituloImagenDesplazanteW, layoutParams)
+                                    Log.d("contenido", des.texto.toString())
+                                    @Suppress("DEPRECATION")
+                                    textoImagenDesplazanteW.text = Html.fromHtml(des.texto)
+                                    textoImagenDesplazanteW.gravity = Gravity.CENTER
+                                    textoImagenDesplazanteW.setTextColor(Color.WHITE)
+                                    textoImagenDesplazanteW.textSize = 16F
+                                    contenedor.addView(textoImagenDesplazanteW, layoutParams)
 
-                                       val clayoutParams = LinearLayout.LayoutParams(width/2-width/12, height/3)
-                                       clayoutParams.setMargins(10,10,20,10)
-                                       listView.addView(contenedor,clayoutParams)
-                                   }
-                                   horizontalScrollView.addView(listView)
-                                   llContenedor.addView(horizontalScrollView)
+                                    val clayoutParams = LinearLayout.LayoutParams(
+                                        width / 2 - width / 12,
+                                        height / 3
+                                    )
+                                    clayoutParams.setMargins(10, 10, 20, 10)
+                                    listView.addView(contenedor, clayoutParams)
+                                }
+                                horizontalScrollView.addView(listView)
+                                llContenedor.addView(horizontalScrollView)
 
-                                   val param = listView.layoutParams as ViewGroup.MarginLayoutParams
-                                   param.setMargins(0,5,0, 20)
-                                   listView.layoutParams = param
+                                val param = listView.layoutParams as ViewGroup.MarginLayoutParams
+                                param.setMargins(0, 5, 0, 20)
+                                listView.layoutParams = param
 
-                               }
+                            }
 
-                               "texto-imagen" -> {
-                                   val imagenW = ImageView(context)
-                                   val texto = TextView(context)
-                                   val listView = LinearLayout(context)
+                            "texto-imagen" -> {
+                                val imagenW = ImageView(context)
+                                val texto = TextView(context)
+                                val listView = LinearLayout(context)
 
-                                   listView.orientation = LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_HORIZONTAL
-
-
-
-                                   imagenW.load(it.url) {
-                                       placeholder(R.drawable.loading_animation)
-                                       error(R.drawable.ic_broken_image)
-                                   }
-                                   imagenW.scaleType = ImageView.ScaleType.FIT_XY
-
-
-                                   val lpI = LinearLayout.LayoutParams(width / 8,
-                                       LinearLayout.LayoutParams.MATCH_PARENT)
-                                   lpI.setMargins(0, 8, 0, 8)
-
-                                   listView.addView(imagenW, lpI)
-
-                                   texto.text = Html.fromHtml(it.descripcion)
-                                   texto.textSize = 16F
-                                   texto.setTextColor(Color.BLACK)
-                                   texto.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-
-                                   val lpT =
-                                       LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                           LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpT.setMargins(0, 8, 0, 8)
-
-                                   listView.addView(texto, lpT)
-
-                                   val lp2 =
-                                       LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                           LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp2.setMargins(0, 10, 0, 20)
-
-                                   llContenedor.addView(listView, lp2)
-
-                               }
-
-                               "imagen-titulo-descripción" -> {
-
-                                   val imagenW = ImageView(context)
-                                   val titulo = TextView(context)
-                                   val texto = TextView(context)
-
-                                   val listView = LinearLayout(context)
-                                   listView.orientation = LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_HORIZONTAL
-
-
-                                   val color = Color.WHITE
-                                   val radius = 30//radius will be 5px
-                                   val strokeWidth = 5
-                                   val gradientDrawable = GradientDrawable()
-                                   gradientDrawable.setColor(color)
-                                   gradientDrawable.cornerRadius = radius.toFloat()
-                                   gradientDrawable.setStroke(strokeWidth, color)
-
-                                   val listView2 = LinearLayout(context)
-                                   listView2.orientation = LinearLayout.VERTICAL
-                                   listView2.gravity = Gravity.CENTER_HORIZONTAL
-                                   listView2.background = gradientDrawable
-
-
-                                   imagenW.load(it.url) {
-                                       placeholder(R.drawable.loading_animation)
-                                       error(R.drawable.ic_broken_image)
-                                   }
-                                   imagenW.scaleType = ImageView.ScaleType.FIT_CENTER
-
-                                   val lpI = LinearLayout.LayoutParams(width / 5,
-                                       LinearLayout.LayoutParams.MATCH_PARENT)
-                                   lpI.setMargins(0, 8, 0, 8)
-
-                                   listView.addView(imagenW,lpI)
-
-                                   titulo.text = Html.fromHtml(it.titulo)
-                                   titulo.textSize = 20F
-                                   titulo.setTextColor(Color.BLACK)
-                                   titulo.gravity = Gravity.LEFT
-
-                                   texto.text = Html.fromHtml(it.descripcion)
-                                   texto.textSize = 18F
-                                   texto.setTextColor(Color.BLACK)
-                                   texto.gravity = Gravity.CENTER
-
-                                   val lpT =
-                                       LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                           LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpT.setMargins(0, 8, 0, 8)
-
-
-                                   val lpView =
-                                       LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                           LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpView.setMargins(0, 0, 0, 8)
-
-                                   listView.addView(titulo, lpT)
-                                   listView2.addView(listView,lpView)
-                                   listView2.addView(texto,lpView)
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_HORIZONTAL
 
 
 
-                                   val lp2 =
-                                       LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                           LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp2.setMargins(0, 10, 0, 15)
-
-                                   llContenedor.addView(listView2, lp2)
-
-                               }
-
-                               "enlace" -> {
-                                   val buttonW = Button(context)
-
-                                   val color = Color.parseColor(it.backgroundColor)
-                                   val radius = 30//radius will be 5px
-                                   val strokeWidth = 2
-                                   val gradientDrawable = GradientDrawable()
-                                   gradientDrawable.setColor(color)
-                                   gradientDrawable.cornerRadius = radius.toFloat()
-                                   gradientDrawable.setStroke(strokeWidth, color)
-                                   buttonW.background = gradientDrawable
+                                imagenW.load(it.url) {
+                                    placeholder(R.drawable.loading_animation)
+                                    error(R.drawable.ic_broken_image)
+                                }
+                                imagenW.scaleType = ImageView.ScaleType.FIT_XY
 
 
-                                   val listView = LinearLayout(context)
-                                   listView.orientation= LinearLayout.VERTICAL
-                                   listView.gravity = Gravity.CENTER_HORIZONTAL
-                                   val lp = LinearLayout.LayoutParams(width/3,height/10)
-                                   lp.setMargins(0,15,0,15)
-                                   buttonW.textSize = 18F
-                                   buttonW.text = Html.fromHtml(it.titulo)
-                                   buttonW.marginStart
-                                   buttonW.gravity = Gravity.CENTER
-                                   val url = it.url
-                                   buttonW.setOnClickListener {
-                                       val intent = Intent(Intent.ACTION_VIEW)
-                                       intent.data = Uri.parse(url)
-                                       startActivity(intent)
+                                val lpI = LinearLayout.LayoutParams(
+                                    width / 8,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                                )
+                                lpI.setMargins(0, 8, 0, 8)
 
-                                   }
-                                   listView.addView(buttonW,lp)
-                                   llContenedor.addView(listView)
-                                   val param = listView.layoutParams as ViewGroup.MarginLayoutParams
-                                   param.setMargins(width-(width-50),5,0,0)
-                                   listView.layoutParams = param
-                               }
-                               "acceso-cursos" -> {
-                                   val buttonW = Button(context)
+                                listView.addView(imagenW, lpI)
 
-                                   // boton redondo
-                                   val color = Color.parseColor(it.backgroundColor)
-                                   val radius = 30//radius will be 5px
-                                   val strokeWidth = 2
-                                   val gradientDrawable = GradientDrawable()
-                                   gradientDrawable.setColor(color)
-                                   gradientDrawable.cornerRadius = radius.toFloat()
-                                   gradientDrawable.setStroke(strokeWidth, color)
-                                   buttonW.background = gradientDrawable
-                                   //fin boton redondo
+                                @Suppress("DEPRECATION")
+                                texto.text = Html.fromHtml(it.descripcion)
+                                Log.d("contenido", texto.text.toString())
+                                texto.textSize = 16F
+                                texto.setTextColor(Color.BLACK)
+                                texto.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 
-                                   val imagenW = ImageView(context)
-                                   val listView = LinearLayout(context)
-                                   listView.orientation= LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_VERTICAL
+                                val lpT =
+                                    LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                    )
+                                lpT.setMargins(0, 8, 0, 8)
+
+                                listView.addView(texto, lpT)
+
+                                val lp2 =
+                                    LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                    )
+                                lp2.setMargins(0, 10, 0, 20)
+
+                                llContenedor.addView(listView, lp2)
+                                impresionDefinitiva("texto-imagen", texto.text.toString())
+                            }
+
+                            "imagen-titulo-descripción" -> {
+
+                                val imagenW = ImageView(context)
+                                val titulo = TextView(context)
+                                val texto = TextView(context)
+
+                                val listView = LinearLayout(context)
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_HORIZONTAL
 
 
-                                   val listView2 = LinearLayout(context)
-                                   listView2.orientation= LinearLayout.HORIZONTAL
-                                   listView2.gravity = Gravity.CENTER_HORIZONTAL
+                                val color = Color.WHITE
+                                val radius = 30//radius will be 5px
+                                val strokeWidth = 5
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color)
 
-                                   val lp = LinearLayout.LayoutParams(width/4,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp.setMargins(0,15,0,15)
-                                   buttonW.textSize = 18F
-                                   buttonW.text = Html.fromHtml(it.titulo)
+                                val listView2 = LinearLayout(context)
+                                listView2.orientation = LinearLayout.VERTICAL
+                                listView2.gravity = Gravity.CENTER_HORIZONTAL
+                                listView2.background = gradientDrawable
+
+
+                                imagenW.load(it.url) {
+                                    placeholder(R.drawable.loading_animation)
+                                    error(R.drawable.ic_broken_image)
+                                }
+                                imagenW.scaleType = ImageView.ScaleType.FIT_CENTER
+
+                                val lpI = LinearLayout.LayoutParams(
+                                    width / 5,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                                )
+                                lpI.setMargins(0, 8, 0, 8)
+
+                                listView.addView(imagenW, lpI)
+
+                                @Suppress("DEPRECATION")
+                                titulo.text = Html.fromHtml(it.titulo)
+                                titulo.textSize = 20F
+                                titulo.setTextColor(Color.BLACK)
+                                titulo.gravity = Gravity.LEFT
+
+                                @Suppress("DEPRECATION")
+                                texto.text = Html.fromHtml(it.descripcion)
+                                texto.textSize = 18F
+                                texto.setTextColor(Color.BLACK)
+                                texto.gravity = Gravity.CENTER
+
+                                val lpT =
+                                    LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                    )
+                                lpT.setMargins(0, 8, 0, 8)
+
+
+                                val lpView =
+                                    LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                    )
+                                lpView.setMargins(0, 0, 0, 8)
+
+                                listView.addView(titulo, lpT)
+                                listView2.addView(listView, lpView)
+                                listView2.addView(texto, lpView)
+
+
+                                val lp2 =
+                                    LinearLayout.LayoutParams(
+                                        LinearLayout.LayoutParams.MATCH_PARENT,
+                                        LinearLayout.LayoutParams.WRAP_CONTENT
+                                    )
+                                lp2.setMargins(0, 10, 0, 15)
+
+                                llContenedor.addView(listView2, lp2)
+                                impresionDefinitiva(
+                                    "imagen-titulo-descripción",
+                                    titulo.text.toString()
+                                )
+                                impresionDefinitiva(
+                                    "imagen-titulo-descripción",
+                                    texto.text.toString()
+                                )
+                            }
+
+                            "enlace" -> {
+                                val buttonW = Button(context)
+
+                                val color = Color.parseColor(it.backgroundColor)
+                                val radius = 30//radius will be 5px
+                                val strokeWidth = 2
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color)
+                                buttonW.background = gradientDrawable
+
+
+                                val listView = LinearLayout(context)
+                                listView.orientation = LinearLayout.VERTICAL
+                                listView.gravity = Gravity.CENTER_HORIZONTAL
+                                val lp = LinearLayout.LayoutParams(width / 3, height / 10)
+                                lp.setMargins(0, 15, 0, 15)
+                                buttonW.textSize = 18F
+                                @Suppress("DEPRECATION")
+                                buttonW.text = Html.fromHtml(it.titulo)
+                                buttonW.marginStart
+                                buttonW.gravity = Gravity.CENTER
+                                val url = it.url
+                                buttonW.setOnClickListener {
+                                    val intent = Intent(Intent.ACTION_VIEW)
+                                    intent.data = Uri.parse(url)
+                                    startActivity(intent)
+
+                                }
+                                listView.addView(buttonW, lp)
+                                llContenedor.addView(listView)
+                                val param = listView.layoutParams as ViewGroup.MarginLayoutParams
+                                param.setMargins(width - (width - 50), 5, 0, 0)
+                                listView.layoutParams = param
+                            }
+                            "acceso-cursos" -> {
+                                val buttonW = Button(context)
+
+                                // boton redondo
+                                val color = Color.parseColor(it.backgroundColor)
+                                val radius = 30//radius will be 5px
+                                val strokeWidth = 2
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color)
+                                buttonW.background = gradientDrawable
+                                //fin boton redondo
+
+                                val imagenW = ImageView(context)
+                                val listView = LinearLayout(context)
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_VERTICAL
+
+
+                                val listView2 = LinearLayout(context)
+                                listView2.orientation = LinearLayout.HORIZONTAL
+                                listView2.gravity = Gravity.CENTER_HORIZONTAL
+
+                                val lp = LinearLayout.LayoutParams(
+                                    width / 4,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lp.setMargins(0, 15, 0, 15)
+                                buttonW.textSize = 18F
+                                @Suppress("DEPRECATION")
+                                buttonW.text = Html.fromHtml(it.titulo)
 
 //                                   buttonW.setBackgroundColor(Color.parseColor(it.backgroundColor))
 
-                                   buttonW.marginStart
-                                   buttonW.gravity = Gravity.CENTER
-                                   val url = it.urlDos
-                                   buttonW.setOnClickListener {
-                                       val intent = Intent(Intent.ACTION_VIEW)
-                                       intent.data = Uri.parse(url)
-                                       startActivity(intent)
+                                buttonW.marginStart
+                                buttonW.gravity = Gravity.CENTER
+                                val url = it.urlDos
+                                buttonW.setOnClickListener {
+                                    val intent = Intent(Intent.ACTION_VIEW)
+                                    intent.data = Uri.parse(url)
+                                    startActivity(intent)
 
-                                   }
-                                   imagenW.load(it.url) {
-                                       placeholder(R.drawable.loading_animation)
-                                       error(R.drawable.ic_broken_image)
-                                   }
-                                   imagenW.scaleType= ImageView.ScaleType.CENTER
-                                   listView.addView(imagenW)
-                                   listView.addView(buttonW,lp)
-                                   listView2.addView(listView)
-                                   llContenedor.addView(listView2)
+                                }
+                                imagenW.load(it.url) {
+                                    placeholder(R.drawable.loading_animation)
+                                    error(R.drawable.ic_broken_image)
+                                }
+                                imagenW.scaleType = ImageView.ScaleType.CENTER
+                                listView.addView(imagenW)
+                                listView.addView(buttonW, lp)
+                                listView2.addView(listView)
+                                llContenedor.addView(listView2)
 //
-                               }
-                               "imagen" -> {
+                            }
+                            "imagen" -> {
 
 
-                                   //fondo redondo blanco
-                                   /*
-                                   val color = Color.WHITE
-                                   val radius = 30
-                                   val strokeWidth = 5
-                                   val gradientDrawable = GradientDrawable()
-                                   gradientDrawable.setColor(color)
-                                   gradientDrawable.cornerRadius = radius.toFloat()
-                                   gradientDrawable.setStroke(strokeWidth, color)
-                                   */
-                                   //fondo redondo blanco
+                                //fondo redondo blanco
+                                /*
+                                val color = Color.WHITE
+                                val radius = 30
+                                val strokeWidth = 5
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color)
+                                */
+                                //fondo redondo blanco
 
-                                   val imagenW = ImageView(context)
-                                   val pieImagenW = TextView(context)
-                                   val listView = LinearLayout(context)
-                                   //listView.background = gradientDrawable
-                                   listView.orientation= LinearLayout.VERTICAL
-                                   listView.gravity = Gravity.CENTER_HORIZONTAL
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lp.setMargins(0,15,0,10)
-                                   imagenW.load(it.url) {
-                                       placeholder(R.drawable.loading_animation)
-                                       error(R.drawable.ic_broken_image)
-                                   }
-                                   imagenW.scaleType= ImageView.ScaleType.CENTER
-                                   listView.addView(imagenW,lp)
-                                   pieImagenW.text = Html.fromHtml(it.descripcion)
-                                   pieImagenW.gravity = Gravity.CENTER
-                                   pieImagenW.textSize = 14F
-                                   pieImagenW.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                   pieImagenW.setTextColor(Color.BLACK)
+                                val imagenW = ImageView(context)
+                                val pieImagenW = TextView(context)
+                                val listView = LinearLayout(context)
+                                //listView.background = gradientDrawable
+                                listView.orientation = LinearLayout.VERTICAL
+                                listView.gravity = Gravity.CENTER_HORIZONTAL
+                                val lp = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lp.setMargins(0, 15, 0, 10)
+                                imagenW.load(it.url) {
+                                    placeholder(R.drawable.loading_animation)
+                                    error(R.drawable.ic_broken_image)
+                                }
+                                imagenW.scaleType = ImageView.ScaleType.CENTER
+                                listView.addView(imagenW, lp)
+                                pieImagenW.text =
+                                    Html.fromHtml(
+                                        it.descripcion,
+                                        Html.TO_HTML_PARAGRAPH_LINES_CONSECUTIVE
+                                    )
+//                                if (pieImagenW.toString().contains("<")) {
+//                                    var ewe = fromHtmlMejorado(pieImagenW.text.toString())
+//                                }
+                                pieImagenW.gravity = Gravity.CENTER
+                                pieImagenW.textSize = 14F
+                                pieImagenW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                pieImagenW.setTextColor(Color.BLACK)
 
-                                   val lpPieImagen = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpPieImagen.setMargins(0,15,0,10)
-                                   listView.addView(pieImagenW,lpPieImagen)
+                                val lpPieImagen = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpPieImagen.setMargins(0, 15, 0, 10)
+                                listView.addView(pieImagenW, lpPieImagen)
 
-                                   val lpcontenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpcontenedor.setMargins(0,20,0,10)
-                                   llContenedor.addView(listView,lpcontenedor)
+                                val lpcontenedor = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpcontenedor.setMargins(0, 20, 0, 10)
+                                llContenedor.addView(listView, lpcontenedor)
+                                impresionDefinitiva("imagen", pieImagenW.text.toString())
+                            }
+                            "video-guía" -> {
 
-                               }
-                               "video-guía"-> {
+                                val textoW = TextView(context)
+                                @Suppress("DEPRECATION")
+                                textoW.text = Html.fromHtml(it.descripcion)
+                                textoW.textSize = 30F
 
-                                   val textoW = TextView(context)
-                                   textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.textSize = 30F
+                                val uri = Uri.parse(it.url)
+                                val video = VideoView(context)
+                                val listView = LinearLayout(context)
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_HORIZONTAL
+                                val relativeLayout = RelativeLayout(context)
+                                val lp = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    1000
+                                )
+                                val mediaController = MediaController(context)
+                                video.setVideoURI(uri)
+                                video.setMediaController(mediaController)
+                                video.layoutParams = FrameLayout.LayoutParams(lp)
+                                mediaController.setAnchorView(video)
+                                relativeLayout.addView(video)
+                                listView.addView(textoW)
+                                llContenedor.addView(relativeLayout)
+                                llContenedor.addView(listView)
 
-                                   val uri = Uri.parse(it.url)
-                                   val video = VideoView(context)
-                                   val listView = LinearLayout(context)
-                                   listView.orientation= LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_HORIZONTAL
-                                   val relativeLayout = RelativeLayout(context)
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                       1000)
-                                   val mediaController = MediaController(context)
-                                   video.setVideoURI(uri)
-                                   video.setMediaController(mediaController)
-                                   video.layoutParams = FrameLayout.LayoutParams(lp)
-                                   mediaController.setAnchorView(video)
-                                   relativeLayout.addView(video)
-                                   listView.addView(textoW)
-                                   llContenedor.addView(relativeLayout)
-                                   llContenedor.addView(listView)
+                            }
+                            "video" -> {
+                                val uri = Uri.parse(it.url)
+                                val video = VideoView(context)
+                                val mediaController = MediaController(context)
+                                val listView = LinearLayout(context)
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_HORIZONTAL
+                                val relativeLayout = RelativeLayout(context)
+                                val lp = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    1000
+                                )
+                                video.setVideoURI(uri)
+                                video.setMediaController(mediaController)
+                                video.layoutParams = FrameLayout.LayoutParams(lp)
+                                mediaController.setAnchorView(video)
+                                relativeLayout.addView(video)
 
-                               }
-                               "video"-> {
-                                   val uri = Uri.parse(it.url)
-                                   val video = VideoView(context)
-                                   val mediaController = MediaController(context)
-                                   val listView = LinearLayout(context)
-                                   listView.orientation= LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_HORIZONTAL
-                                   val relativeLayout = RelativeLayout(context)
-                                   val lp = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                       1000)
-                                   video.setVideoURI(uri)
-                                   video.setMediaController(mediaController)
-                                   video.layoutParams = FrameLayout.LayoutParams(lp)
-                                   mediaController.setAnchorView(video)
-                                   relativeLayout.addView(video)
+                                listView.addView(relativeLayout)
+                                llContenedor.addView(listView)
 
-                                   listView.addView(relativeLayout)
-                                   llContenedor.addView(listView)
-
-                                   val scroll = binding.View
-                                   scroll.onScroll(mediaController)
+                                val scroll = binding.View
+                                scroll.onScroll(mediaController)
 
 //                                   if (contadorVideos == 0){
 //                                       Log.d("Contenido","SE CREO VIDEO")
@@ -883,319 +987,369 @@ class Contenido : Fragment() {
 //                                       mutableList.add(video)
 //                                       contadorVideos++
 //                                   }
-                               }
-                               "pop-up" -> {
+                            }
+                            "pop-up" -> {
 
-                                   val descripcion = it.descripcion
-                                   val url = it.url
-                                   (activity as Home?) ?.PopUpComponente(descripcion,url)
+                                val descripcion = it.descripcion
+                                val url = it.url
+                                (activity as Home?)?.PopUpComponente(descripcion, url)
 
-                               }
-                               "pop-up-video" -> {
+                            }
+                            "pop-up-video" -> {
 
-                                   val descripcion = it.descripcion
-                                   val url = it.url
-                                   (activity as Home?) ?.PopUpComponenteVideo(descripcion,url,mensajeInicial = true)
+                                val descripcion = it.descripcion
+                                val url = it.url
+                                (activity as Home?)?.PopUpComponenteVideo(
+                                    descripcion,
+                                    url,
+                                    mensajeInicial = true
+                                )
 
-                               }
+                            }
 
-                               "desplegable-texto-imagen" ->{
+                            "desplegable-texto-imagen" -> {
 
-                                   val horizontalScrollView = HorizontalScrollView(context)
-                                   val imagenW = ImageView(context)
-                                   val imagenW2 = ImageView(context)
-                                   val imagenW3 = ImageView(context)
-                                   val subtituloW = TextView(context)
-                                   val textoW = TextView(context)
+                                val horizontalScrollView = HorizontalScrollView(context)
+                                val imagenW = ImageView(context)
+                                val imagenW2 = ImageView(context)
+                                val imagenW3 = ImageView(context)
+                                val subtituloW = TextView(context)
+                                val textoW = TextView(context)
 
-                                   val listView = LinearLayout(context)
-                                   listView.orientation= LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_VERTICAL
+                                val listView = LinearLayout(context)
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_VERTICAL
 
-                                   val lpImagen = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,height/20)
-                                   lpImagen.setMargins(10,10,0,0)
+                                val lpImagen = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    height / 20
+                                )
+                                lpImagen.setMargins(10, 10, 0, 0)
 
-                                   imagenW.load(it.url) {
-                                       placeholder(R.drawable.loading_animation)
-                                   }
-                                   imagenW.scaleType= ImageView.ScaleType.FIT_CENTER
+                                imagenW.load(it.url) {
+                                    placeholder(R.drawable.loading_animation)
+                                }
+                                imagenW.scaleType = ImageView.ScaleType.FIT_CENTER
 
-                                   listView.addView(imagenW,lpImagen)
+                                listView.addView(imagenW, lpImagen)
 
-                                   subtituloW.text = Html.fromHtml(it.subtitulo)
-                                   subtituloW.gravity = Gravity.CENTER
-                                   subtituloW.setTextColor(Color.BLACK)
-                                   subtituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                   subtituloW.setTypeface(null, Typeface.BOLD)
-                                   subtituloW.textSize = 20F
-                                   listView.addView(subtituloW)
+                                @Suppress("DEPRECATION")
+                                subtituloW.text = Html.fromHtml(it.subtitulo)
+                                subtituloW.gravity = Gravity.CENTER
+                                subtituloW.setTextColor(Color.BLACK)
+                                subtituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                subtituloW.setTypeface(null, Typeface.BOLD)
+                                subtituloW.textSize = 20F
+                                listView.addView(subtituloW)
 
-                                   textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-                                   textoW.setTextColor(Color.BLACK)
-                                   textoW.textSize = 16F
+                                @Suppress("DEPRECATION")
+                                textoW.text = Html.fromHtml(it.descripcion)
+                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+                                textoW.setTextColor(Color.BLACK)
+                                textoW.textSize = 16F
 
-                                   val listView2 = LinearLayout(context)
-                                   listView2.gravity = Gravity.CENTER_VERTICAL
-                                   listView2.orientation=LinearLayout.HORIZONTAL
+                                val listView2 = LinearLayout(context)
+                                listView2.gravity = Gravity.CENTER_VERTICAL
+                                listView2.orientation = LinearLayout.HORIZONTAL
 
-                                   imagenW2.load(it.urlDos) {
-                                       placeholder(R.drawable.loading_animation)
-                                       error(R.drawable.ic_broken_image)
-                                   }
-                                   imagenW2.scaleType= ImageView.ScaleType.FIT_CENTER
+                                imagenW2.load(it.urlDos) {
+                                    placeholder(R.drawable.loading_animation)
+                                    error(R.drawable.ic_broken_image)
+                                }
+                                imagenW2.scaleType = ImageView.ScaleType.FIT_CENTER
 
-                                   imagenW3.load(it.urlTres) {
-                                       placeholder(R.drawable.loading_animation)
-                                       error(R.drawable.ic_broken_image)
-                                   }
-                                   imagenW3.scaleType= ImageView.ScaleType.FIT_CENTER
+                                imagenW3.load(it.urlTres) {
+                                    placeholder(R.drawable.loading_animation)
+                                    error(R.drawable.ic_broken_image)
+                                }
+                                imagenW3.scaleType = ImageView.ScaleType.FIT_CENTER
 
-                                   val lpImagenes = LinearLayout.LayoutParams(width/2-width/15, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpImagenes.setMargins(10,0,10,5)
+                                val lpImagenes = LinearLayout.LayoutParams(
+                                    width / 2 - width / 15,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpImagenes.setMargins(10, 0, 10, 5)
 
-                                   listView2.addView(imagenW2, lpImagenes)
-                                   listView2.addView(imagenW3, lpImagenes)
-                                   horizontalScrollView.addView(listView2)
+                                listView2.addView(imagenW2, lpImagenes)
+                                listView2.addView(imagenW3, lpImagenes)
+                                horizontalScrollView.addView(listView2)
 
-                                   val lpTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpTexto.setMargins(10,10,0,20)
-                                   /*
-                                   val color = Color.WHITE
-                                   val radius = 20
-                                   val strokeWidth = 5
-                                   val gradientDrawable = GradientDrawable()
-                                   gradientDrawable.setColor(color)
-                                   gradientDrawable.cornerRadius = radius.toFloat()
-                                   gradientDrawable.setStroke(strokeWidth, color) */
+                                val lpTexto = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpTexto.setMargins(10, 10, 0, 20)
+                                /*
+                                val color = Color.WHITE
+                                val radius = 20
+                                val strokeWidth = 5
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color) */
 
-                                   val Contenedor = LinearLayout(context)
-                                   //Contenedor.background = gradientDrawable
-                                   Contenedor.orientation = LinearLayout.VERTICAL
-                                   Contenedor.addView(listView)
-                                   Contenedor.addView(textoW, lpTexto)
-                                   Contenedor.addView(horizontalScrollView)
+                                val Contenedor = LinearLayout(context)
+                                //Contenedor.background = gradientDrawable
+                                Contenedor.orientation = LinearLayout.VERTICAL
+                                Contenedor.addView(listView)
+                                Contenedor.addView(textoW, lpTexto)
+                                Contenedor.addView(horizontalScrollView)
 
-                                   val lpContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
-                                   lpContenedor.setMargins(0,15,0,20)
+                                val lpContenedor = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                                )
+                                lpContenedor.setMargins(0, 15, 0, 20)
 
-                                   llContenedor.addView(Contenedor,lpContenedor)
+                                llContenedor.addView(Contenedor, lpContenedor)
 
-                               }
-                               "desplegable-texto-imagen-imagen" ->{
-                                   val horizontalScrollView = HorizontalScrollView(context)
-                                   val imagenW = ImageView(context)
-                                   val imagenW2 = ImageView(context)
-                                   val imagenW3 = ImageView(context)
-                                   val subtituloW = TextView(context)
-                                   val textoW = TextView(context)
+                            }
+                            "desplegable-texto-imagen-imagen" -> {
+                                val horizontalScrollView = HorizontalScrollView(context)
+                                val imagenW = ImageView(context)
+                                val imagenW2 = ImageView(context)
+                                val imagenW3 = ImageView(context)
+                                val subtituloW = TextView(context)
+                                val textoW = TextView(context)
 
-                                   val listView = LinearLayout(context)
-                                   listView.orientation= LinearLayout.HORIZONTAL
-                                   listView.gravity = Gravity.CENTER_VERTICAL
+                                val listView = LinearLayout(context)
+                                listView.orientation = LinearLayout.HORIZONTAL
+                                listView.gravity = Gravity.CENTER_VERTICAL
 
-                                   val lpImagen = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,height/20)
-                                   lpImagen.setMargins(10,10,0,0)
+                                val lpImagen = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    height / 20
+                                )
+                                lpImagen.setMargins(10, 10, 0, 0)
 
-                                   imagenW.load(it.url) {
-                                       placeholder(R.drawable.loading_animation)
-                                   }
-                                   imagenW.scaleType= ImageView.ScaleType.FIT_CENTER
+                                imagenW.load(it.url) {
+                                    placeholder(R.drawable.loading_animation)
+                                }
+                                imagenW.scaleType = ImageView.ScaleType.FIT_CENTER
 
-                                   listView.addView(imagenW,lpImagen)
+                                listView.addView(imagenW, lpImagen)
 
-                                   subtituloW.text = Html.fromHtml(it.subtitulo)
-                                   subtituloW.gravity = Gravity.CENTER
-                                   subtituloW.setTextColor(Color.BLACK)
-                                   subtituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                                   subtituloW.setTypeface(null, Typeface.BOLD)
-                                   subtituloW.textSize = 20F
+                                @Suppress("DEPRECATION")
+                                subtituloW.text = Html.fromHtml(it.subtitulo)
+                                subtituloW.gravity = Gravity.CENTER
+                                subtituloW.setTextColor(Color.BLACK)
+                                subtituloW.textAlignment = View.TEXT_ALIGNMENT_CENTER
+                                subtituloW.setTypeface(null, Typeface.BOLD)
+                                subtituloW.textSize = 20F
 
-                                   val lpSubtitulo = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   listView.addView(subtituloW,lpSubtitulo)
+                                val lpSubtitulo = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                listView.addView(subtituloW, lpSubtitulo)
 
-                                   textoW.text = Html.fromHtml(it.descripcion)
-                                   textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-                                   textoW.setTextColor(Color.BLACK)
-                                   textoW.textSize = 16F
+                                @Suppress("DEPRECATION")
+                                textoW.text = Html.fromHtml(it.descripcion)
+                                textoW.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
+                                textoW.setTextColor(Color.BLACK)
+                                textoW.textSize = 16F
 
-                                   val listView2 = LinearLayout(context)
-                                   listView2.gravity = Gravity.CENTER_VERTICAL
-                                   listView2.orientation=LinearLayout.HORIZONTAL
+                                val listView2 = LinearLayout(context)
+                                listView2.gravity = Gravity.CENTER_VERTICAL
+                                listView2.orientation = LinearLayout.HORIZONTAL
 
-                                   imagenW2.load(it.urlDos) {
-                                       placeholder(R.drawable.loading_animation)
-                                       error(R.drawable.ic_broken_image)
-                                   }
-                                   imagenW2.scaleType= ImageView.ScaleType.FIT_CENTER
+                                imagenW2.load(it.urlDos) {
+                                    placeholder(R.drawable.loading_animation)
+                                    error(R.drawable.ic_broken_image)
+                                }
+                                imagenW2.scaleType = ImageView.ScaleType.FIT_CENTER
 
-                                   imagenW3.load(it.urlTres) {
-                                       placeholder(R.drawable.loading_animation)
-                                       error(R.drawable.ic_broken_image)
-                                   }
-                                   imagenW3.scaleType= ImageView.ScaleType.FIT_CENTER
+                                imagenW3.load(it.urlTres) {
+                                    placeholder(R.drawable.loading_animation)
+                                    error(R.drawable.ic_broken_image)
+                                }
+                                imagenW3.scaleType = ImageView.ScaleType.FIT_CENTER
 
-                                   val lpImagenes = LinearLayout.LayoutParams(width/2-width/15, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpImagenes.setMargins(10,0,10,5)
+                                val lpImagenes = LinearLayout.LayoutParams(
+                                    width / 2 - width / 15,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpImagenes.setMargins(10, 0, 10, 5)
 
-                                   listView2.addView(imagenW2, lpImagenes)
-                                   listView2.addView(imagenW3, lpImagenes)
-                                   horizontalScrollView.addView(listView2)
+                                listView2.addView(imagenW2, lpImagenes)
+                                listView2.addView(imagenW3, lpImagenes)
+                                horizontalScrollView.addView(listView2)
 
-                                   val lpTexto = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
-                                   lpTexto.setMargins(10,10,0,20)
+                                val lpTexto = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                )
+                                lpTexto.setMargins(10, 10, 0, 20)
 
-                                   val color = Color.WHITE
-                                   val radius = 20
-                                   val strokeWidth = 5
-                                   val gradientDrawable = GradientDrawable()
-                                   gradientDrawable.setColor(color)
-                                   gradientDrawable.cornerRadius = radius.toFloat()
-                                   gradientDrawable.setStroke(strokeWidth, color)
+                                val color = Color.WHITE
+                                val radius = 20
+                                val strokeWidth = 5
+                                val gradientDrawable = GradientDrawable()
+                                gradientDrawable.setColor(color)
+                                gradientDrawable.cornerRadius = radius.toFloat()
+                                gradientDrawable.setStroke(strokeWidth, color)
 
-                                   val Contenedor = LinearLayout(context)
+                                val Contenedor = LinearLayout(context)
 
-                                   if(it.agregarFondo == 1){
-                                       Contenedor.background = gradientDrawable
-                                   }
-                                   Contenedor.orientation = LinearLayout.VERTICAL
-                                   Contenedor.addView(listView)
-                                   Contenedor.addView(textoW, lpTexto)
-                                   Contenedor.addView(horizontalScrollView)
+                                if (it.agregarFondo == 1) {
+                                    Contenedor.background = gradientDrawable
+                                }
+                                Contenedor.orientation = LinearLayout.VERTICAL
+                                Contenedor.addView(listView)
+                                Contenedor.addView(textoW, lpTexto)
+                                Contenedor.addView(horizontalScrollView)
 
-                                   val lpContenedor = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT)
-                                   lpContenedor.setMargins(0,15,0,20)
+                                val lpContenedor = LinearLayout.LayoutParams(
+                                    LinearLayout.LayoutParams.MATCH_PARENT,
+                                    LinearLayout.LayoutParams.MATCH_PARENT
+                                )
+                                lpContenedor.setMargins(0, 15, 0, 20)
 
-                                   llContenedor.addView(Contenedor,lpContenedor)
-                               }
-                           }
-                       }
+                                llContenedor.addView(Contenedor, lpContenedor)
+                            }
+                        }
+                    }
 
-                        val repository = Repository()
-                        val viewModelFactory = ComponentsViewModelFactory(repository)
+                    val repository = Repository()
+                    val viewModelFactory = ComponentsViewModelFactory(repository)
+                    try {
+
+                        viewModel2 = ViewModelProvider(
+                            this,
+                            viewModelFactory
+                        )[ComponentesViewModel::class.java]
+                        val sharedPref = this.requireActivity()
+                            .getSharedPreferences("UsD", Context.MODE_PRIVATE)
+
+                        val id = Id(sharedPref.getString("id", "defaultName")!!.toInt())
+                        viewModel2.getComponentes(id)
+                        val lp =
+                            LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+
                         try {
+                            viewModel2.datos.observe(viewLifecycleOwner) { response ->
 
-                            viewModel2 = ViewModelProvider(this, viewModelFactory)[ComponentesViewModel::class.java]
-                            val sharedPref = this.requireActivity()
-                                .getSharedPreferences("UsD", Context.MODE_PRIVATE)
-
-                            val id = Id(sharedPref.getString("id","defaultName")!!.toInt())
-                            viewModel2.getComponentes(id)
-                            val lp =
-                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                                    LinearLayout.LayoutParams.WRAP_CONTENT)
-
-                            try {
-                                viewModel2.datos.observe(viewLifecycleOwner) { response ->
-
-                                    if (response.isSuccessful) {
+                                if (response.isSuccessful) {
 
 
-                                        val respo = response.body()!!.customModulos
+                                    val respo = response.body()!!.customModulos
 
-                                        viewModel.padre.observe(viewLifecycleOwner) { a ->
+                                    viewModel.padre.observe(viewLifecycleOwner) { a ->
 
-                                            val listView = LinearLayout(context)
+                                        val listView = LinearLayout(context)
 
-                                            val padre = a.toString()
-                                            val buttonNext = Button(context)
+                                        val padre = a.toString()
+                                        val buttonNext = Button(context)
 //
-                                            if(viewModelLocal.hijos.value == viewModelLocal.index.value) {
-                                                val buttonExit = Button(context)
+                                        if (viewModelLocal.hijos.value == viewModelLocal.index.value) {
+                                            val buttonExit = Button(context)
 
-                                                val c =
-                                                    Color.parseColor("#000000")
-                                                val r = 20//radius will be 5px
-                                                val s = 5
-                                                val g = GradientDrawable()
-                                                g.setColor(c)
-                                                g.cornerRadius = r.toFloat()
-                                                g.setStroke(s, c)
+                                            val c =
+                                                Color.parseColor("#000000")
+                                            val r = 20//radius will be 5px
+                                            val s = 5
+                                            val g = GradientDrawable()
+                                            g.setColor(c)
+                                            g.cornerRadius = r.toFloat()
+                                            g.setStroke(s, c)
 
 
-                                                listView.orientation =
-                                                    LinearLayout.HORIZONTAL
-                                                listView.gravity = Gravity.END
+                                            listView.orientation =
+                                                LinearLayout.HORIZONTAL
+                                            listView.gravity = Gravity.END
 
-                                                val titlo = " Pagina principal "
-                                                buttonExit.text = titlo
-                                                buttonExit.textSize = 18F
-                                                buttonExit.gravity =
-                                                    Gravity.CENTER
-                                                buttonExit.setCompoundDrawablesWithIntrinsicBounds(
-                                                    0,
-                                                    0,
-                                                    R.drawable.chevron,
-                                                    0)
-                                                buttonExit.setTextColor(Color.WHITE)
-                                                buttonExit.background = g
+                                            val titlo = " Pagina principal "
+                                            buttonExit.text = titlo
+                                            buttonExit.textSize = 18F
+                                            buttonExit.gravity =
+                                                Gravity.CENTER
+                                            buttonExit.setCompoundDrawablesWithIntrinsicBounds(
+                                                0,
+                                                0,
+                                                R.drawable.chevron,
+                                                0
+                                            )
+                                            buttonExit.setTextColor(Color.WHITE)
+                                            buttonExit.background = g
 
-                                                buttonExit.setOnClickListener {
-                                                    if((activity as Home?) ?.isOnlineNet() == true){
+                                            buttonExit.setOnClickListener {
+                                                if ((activity as Home?)?.isOnlineNet() == true) {
 
-                                                        binding.llContenedor.removeAllViews()
+                                                    binding.llContenedor.removeAllViews()
 
-                                                        val intento = Intent(context, Home::class.java)
-                                                        context?.startActivity(intento)
-                                                        binding.llContenedor.removeAllViews()
-                                                    }
-                                                    else{
-                                                        (activity as Home?) ?.checkConnectivity()
-                                                    }
+                                                    val intento = Intent(context, Home::class.java)
+                                                    context?.startActivity(intento)
+                                                    binding.llContenedor.removeAllViews()
+                                                } else {
+                                                    (activity as Home?)?.checkConnectivity()
                                                 }
+                                            }
 
-                                                val LayoutBotonNext =
-                                                    LinearLayout.LayoutParams(
-                                                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                                                        LinearLayout.LayoutParams.WRAP_CONTENT)
-                                                val LayoutBotonNextC =
-                                                    LinearLayout.LayoutParams(
-                                                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                                                        LinearLayout.LayoutParams.WRAP_CONTENT)
-                                                LayoutBotonNextC.setMargins(0,
-                                                    30,
-                                                    0,
-                                                    10)
-                                                listView.addView(buttonExit,
-                                                    LayoutBotonNext)
-                                                llContenedor.addView(listView)
+                                            val LayoutBotonNext =
+                                                LinearLayout.LayoutParams(
+                                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                                )
+                                            val LayoutBotonNextC =
+                                                LinearLayout.LayoutParams(
+                                                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                                                    LinearLayout.LayoutParams.WRAP_CONTENT
+                                                )
+                                            LayoutBotonNextC.setMargins(
+                                                0,
+                                                30,
+                                                0,
+                                                10
+                                            )
+                                            listView.addView(
+                                                buttonExit,
+                                                LayoutBotonNext
+                                            )
+                                            llContenedor.addView(listView)
 
 
-                                            }else{
-                                                val coBotonNext = Color.parseColor("#263238")
-                                                val raBotonNext = 20//radius will be 5px
-                                                val sWBotonNext = 5
-                                                val gDBotonNext = GradientDrawable()
-                                                gDBotonNext.setColor(coBotonNext)
-                                                gDBotonNext.cornerRadius = raBotonNext.toFloat()
-                                                gDBotonNext.setStroke(sWBotonNext,coBotonNext)
+                                        } else {
+                                            val coBotonNext = Color.parseColor("#263238")
+                                            val raBotonNext = 20//radius will be 5px
+                                            val sWBotonNext = 5
+                                            val gDBotonNext = GradientDrawable()
+                                            gDBotonNext.setColor(coBotonNext)
+                                            gDBotonNext.cornerRadius = raBotonNext.toFloat()
+                                            gDBotonNext.setStroke(sWBotonNext, coBotonNext)
 
-                                                listView.orientation = LinearLayout.HORIZONTAL
-                                                listView.gravity = Gravity.END
+                                            listView.orientation = LinearLayout.HORIZONTAL
+                                            listView.gravity = Gravity.END
 
-                                                buttonNext.textSize = 18F
+                                            buttonNext.textSize = 18F
 
-                                                val titlo ="  ${submodulo!![index!!]!!.titulo} "
-                                                buttonNext.text = titlo
-                                                buttonNext.gravity = Gravity.CENTER
-                                                buttonNext.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.chevron,0)
-                                                buttonNext.setTextColor(Color.WHITE)
-                                                buttonNext.background =gDBotonNext
-                                                buttonNext.setOnClickListener {
+                                            val titlo = "  ${submodulo!![index!!]!!.titulo} "
+                                            buttonNext.text = titlo
+                                            buttonNext.gravity = Gravity.CENTER
+                                            buttonNext.setCompoundDrawablesWithIntrinsicBounds(
+                                                0,
+                                                0,
+                                                R.drawable.chevron,
+                                                0
+                                            )
+                                            buttonNext.setTextColor(Color.WHITE)
+                                            buttonNext.background = gDBotonNext
+                                            buttonNext.setOnClickListener {
 
-                                                    if((activity as Home?) ?.isOnlineNet() == true){
+                                                if ((activity as Home?)?.isOnlineNet() == true) {
 
-                                                        viewModelLocal.index(index +1)
-                                                        viewModel3.componentes(submodulo[index]!!.componentes)
-                                                        viewModel3.colorModulo(colorModulo)
-                                                        findNavController().navigate(R.id.action_contenido_to_contenido2)
-                                                        binding.llContenedor.removeAllViews()
-                                                        listView.removeAllViews()
+                                                    viewModelLocal.index(index + 1)
+                                                    viewModel3.componentes(submodulo[index]!!.componentes)
+                                                    viewModel3.colorModulo(colorModulo)
+                                                    findNavController().navigate(R.id.action_contenido_to_contenido2)
+                                                    binding.llContenedor.removeAllViews()
+                                                    listView.removeAllViews()
 
-                                                    }
-                                                    else{
-                                                        (activity as Home?) ?.checkConnectivity()
-                                                    }
+                                                } else {
+                                                    (activity as Home?)?.checkConnectivity()
+                                                }
 
 //                                                    viewModelLocal.index(index!!+1)
 //                                                    viewModel3.componentes(submodulo!![index!!]!!.componentes)
@@ -1204,50 +1358,71 @@ class Contenido : Fragment() {
 //                                                    binding.llContenedor.removeAllViews()
 //                                                    listView.removeAllViews()
 
-                                                }
-
-
-                                                val LayoutBotonNext = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                                val LayoutBotonNextC = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                                                LayoutBotonNextC.setMargins(0, 30, 0, 10)
-                                                listView.addView(buttonNext, LayoutBotonNext)
-                                                llContenedor.addView(listView)
-
-
-
-
-
                                             }
 
 
+                                            val LayoutBotonNext = LinearLayout.LayoutParams(
+                                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                                LinearLayout.LayoutParams.WRAP_CONTENT
+                                            )
+                                            val LayoutBotonNextC = LinearLayout.LayoutParams(
+                                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                                LinearLayout.LayoutParams.WRAP_CONTENT
+                                            )
+                                            LayoutBotonNextC.setMargins(0, 30, 0, 10)
+                                            listView.addView(buttonNext, LayoutBotonNext)
+                                            llContenedor.addView(listView)
+
+
                                         }
+
+
                                     }
                                 }
-                            }catch (e: TimeoutException) {
-                                Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-
                             }
-                        }catch (e: CertPathValidatorException) {
-                            Toast.makeText(context, "Falta certificado SSL banda $e", Toast.LENGTH_SHORT)
-                                .show()
-                            Log.d("Falta certificado SSL", e.toString())
+                        } catch (e: TimeoutException) {
+                            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+
                         }
-
-
-                        contentRowAdapter.setData(it!!)
-                    } else {
-                        Log.d("Error#", "ERROR ####")
+                    } catch (e: CertPathValidatorException) {
+                        Toast.makeText(
+                            context,
+                            "Falta certificado SSL banda $e",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                        Log.d("Falta certificado SSL", e.toString())
                     }
-                }
-            }catch (e: Error){
-                Log.d("ERROR#$e", "ERROR ##$e##")
-            }
 
+
+                    contentRowAdapter.setData(it!!)
+                } else {
+                    Log.d("Error#", "ERROR ####")
+                }
+            }
+        } catch (e: Error) {
+            Log.d("ERROR#$e", "ERROR ##$e##")
+        }
 
 
     }
+
+    fun impresionDefinitiva(metodo: String, valor: String) {
+        Log.d(metodo, valor)
+    }
+
+    fun fromHtmlMejorado(string: String): Array<String> {
+        val filtro1: String = string.filterNot { palabra -> "<b>".contains(palabra) }
+        val filtro2 = filtro1.filterNot { palabra -> "<B>".contains(palabra) }
+        val delim = "</b>"
+        val filtro3 = filtro2.split(delim).toTypedArray()
+        Log.d("fromhtml", filtro3[0])
+        Log.d("fromhtml", filtro3[1])
+        return filtro3
+    }
+
     //FUNCION QUE SIRVE PARA DETECTAR EL SCROLL EN EL EJE "Y" EN EL FRAGMENTO DE CONTENIDO
-    fun View?.onScroll(mediaController : MediaController) : Int{
+    fun View?.onScroll(mediaController: MediaController): Int {
         var oldY = 0
         var estado = 1
         this?.viewTreeObserver?.addOnScrollChangedListener {
@@ -1257,14 +1432,15 @@ class Contenido : Fragment() {
                 mediaController.hide()
 
                 estado = 1
-            }else{
+            } else {
                 estado = 0
             }
         }
-        Log.d("retorna",estado.toString())
+        Log.d("retorna", estado.toString())
         return estado
     }
-    private fun setupRecyclerview(){
+
+    private fun setupRecyclerview() {
 //        binding.recyclerViewContenido.adapter = contentRowAdapter
 //        binding.recyclerViewContenido.layoutManager = LinearLayoutManager(context)
     }
@@ -1274,6 +1450,7 @@ class Contenido : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
 }
 
