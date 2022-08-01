@@ -5,10 +5,9 @@ import okhttp3.Interceptor
 import okhttp3.Response
 
 class GuiasInterceptor : Interceptor {
-    //    private val userName = "AdminKiosko"
-//    private val Password = "T1endA5K105k0"
-    private val userName = "Admin"
-    private val Password = "password"
+    private val userName = "AdminKiosko"
+    private val Password = "T1endA5K105k0"
+
     private val credential = Credentials.basic(userName, Password)
 
 
