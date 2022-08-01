@@ -308,7 +308,7 @@ class Contenido : Fragment() {
                                 contenedorTitulo.addView(tituloW, lpContenedorTitulo)
                                 */
 
-                                val color = Color.parseColor("#FC4C02")
+                                val color = Color.parseColor("#F1EFE4")
                                 val radius = 30
                                 val strokeWidth = 5
                                 val gradientDrawable = GradientDrawable()
