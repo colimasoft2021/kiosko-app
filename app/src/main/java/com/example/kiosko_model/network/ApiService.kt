@@ -10,7 +10,6 @@ import retrofit2.http.Path
 interface ApiService {
 
 
-
 //    @GET("posts/1")
 
 
@@ -25,7 +24,7 @@ interface ApiService {
 
     @GET("{postNombre}")
     suspend fun getPost2(
-        @Path("postNombre") nombre : String
+        @Path("postNombre") nombre: String
     ): Response<Post>
 
     @POST("Usuarios")
@@ -48,7 +47,7 @@ interface ApiService {
     @POST("GetModulosAndComponentsForApp")
     suspend fun getComponentes(
         @Body id: Id
-    ):  Response<customModulos>
+    ): Response<customModulos>
 
     @POST("UpdateProgress")
     suspend fun updateProgress(
